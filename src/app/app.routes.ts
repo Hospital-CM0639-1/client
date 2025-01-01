@@ -23,5 +23,19 @@ export const routes: Routes = [
         (m) => m.PatientRoutingModule
       ),
   },
+  {
+    path: 'nurse',
+    loadChildren: () =>
+      import('./modules/nurse/nurse-routing.module').then(
+        (m) => m.NurseRoutingModule
+      ),
+  },
+  {
+    path: 'secretary',
+    loadChildren: () =>
+      import('./modules/secretary/secretary-routing.module').then(
+        (m) => m.SecretaryRoutingModule
+      ),
+  },
   { path: '**', redirectTo: 'access/login' }, // Fallback route
 ];
