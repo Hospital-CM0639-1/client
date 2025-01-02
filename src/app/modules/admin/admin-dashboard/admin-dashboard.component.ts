@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LogoutComponent } from "../../../shared/component/access/logout/logout.component";
+import { LogoutComponent } from "../../../shared/component/logout/logout.component";
 
 @Component({
   selector: 'app-admin-dashboard',
