@@ -1,38 +1,41 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { LoginService } from "./login.service";
+import { AuthUserService } from "../../../shared/services/user/auth-user.service";
 
 @Component({
+  standalone: true,
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
+  imports: [
+    ReactiveFormsModule,
+    FormsModule
+  ],
 })
 export class LoginComponent implements OnInit {
-  public loginForm: FormGroup;
+  protected loginForm!: FormGroup;
 
   constructor(
       private fb: FormBuilder,
       private router: Router,
-      private loginService: LoginService,
+      private authUserService: AuthUserService,
   ) {
+
+  }
+
+  onLogin() {
+    this.authUserService.onLogin(this.loginForm.value).subscribe({
+      next: () => {
+        this.router.navigate([this.authUserService.getDashboardPageRoute()]);
+      }
+    });
+  }
+
+  ngOnInit(): void {
     this.loginForm = this.fb.group({
       username: ['admin', [Validators.required]],
       password: ['admin', [Validators.required]],
     });
-  }
-
-  login() {
-    this.loginService.onLogin(this.loginForm.value).subscribe({
-      next: () => {
-        this.router.navigate(['/doctor']);
-      }
-    });
-
-    // todo: redirect based on user
-  }
-
-  ngOnInit(): void {
-
   }
 }

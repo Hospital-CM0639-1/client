@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { catchError, Observable, throwError } from "rxjs";
 import { environment } from "../../../../environments/environments";
-import { LoggedUserService } from "../user/logged-user.service";
+import { AuthUserService } from "../user/auth-user.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { LoggedUserService } from "../user/logged-user.service";
 export class JwtInterceptorService implements HttpInterceptor {
 
   constructor(
-      private loggedUserService: LoggedUserService,
+      private loggedUserService: AuthUserService,
   ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
