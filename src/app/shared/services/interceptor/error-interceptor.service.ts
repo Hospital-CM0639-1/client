@@ -22,7 +22,6 @@ export class ErrorInterceptorService implements HttpInterceptor {
       if (error.status === 401) {
         this.loggedUserService.removeToken();
         this.router.navigate(['/']);
-        // todo: remove token, if exists, in case of 401
       }
 
       // todo: display error
