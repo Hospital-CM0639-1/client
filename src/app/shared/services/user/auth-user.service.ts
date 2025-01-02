@@ -38,6 +38,11 @@ export class AuthUserService {
         );
   }
 
+  onLogout(): Observable<any> {
+    return this.http
+        .post(apiManagementService + 'logout', []);
+  }
+
   /**
    * @return LoggedUser|null
    */
@@ -93,6 +98,10 @@ export class AuthUserService {
 
   public getRole(): undefined | string {
     return this.getLoggedUser()?.staffInfo?.role;
+  }
+
+  public removeToken(): void {
+    localStorage.removeItem(environment.token_key);
   }
   // todo: implement remove logged user for logout
 }

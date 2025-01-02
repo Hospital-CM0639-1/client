@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { catchError, Observable, throwError } from "rxjs";
 import { environment } from "../../../../environments/environments";
-import { AuthUserService } from "../user/auth-user.service";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class JwtInterceptorService implements HttpInterceptor {
-
-  constructor(
-      private loggedUserService: AuthUserService,
-  ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
   {
@@ -24,14 +19,6 @@ export class JwtInterceptorService implements HttpInterceptor {
       });
     }
 
-    return next.handle(request).pipe(catchError(error => {
-      if (error.status == 401) {
-        // todo: remove token, if exists, in case of 401
-      }
-
-      // todo: display error
-
-      return throwError(error);
-    }));
+    return next.handle(request);
   }
 }
