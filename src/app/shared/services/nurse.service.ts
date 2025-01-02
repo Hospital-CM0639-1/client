@@ -8,7 +8,8 @@ import { PaginatedList, WardBed } from '../interfaces/interface';
 })
 export class NurseService {
   constructor(public apiService: ApiService) {}
-  private BASE_PATH_HOSPITAL_BEDS = 'api/v1/hospital-beds'
+  private BASE_PATH_HOSPITAL_BEDS = 'api/v1/hospital-beds';
+
   getWardBeds(
     page: number,
     size: number,

@@ -1,1 +1,6 @@
-<p>bed-assignment works!</p>
+<p-dropdown 
+    [options]="emergencies"
+    [(ngModel)]="selectPatient"
+    appendTo="body"
+    optionLabel="emergencyVisit.patient.firstName" 
+    placeholder="Select a Patient" />

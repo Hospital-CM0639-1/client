@@ -1,3 +1,4 @@
+import { EmergencyVisitStaffService } from './../services/emergency-visit-staff.service';
 import { StaffRoleEnums } from "../enums/staff-role.enums";
 
 export interface Sort {
@@ -40,4 +41,25 @@ export interface WardBed {
   wardSection: string;
   currentStatus: string;
   lastCleanedTimestamp: string;
+}
+
+export interface EmergencyVisitStaff {
+  staffRole: string;
+  visitId: number;
+  staffId: number;
+  assignedAt: string;
+  emergencyVisit: {
+    id: number;
+    priorityLevel: string;
+    patient: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    }
+    staff: {
+      id: number;
+      firstName: string;
+      lastName: string;
+    }
+  }
 }

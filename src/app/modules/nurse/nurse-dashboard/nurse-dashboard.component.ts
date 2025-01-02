@@ -51,9 +51,9 @@ export class NurseDashboardComponent implements OnInit {
   }
 
   show() {
-    this.ref = this.dialogService.open(BedAssignmentComponent, { header: 'Select a Product'});
-    this.ref.onClose.subscribe((product) => {
-      if (product) {
+    this.ref = this.dialogService.open(BedAssignmentComponent, { header: 'Assign Patient to a bed'});
+    this.ref.onClose.subscribe((response) => {
+      if (response) {
           
       }
   });
