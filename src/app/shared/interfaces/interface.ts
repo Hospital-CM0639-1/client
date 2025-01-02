@@ -29,3 +29,15 @@ export interface PaginatedList<T> {
   empty: boolean;
 }
 
+export interface Column {
+  field: string;
+  header: string;
+}
+
+export interface WardBed {
+  id: number;
+  bedNumber: string;
+  wardSection: string;
+  currentStatus: string;
+  lastCleanedTimestamp: string;
+}
