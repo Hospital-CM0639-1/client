@@ -89,7 +89,11 @@ export class AuthUserService {
   }
 
   public getToken(): null | string {
-    return localStorage.getItem(environment.token_key);
+    try {
+      return localStorage.getItem(environment.token_key);
+    } catch (error) {
+      return null;
+    }
   }
 
   public getType(): undefined | string {
