@@ -15,6 +15,11 @@
       (onLazyLoad)="lazyLoad($event)"
       [tableStyle]="{ 'min-width': '40rem' }"
     >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-end">
+          <p-button class="ml-2" label="Assign bed to patient" icon="pi pi-user-plus" (click)="assignBed()"/>
+      </div>
+    </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
           <th *ngFor="let col of columns">
@@ -38,7 +43,13 @@
               *ngIf="rowData['currentStatus'] != 'UCCUPIED'"
               label="Assign"
               icon="pi pi-user-plus"
-              (click)="show()"
+              (click)="assignBed(rowData)"
+            />
+            <p-button
+              *ngIf="rowData['currentStatus'] == 'UCCUPIED'"
+              label="Free"
+              icon="pi pi-times"
+              (click)="onFreeBed(rowData)"
             />
           </td>
         </tr>

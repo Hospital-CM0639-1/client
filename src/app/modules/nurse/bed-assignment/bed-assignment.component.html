@@ -1,6 +1,49 @@
-<p-dropdown 
-    [options]="emergencies"
-    [(ngModel)]="selectPatient"
-    appendTo="body"
-    optionLabel="emergencyVisit.patient.firstName" 
-    placeholder="Select a Patient" />
+<div class="flex flex-column gap-4 p-4">
+    <p-card>
+      <div class="flex flex-column gap-3">
+        <p-dropdown
+          [options]="patientsNeedingBed"
+          [(ngModel)]="selectPatientId"
+          appendTo="body"
+          optionLabel="firstName"
+          optionValue="patientId"
+          placeholder="Select a Patient"
+          styleClass="w-full" />
+
+        <p-dropdown
+          *ngIf="showWardBedSectionDropdown"
+          [options]="wardsSection"
+          [(ngModel)]="selectWardSection" 
+          appendTo="body"
+          optionLabel="label"
+          (onChange)="onWardChange($event)"
+          placeholder="Select a Ward Section"
+          styleClass="w-full" />
+
+        <p-dropdown
+          *ngIf="showWardBedSectionDropdown"
+          [options]="beds"
+          [(ngModel)]="selectedBed"
+          appendTo="body"
+          optionLabel="bedNumber" 
+          optionValue="id"
+          placeholder="Select a Bed"
+          styleClass="w-full" />
+   
+        <p-dropdown
+          [options]="statusBed"
+          [(ngModel)]="selectStatusBed"
+          appendTo="body"
+          placeholder="Select a Bed Status"
+          styleClass="w-full" />
+
+        <p-button 
+          label="Assign Bed"
+          icon="pi pi-check"
+          [disabled]="!selectPatientId || !selectWardSection || !selectedBed"
+          (onClick)="onSubmit()"
+          styleClass="w-full" />
+
+      </div>
+    </p-card>
+   </div>
