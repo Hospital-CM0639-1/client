@@ -1,17 +1,25 @@
-<button>
-    Admin: {{ dashboardData.admin }}
-</button>
-<button>
-    Doctors: {{ dashboardData.doctors }}
-</button>
-<button>
-    Nurses: {{ dashboardData.nurses }}
-</button>
-<button>
-    Secretaries: {{ dashboardData.secretaries }}
-</button>
-<button>
-    Patients: {{ dashboardData.patients }}
-</button>
+@if (dashboardData !== undefined) {
+    <button [routerLink]="['/admin/dashboard/admin/list']">
+        Admin: {{ dashboardData.admin }}
+    </button>
+    <button [routerLink]="['/admin/dashboard/staff/doctor/list',]">
+        Doctors: {{ dashboardData.doctors }}
+    </button>
+    <button [routerLink]="['/admin/dashboard/staff/nurse/list',]">
+        Nurses: {{ dashboardData.nurses }}
+    </button>
+    <button [routerLink]="['/admin/dashboard/staff/secretary/list',]">
+        Secretaries: {{ dashboardData.secretaries }}
+    </button>
+    <button [routerLink]="['/admin/dashboard/patient/list']">
+        Patients: {{ dashboardData.patients }}
+    </button>
+}
+
 
 <app-logout />
+
+<router-outlet />
+@if (showUserList) {
+
+}

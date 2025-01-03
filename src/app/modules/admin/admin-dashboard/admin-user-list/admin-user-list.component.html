@@ -1,0 +1,56 @@
+<form [formGroup]="filterForm" (ngSubmit)="onGetUserList()">
+    <div class="group-gap">
+        <div class="d-block my-3">
+
+            <div class="mb-3">
+                <select class="custom-select" formControlName="status">
+                    <option value="all">All</option>
+                    <option value="active">Active</option>
+                    <option value="not_active">Not active</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-danger btn-lg btn-block">Submit</button>
+</form>
+
+<p-table
+        styleClass='p-datatable-sm p-datatable-striped'
+        [value]="users"
+        [rows]="10"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [paginator]="true"
+        [rowsPerPageOptions]="[10, 20, 50]"
+>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+        <tr>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.username }}</td>
+            <td>
+                @if (user.id !== this.authUserService.getLoggedUser()?.id) {
+                    <app-toggle-button
+                            [active]="user.active"
+                            [activeLabel]="'Active'"
+                            [notActiveLabel]="'Not active'"
+                            (onChangeEvent)="onEnableDisableUser(user.id, $event)"
+                    ></app-toggle-button>
+                }
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+

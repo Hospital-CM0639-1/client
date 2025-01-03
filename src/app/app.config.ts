@@ -6,6 +6,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { JwtInterceptorService } from "./shared/services/interceptor/jwt-interceptor.service";
 import { ErrorInterceptorService } from "./shared/services/interceptor/error-interceptor.service";
+import { provideAnimations } from "@angular/platform-browser/animations";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +22,7 @@ export const appConfig: ApplicationConfig = {
           useClass: ErrorInterceptorService,
           multi: true
       },
+      provideAnimations(),
       provideClientHydration()
   ]
 };
