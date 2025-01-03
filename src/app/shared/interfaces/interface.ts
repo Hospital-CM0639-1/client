@@ -82,3 +82,18 @@ export interface PatientNeedingBed {
   admissionTimestamp: string;
   priorityLevel: string;
 }
+
+export interface Invoice {
+  id: number;
+  totalAmount: number;
+  paymentStatus: string;
+  invoiceTimestamp: string;
+  paymentReceivedTimestamp: string | null;
+  paymentReceivedAmount: number;
+  emergencyVisit: {
+    id: number;
+  };
+  createdByStaff: {
+    id: number;
+  };
+}

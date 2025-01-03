@@ -1,0 +1,91 @@
+import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import {
+  DialogService,
+  DynamicDialogModule,
+  DynamicDialogRef,
+} from 'primeng/dynamicdialog';
+import { MenubarModule } from 'primeng/menubar';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { Column, Invoice } from '../../../shared/interfaces/interface';
+import { EmergencyService } from '../../../shared/services/emergency.service';
+
+@Component({
+  selector: 'app-billing-invoice',
+  standalone: true,
+  imports: [
+    CommonModule,
+    CardModule,
+    TableModule,
+    ButtonModule,
+    DynamicDialogModule,
+    MenubarModule,
+  ],
+  providers: [DialogService],
+  templateUrl: './billing-invoice.component.html',
+  styleUrl: './billing-invoice.component.scss',
+})
+export class BillingInvoiceComponent implements OnInit {
+  invoices!: Invoice[];
+  cols!: Column[];
+  first = 0;
+  rows = 10;
+  page = 0; // starts from page index 0
+  loading = false; // spinner used for loading data of table
+  totalRecords!: number; // total rows
+  sort!: string;
+  ref: DynamicDialogRef | undefined;
+
+  constructor(
+    private emergencyService: EmergencyService,
+    private dialogService: DialogService,
+    private cd: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    this.cols = [
+      { field: 'totalAmount', header: 'Total Amount' },
+      { field: 'paymentStatus', header: 'Payment Status' },
+      { field: 'invoiceTimestamp', header: 'Invoice Timestamp' },
+    ];
+    this.getInvoices();
+  }
+
+  getInvoices(
+    page: number = 0,
+    rows: number = 5,
+    sort: string = 'invoiceTimestamp,DESC'
+  ): void {
+    this.loading = true;
+    this.emergencyService.getPatientInvoices(page, rows, sort).subscribe(
+      (data) => {
+        this.invoices = data.content;
+        this.totalRecords = data.totalElements;
+        this.loading = false;
+        this.cd.detectChanges();
+      },
+      (error) => {
+        console.error('Error fetching invoices', error);
+        this.loading = false;
+      }
+    );
+  }
+
+  lazyLoad(event: TableLazyLoadEvent): void {
+    if (event.first != null && event.rows != null) {
+      this.page = event.first / event.rows; // calculate rows
+    }
+    if (event.sortField != null && event.sortOrder != null) {
+      this.sort =
+        event.sortOrder === 1
+          ? `${event.sortField},ASC`
+          : `${event.sortField},DESC`;
+    }
+
+    this.getInvoices(this.page, this.rows, this.sort);
+  }
+
+  addInvoice() {}
+}

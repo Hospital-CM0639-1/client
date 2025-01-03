@@ -3,6 +3,7 @@ import { ApiService } from './api.service';
 import { map, Observable } from 'rxjs';
 import {
   EmergencyVisitStaff,
+  Invoice,
   PaginatedList,
   PatientNeedingBed,
   WardBed,
@@ -16,6 +17,7 @@ export class EmergencyService {
   constructor(public apiService: ApiService) {}
   private BASE_PATH_HOSPITAL_BEDS = 'api/v1/hospital-beds';
   private BASE_PATH_EMERGENCY_VISIT_STAFF = 'api/v1/emergency-visit-staff';
+  private BASE_PATH_INVOICE = 'api/v1/patient-invoices';
 
   getPatientFromEmergencyVisit(
     page: number,
@@ -86,7 +88,6 @@ export class EmergencyService {
       );
   }
 
-  
   getHospitalBedByPatientId(patientId: number): Observable<WardBed> {
     return this.apiService
       .get<WardBed>(`${this.BASE_PATH_HOSPITAL_BEDS}/patient/${patientId}`)
@@ -117,6 +118,22 @@ export class EmergencyService {
     return this.apiService
       .get<WardBed[]>(
         `${this.BASE_PATH_HOSPITAL_BEDS}/status/${status}/ward-section/${ward}`
+      )
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+
+  getPatientInvoices(
+    page: number,
+    size: number,
+    order: string
+  ): Observable<PaginatedList<Invoice>> {
+    return this.apiService
+      .get<PaginatedList<Invoice>>(
+        `${this.BASE_PATH_INVOICE}?page=${page}&size=${size}&sort=${order}`
       )
       .pipe(
         map((data) => {
