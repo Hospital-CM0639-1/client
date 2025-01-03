@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     } else {
       this.authUserService.onLogged().subscribe({
         next: () => {
-          this.router.navigate([this.authUserService.getDashboardPageRoute()]);
+          this.router.navigate([this.authUserService.getFirstRouteAfterAuthentication()]);
         }
       });
     }

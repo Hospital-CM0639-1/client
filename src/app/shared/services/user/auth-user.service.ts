@@ -61,27 +61,31 @@ export class AuthUserService {
   }
 
   /**
-   * Get dashboard page for logged user
+   * Get the first page where user must go after login/logged call
    *
    * @return string
    */
-  getDashboardPageRoute(): string {
+  getFirstRouteAfterAuthentication(): string {
     let route = '/';
     let loggedUser = this.getLoggedUser();
 
     if (loggedUser !== null) {
-      if (UserTypeEnums.ADMIN === loggedUser.type) {
-        route = '/admin/dashboard';
-      } else if (UserTypeEnums.STAFF === loggedUser.type) {
-        if (StaffRoleEnums.DOCTOR === loggedUser.staffInfo?.role) {
-          route = '/doctor/dashboard';
-        } else if (StaffRoleEnums.NURSE === loggedUser.staffInfo?.role) {
-          route = '/nurse/dashboard';
-        } else if (StaffRoleEnums.SECRETARY === loggedUser.staffInfo?.role) {
-          route = '/secretary/dashboard';
+      if (loggedUser.expiredPassword) { // force user to change password if expired
+        route = '/access/change-password';
+      } else {
+        if (UserTypeEnums.ADMIN === loggedUser.type) {
+          route = '/admin/dashboard';
+        } else if (UserTypeEnums.STAFF === loggedUser.type) {
+          if (StaffRoleEnums.DOCTOR === loggedUser.staffInfo?.role) {
+            route = '/doctor/dashboard';
+          } else if (StaffRoleEnums.NURSE === loggedUser.staffInfo?.role) {
+            route = '/nurse/dashboard';
+          } else if (StaffRoleEnums.SECRETARY === loggedUser.staffInfo?.role) {
+            route = '/secretary/dashboard';
+          }
+        } else if (UserTypeEnums.PATIENT === loggedUser.type) {
+          route = '/patient/dashboard';
         }
-      } else if (UserTypeEnums.PATIENT === loggedUser.type) {
-        route = '/patient/dashboard';
       }
     }
 
