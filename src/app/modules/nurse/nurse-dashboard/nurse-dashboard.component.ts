@@ -5,6 +5,7 @@ import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { Column, WardBed } from '../../../shared/interfaces/interface';
 import { EmergencyService } from '../../../shared/services/emergency.service';
+import { MenubarModule } from 'primeng/menubar';
 import {
   DialogService,
   DynamicDialogModule,
@@ -21,6 +22,7 @@ import { BedAssignmentComponent } from '../bed-assignment/bed-assignment.compone
     TableModule,
     ButtonModule,
     DynamicDialogModule,
+    MenubarModule
   ],
   providers: [DialogService],
   templateUrl: './nurse-dashboard.component.html',
