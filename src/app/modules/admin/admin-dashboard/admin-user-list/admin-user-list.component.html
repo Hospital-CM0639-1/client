@@ -1,5 +1,6 @@
-<form [formGroup]="filterForm" (ngSubmit)="onGetUserList()">
-    <div class="card flex justify-content-center">
+<div class="card flex justify-content-center">
+    <label>Filter list</label>
+    <form [formGroup]="filterForm" (ngSubmit)="onGetUserList()">
         <p-dropdown
                 formControlName="status"
                 optionLabel="label"
@@ -11,10 +12,16 @@
                 [virtualScrollItemSize]="38"
                 [style]="{ width: '15rem' }"
         />
-    </div>
-    <button type="submit" class="btn btn-danger btn-lg btn-block">Submit</button>
-</form>
-
+        <br />
+        <p-button label="Search" icon="pi pi-check" [loading]="loading" (onClick)="onGetUserList()" />
+    </form>
+</div>
+<button routerLink="/admin/new-user">Add user</button>
+<p-toolbar styleClass="mb-6">
+    <ng-template>
+        <p-button label="Search" icon="pi pi-check" [loading]="loading" (onClick)="onGetUserList()" />
+    </ng-template>
+</p-toolbar>
 <p-table
         styleClass='p-datatable-sm p-datatable-striped'
         [value]="users"
@@ -23,6 +30,7 @@
         [paginator]="true"
         [rowsPerPageOptions]="[10, 20, 50]"
 >
+
     <ng-template pTemplate="header" let-columns>
         <tr>
             <th>Name</th>
@@ -47,9 +55,16 @@
                             (onChangeEvent)="onEnableDisableUser(user.id, $event)"
                     ></app-toggle-button>
                 }
+                <!-- TODO: ADD CHANGE PASSWORD -->
+            </td>
+            <td>
+                @if (user.id !== this.authUserService.getLoggedUser()?.id) {
+                    <button routerLink="/admin/edit-user/{{user.id}}">Edit user</button>
+                }
             </td>
         </tr>
     </ng-template>
 </p-table>
 
 
+<!--</div>-->

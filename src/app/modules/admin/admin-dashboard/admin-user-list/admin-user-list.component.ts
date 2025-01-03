@@ -9,6 +9,9 @@ import { ToggleButtonComponent } from "../../../../shared/component/toggle-butto
 import { UserEnableDisableService } from "../../../../shared/services/user/user-enable-disable.service";
 import { TableModule } from "primeng/table";
 import { DropdownModule } from "primeng/dropdown";
+import { Button, ButtonDirective } from "primeng/button";
+import { ToolbarModule } from "primeng/toolbar";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-admin-user-list',
@@ -19,6 +22,10 @@ import { DropdownModule } from "primeng/dropdown";
     ToggleButtonComponent,
     TableModule,
     DropdownModule,
+    Button,
+    ToolbarModule,
+    ButtonDirective,
+    RouterLink,
   ],
   templateUrl: './admin-user-list.component.html',
   styleUrl: './admin-user-list.component.scss'
@@ -29,6 +36,7 @@ export class AdminUserListComponent implements OnInit {
     { label: 'Active', value: 'active' },
     { label: 'Not active', value: 'not_active' },
   ];
+  protected loading: boolean = true;
   protected users: SimpleUser[] = [];
   protected filterForm!: FormGroup;
   private filter: UserListFilter = {
@@ -55,11 +63,13 @@ export class AdminUserListComponent implements OnInit {
   onGetUserList() {
     this.filter.status = this.filterForm.value.status;
 
+    this.loading = true;
     this.userListService
         .onGetUserList(this.filter)
         .subscribe({
           next: (data: SimpleUser[]) => {
             this.users = data;
+            this.loading = false;
           }
         });
   }
