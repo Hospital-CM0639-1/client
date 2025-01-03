@@ -1,13 +1,12 @@
 <app-dynamic-navbar [navItems]="navItems"></app-dynamic-navbar>
 
-
-<p-card header="Real Time Ward Bed">
+<p-card header="Patient Invoice">
   <div class="card">
     <p-table
       styleClass='p-datatable-sm p-datatable-striped'
       [tableStyle]="{ 'min-width': '50rem' }"
       [columns]="cols"
-      [value]="wards_bed"
+      [value]="invoices"
       [rows]="rows"
       [(first)]="first"
       [totalRecords]="totalRecords"
@@ -20,7 +19,7 @@
     >
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-end">
-          <p-button class="ml-2" label="Assign bed to patient" icon="pi pi-user-plus" severity="help" (click)="assignBed()"/>
+          <p-button class="ml-2" label="Add new invoice" icon="pi pi-user-plus" severity="help" (click)="addInvoice()"/>
       </div>
     </ng-template>
       <ng-template pTemplate="header" let-columns>
@@ -34,28 +33,13 @@
       <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr>
           <td *ngFor="let col of columns">
-            {{ rowData[col.field] }}
+            {{ col.field === 'invoiceTimestamp' ? (rowData[col.field] | date:'') : rowData[col.field] }}
           </td>
           <td>
             <p-button
-              *ngIf="rowData['currentStatus'] == 'UCCUPIED'"
               label="Detail"
               icon="pi pi-search"
               class="mr-2"
-            />
-            <p-button
-              *ngIf="rowData['currentStatus'] != 'UCCUPIED'"
-              label="Assign"
-              icon="pi pi-user-plus"
-              severity="help"
-              (click)="assignBed(rowData)"
-            />
-            <p-button
-              *ngIf="rowData['currentStatus'] == 'UCCUPIED'"
-              label="Free"
-              icon="pi pi-times"
-              severity="danger"
-              (click)="onFreeBed(rowData)"
             />
           </td>
         </tr>

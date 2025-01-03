@@ -24,5 +24,5 @@ export const appConfig: ApplicationConfig = {
       },
       provideAnimations(),
       provideClientHydration()
-  ]
+  , provideHttpClient(), provideAnimations()]
 };

@@ -1,0 +1,20 @@
+<p-menubar styleClass="w-full p-0 bg-white shadow-2 border-none m-0">
+    <ng-template pTemplate="start">
+      <div class="flex align-items-center justify-content-start w-full">
+        <a
+          *ngFor="let item of navItems"
+          [routerLink]="item.routerLink"
+          class="text-primary p-3 no-underline transition-colors transition-duration-300 hover:bg-blue-100 rounded-lg mx-2"
+        >
+          <i *ngIf="item.icon" [class]="item.icon" class="mr-2"></i>
+          {{ item.label }}
+        </a>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="end">
+      <div class="flex align-items-center justify-content-end">
+        <button pButton type="button" icon="pi pi-user" class="p-button-text p-button-rounded p-button-lg hover:bg-blue-100"></button>
+        <button pButton type="button" icon="pi pi-cog" class="p-button-text p-button-rounded p-button-lg ml-2 hover:bg-blue-100"></button>
+      </div>
+    </ng-template>
+</p-menubar>
