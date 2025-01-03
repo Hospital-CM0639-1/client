@@ -12,6 +12,7 @@ import {
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import { BedAssignmentComponent } from '../bed-assignment/bed-assignment.component';
+import { DynamicNavbarComponent } from "../../shared/dynamic-navbar/dynamic-navbar.component";
 
 @Component({
   selector: 'app-nurse-dashboard',
@@ -22,8 +23,9 @@ import { BedAssignmentComponent } from '../bed-assignment/bed-assignment.compone
     TableModule,
     ButtonModule,
     DynamicDialogModule,
-    MenubarModule
-  ],
+    MenubarModule,
+    DynamicNavbarComponent
+],
   providers: [DialogService],
   templateUrl: './nurse-dashboard.component.html',
   styleUrl: './nurse-dashboard.component.scss',
@@ -38,6 +40,10 @@ export class NurseDashboardComponent implements OnInit {
   totalRecords!: number; // total rows
   sort!: string;
   ref: DynamicDialogRef | undefined;
+  navItems = [
+    { label: 'Nurse Dashboard', routerLink: '/nurse/dashboard', icon: 'pi pi-home' },
+    { label: 'Billing Invoice', routerLink: '/nurse/billing-invoice', icon: 'pi pi-dollar' },
+  ];
 
   constructor(
     private emergencyService: EmergencyService,

@@ -11,6 +11,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { Column, Invoice } from '../../../shared/interfaces/interface';
 import { EmergencyService } from '../../../shared/services/emergency.service';
+import { DynamicNavbarComponent } from "../dynamic-navbar/dynamic-navbar.component";
 
 @Component({
   selector: 'app-billing-invoice',
@@ -22,7 +23,8 @@ import { EmergencyService } from '../../../shared/services/emergency.service';
     ButtonModule,
     DynamicDialogModule,
     MenubarModule,
-  ],
+    DynamicNavbarComponent
+],
   providers: [DialogService],
   templateUrl: './billing-invoice.component.html',
   styleUrl: './billing-invoice.component.scss',
@@ -37,6 +39,10 @@ export class BillingInvoiceComponent implements OnInit {
   totalRecords!: number; // total rows
   sort!: string;
   ref: DynamicDialogRef | undefined;
+  navItems = [
+    { label: 'Nurse Dashboard', routerLink: '/nurse/dashboard', icon: 'pi pi-home' },
+    { label: 'Billing Invoice', routerLink: '/nurse/billing-invoice', icon: 'pi pi-dollar' },
+  ];
 
   constructor(
     private emergencyService: EmergencyService,

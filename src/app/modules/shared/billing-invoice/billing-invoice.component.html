@@ -1,29 +1,4 @@
-<p-menubar styleClass="w-full p-0 bg-gradient-to-r from-blue-50 to-white shadow-2 border-none m-0">
-    <ng-template pTemplate="start">
-        <div class="flex align-items-center justify-content-start w-full">
-            <a
-                routerLink="/nurse/dashboard"
-                class="text-primary p-3 no-underline hover:text-blue-600 transition-colors transition-duration-300 hover:bg-blue-50 rounded"
-            >
-                <i class="pi pi-home mr-2"></i>
-                Nurse Dashboard
-            </a>
-            <a
-                routerLink="/nurse/billing-invoice"
-                class="text-primary p-3 no-underline hover:text-blue-600 ml-4 transition-colors transition-duration-300 hover:bg-blue-50 rounded"
-            >
-                <i class="pi pi-file mr-2"></i>
-                Billing Invoice
-            </a>
-        </div>
-    </ng-template>
-    <ng-template pTemplate="end">
-        <div class="flex align-items-center justify-content-end">
-            <button pButton type="button" icon="pi pi-user" class="p-button-text p-button-rounded p-button-lg hover:bg-blue-50"></button>
-            <button pButton type="button" icon="pi pi-cog" class="p-button-text p-button-rounded p-button-lg ml-2 hover:bg-blue-50"></button>
-        </div>
-    </ng-template>
-</p-menubar>
+<app-dynamic-navbar [navItems]="navItems"></app-dynamic-navbar>
 
 <p-card header="Patient Invoice">
   <div class="card">
