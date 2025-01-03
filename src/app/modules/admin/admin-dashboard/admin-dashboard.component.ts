@@ -3,6 +3,7 @@ import { LogoutComponent } from "../../../shared/component/logout/logout.compone
 import { AdminDashboardService } from "./admin-dashboard.service";
 import { AdminDashboard } from "../../../shared/interfaces/admin/admin-dashboard/admin-dashboard";
 import { RouterLink, RouterOutlet } from "@angular/router";
+import { CardModule } from "primeng/card";
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -10,7 +11,8 @@ import { RouterLink, RouterOutlet } from "@angular/router";
   imports: [
     LogoutComponent,
     RouterOutlet,
-    RouterLink
+    RouterLink,
+    CardModule
   ],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss'
@@ -18,7 +20,6 @@ import { RouterLink, RouterOutlet } from "@angular/router";
 export class AdminDashboardComponent implements OnInit {
 
   protected dashboardData?: AdminDashboard;
-  protected showUserList: boolean = false;
 
   constructor(
       private adminDashboardService: AdminDashboardService

@@ -8,6 +8,7 @@ import { ToggleButtonModule } from "primeng/togglebutton";
 import { ToggleButtonComponent } from "../../../../shared/component/toggle-button/toggle-button.component";
 import { UserEnableDisableService } from "../../../../shared/services/user/user-enable-disable.service";
 import { TableModule } from "primeng/table";
+import { DropdownModule } from "primeng/dropdown";
 
 @Component({
   selector: 'app-admin-user-list',
@@ -17,12 +18,17 @@ import { TableModule } from "primeng/table";
     ToggleButtonModule,
     ToggleButtonComponent,
     TableModule,
+    DropdownModule,
   ],
   templateUrl: './admin-user-list.component.html',
   styleUrl: './admin-user-list.component.scss'
 })
 export class AdminUserListComponent implements OnInit {
-
+  protected readonly activeChoices = [
+    { label: 'All', value: 'all' },
+    { label: 'Active', value: 'active' },
+    { label: 'Not active', value: 'not_active' },
+  ];
   protected users: SimpleUser[] = [];
   protected filterForm!: FormGroup;
   private filter: UserListFilter = {

@@ -1,18 +1,17 @@
 <form [formGroup]="filterForm" (ngSubmit)="onGetUserList()">
-    <div class="group-gap">
-        <div class="d-block my-3">
-
-            <div class="mb-3">
-                <select class="custom-select" formControlName="status">
-                    <option value="all">All</option>
-                    <option value="active">Active</option>
-                    <option value="not_active">Not active</option>
-                </select>
-            </div>
-
-        </div>
+    <div class="card flex justify-content-center">
+        <p-dropdown
+                formControlName="status"
+                optionLabel="label"
+                placeholder="Select Item"
+                name="status"
+                optionValue="value"
+                [options]="activeChoices"
+                [virtualScroll]="true"
+                [virtualScrollItemSize]="38"
+                [style]="{ width: '15rem' }"
+        />
     </div>
-
     <button type="submit" class="btn btn-danger btn-lg btn-block">Submit</button>
 </form>
 
