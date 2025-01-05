@@ -15,9 +15,9 @@ import {
 })
 export class EmergencyService {
   constructor(public apiService: ApiService) {}
-  private BASE_PATH_HOSPITAL_BEDS = 'api/v1/hospital-beds';
-  private BASE_PATH_EMERGENCY_VISIT_STAFF = 'api/v1/emergency-visit-staff';
-  private BASE_PATH_INVOICE = 'api/v1/patient-invoices';
+  private BASE_PATH_HOSPITAL_BEDS = 'api/v1/emergency-service/hospital-beds';
+  private BASE_PATH_EMERGENCY_VISIT_STAFF = 'api/v1/emergency-service/emergency-visit-staff';
+  private BASE_PATH_INVOICE = 'api/v1/emergency-service/patient-invoices';
 
   getPatientFromEmergencyVisit(
     page: number,
