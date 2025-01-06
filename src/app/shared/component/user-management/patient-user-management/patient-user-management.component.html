@@ -1,0 +1,38 @@
+<div >
+    <form [formGroup]="userForm" (ngSubmit)="onSaveUser()">
+        <div>
+            @if (userId) {
+                <h1>Edit Patient</h1>
+            } @else {
+                <h1>New Patient</h1>
+            }
+        </div>
+        <input placeholder="First name" formControlName="firstName" />
+        <input placeholder="Last name" formControlName="lastName" />
+        <input placeholder="Email" formControlName="email" />
+        <input placeholder="Username" formControlName="username" />
+
+        <div formGroupName="patientInfo" >
+            <p-dropdown
+                    formControlName="gender"
+                    optionLabel="label"
+                    placeholder="Select gender"
+                    name="gender"
+                    optionValue="value"
+                    [options]="genderChoices"
+                    [virtualScroll]="true"
+                    [virtualScrollItemSize]="38"
+                    [style]="{ width: '15rem' }"
+            />
+
+            <input placeholder="Contact Number" formControlName="contactNumber" />
+            <input placeholder="Emergency Contact Name" formControlName="emergencyContactName" />
+            <input placeholder="Emergency Contact Number" formControlName="emergencyContactNumber" />
+            <input placeholder="Address" formControlName="address" />
+            <input placeholder="Insurance Provider" formControlName="insuranceProvider" />
+            <input placeholder="Insurance Policy Number" formControlName="insurancePolicyNumber" />
+            <input type="date" formControlName="dateOfBirth">
+        </div>
+        <button type="submit" [disabled]="!userForm.valid">Save</button>
+    </form>
+</div>

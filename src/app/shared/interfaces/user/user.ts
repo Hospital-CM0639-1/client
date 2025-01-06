@@ -9,6 +9,11 @@ export interface SimpleUser {
     role?: string; // nurse | doctor | secretary
 }
 
+export interface User extends SimpleUser {
+    staffInfo: null | StaffInfo, // only if type == staff
+    patientInfo: null | PatientInfo, // only if type == patient
+}
+
 export interface LoggedUser {
     id: number;
     firstName: string;
@@ -26,4 +31,23 @@ export interface LoggedUser {
         hireDate: string;
         phone: null | string;
     }
+}
+
+export interface StaffInfo {
+    role: string;
+    department: null | string;
+    specialization: null | string;
+    hireDate: string;
+    phone: null | string;
+}
+
+export interface PatientInfo {
+    dateOfBirth: string;
+    gender: string; // Male | Female
+    contactNumber: string;
+    emergencyContactName: string;
+    emergencyContactNumber: string;
+    address: string;
+    insuranceProvider: string;
+    insurancePolicyNumber: string;
 }

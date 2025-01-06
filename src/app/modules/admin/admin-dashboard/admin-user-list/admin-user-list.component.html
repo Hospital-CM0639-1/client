@@ -16,7 +16,7 @@
         <p-button label="Search" icon="pi pi-check" [loading]="loading" (onClick)="onGetUserList()" />
     </form>
 </div>
-<button routerLink="/admin/new-user">Add user</button>
+<button routerLink="/admin/new-user/admin">Add user</button>
 <p-toolbar styleClass="mb-6">
     <ng-template>
         <p-button label="Search" icon="pi pi-check" [loading]="loading" (onClick)="onGetUserList()" />
@@ -59,7 +59,7 @@
             </td>
             <td>
                 @if (user.id !== this.authUserService.getLoggedUser()?.id) {
-                    <button routerLink="/admin/edit-user/{{user.id}}">Edit user</button>
+                    <button routerLink="/admin/edit-user/{{user.id}}/admin">Edit user</button>
                 }
             </td>
         </tr>

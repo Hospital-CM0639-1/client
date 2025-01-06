@@ -1,5 +1,6 @@
-<form [formGroup]="filterForm" (ngSubmit)="onGetUserList()">
-    <div class="card flex justify-content-center">
+<div class="card flex justify-content-center">
+    <label>Filter list</label>
+    <form [formGroup]="filterForm" (ngSubmit)="onGetUserList()">
         <p-dropdown
                 formControlName="status"
                 optionLabel="label"
@@ -11,10 +12,11 @@
                 [virtualScrollItemSize]="38"
                 [style]="{ width: '15rem' }"
         />
-    </div>
-    <button type="submit" class="btn btn-danger btn-lg btn-block">Submit</button>
-</form>
-
+        <br />
+        <p-button label="Search" icon="pi pi-check" [loading]="loading" (onClick)="onGetUserList()" />
+    </form>
+</div>
+<button routerLink="/admin/new-user/patient">Add user</button>
 <p-table
         styleClass='p-datatable-sm p-datatable-striped'
         [value]="users"
@@ -29,6 +31,7 @@
             <th>Surname</th>
             <th>Email</th>
             <th>Username</th>
+            <th>Actions</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-user>
@@ -37,6 +40,9 @@
             <td>{{ user.lastName }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.username }}</td>
+            <td>
+                <button routerLink="/admin/edit-user/{{user.id}}/patient">Edit user</button>
+            </td>
         </tr>
     </ng-template>
 </p-table>

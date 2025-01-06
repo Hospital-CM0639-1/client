@@ -4,7 +4,9 @@ import { AdminDashboardComponent } from "./admin-dashboard/admin-dashboard.compo
 import { AdminUserListComponent } from "./admin-dashboard/admin-user-list/admin-user-list.component";
 import { StaffUserListComponent } from "./admin-dashboard/staff-user-list/staff-user-list.component";
 import { PatientUserListComponent } from "./admin-dashboard/patient-user-list/patient-user-list.component";
-import { UserManagementComponent } from "./user/user-management/user-management.component";
+import {
+  AdminUserManagementComponent
+} from "./user/user-management/admin-user-management/admin-user-management.component";
 
 const routes: Routes = [
   {
@@ -27,13 +29,22 @@ const routes: Routes = [
   },
   {
     path: 'new-user',
-    component: UserManagementComponent,
-  }
-  ,
+    children: [
+      {
+        path: 'admin',
+        component: AdminUserManagementComponent,
+      }
+    ]
+  },
   {
     path: 'edit-user/:userId',
-    component: UserManagementComponent,
-  },
+    children: [
+      {
+        path: 'admin',
+        component: AdminUserManagementComponent,
+      }
+    ]
+  }
 ];
 
 @NgModule({
