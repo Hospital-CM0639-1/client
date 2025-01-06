@@ -13,6 +13,7 @@ import { Column, Invoice } from '../../../shared/interfaces/interface';
 import { EmergencyService } from '../../../shared/services/emergency.service';
 import { DynamicNavbarComponent } from '../dynamic-navbar/dynamic-navbar.component';
 import { AddBillingInvoiceComponent } from '../add-billing-invoice/add-billing-invoice.component';
+import { DetailBillingInvoiceComponent } from '../detail-billing-invoice/detail-billing-invoice.component';
 
 @Component({
   selector: 'app-billing-invoice',
@@ -105,6 +106,22 @@ export class BillingInvoiceComponent implements OnInit {
   addInvoice() {
     this.ref = this.dialogService.open(AddBillingInvoiceComponent, {
       header: 'Create Billing Invoice',
+    });
+    this.ref.onClose.subscribe((response) => {
+      console.log(response);
+      if (response) {
+        this.getInvoices();
+        this.cd.detectChanges();
+      }
+    });
+  }
+
+  detailInvoice(invoice: Invoice) {
+    this.ref = this.dialogService.open(DetailBillingInvoiceComponent, {
+      header: 'Detail Billing Invoice',
+      data: {invoice: invoice},
+      style: { width: '85vw' },
+      contentStyle: { overflow: 'auto' },
     });
     this.ref.onClose.subscribe((response) => {
       console.log(response);

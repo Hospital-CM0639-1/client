@@ -56,7 +56,7 @@ export class AddBillingInvoiceComponent implements OnInit {
     this.emergencyService.saveInvoice(invoice).subscribe(
       (response) => {
         console.log('Invoice saved successfully', response);
-        this.ref.close();
+        this.ref.close(response);
       },
       (error) => {
         console.error('Error saving invoice', error);

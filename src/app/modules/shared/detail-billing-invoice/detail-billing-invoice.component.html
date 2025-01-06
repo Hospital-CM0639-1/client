@@ -1,1 +1,82 @@
-<p>detail-billing-invoice works!</p>
+<div class="p-grid p-m-4">
+    <div class="p-col-12 p-md-8 p-lg-6">
+      <p-card header="Invoice Details" styleClass="custom-card">
+        <div class="p-grid p-fluid">
+          <!-- Total Amount -->
+          <div class="p-col-12 p-md-6">
+            <div class="p-d-flex p-flex-column p-mb-3">
+              <label class="p-mb-1 mr-2 text-sm font-medium text-600">Total Amount</label>
+              <span class="text-lg font-bold text-800">${{ invoice.totalAmount }}</span>
+            </div>
+          </div>
+  
+          <!-- Payment Status -->
+          <div class="p-col-12 p-md-6">
+            <div class="p-d-flex mr-2 p-flex-column p-mb-3">
+              <label class="p-mb-1 mr-2 text-sm font-medium text-600">Payment Status</label>
+              <p-tag
+                [value]="invoice.paymentStatus"
+                [severity]="invoice.paymentStatus === 'pending' ? 'warning' : 'success'"
+              ></p-tag>
+            </div>
+          </div>
+  
+          <!-- Invoice Timestamp -->
+          <div class="p-col-12 p-md-6">
+            <div class="p-d-flex p-flex-column p-mb-3">
+              <label class="p-mb-1 mr-2 text-sm font-medium text-600">Invoice Timestamp</label>
+              <span class="text-lg font-bold text-800">{{ (invoice.invoiceTimestamp | date: 'medium') }}</span>
+            </div>
+          </div>
+  
+          <!-- Payment Received Timestamp -->
+          <div class="p-col-12 p-md-6">
+            <div class="p-d-flex p-flex-column p-mb-3">
+              <label class="p-mb-1 mr-2 text-sm font-medium text-600">Payment Received Timestamp</label>
+              <span class="text-lg font-bold text-800">
+                {{ invoice.paymentReceivedTimestamp ? (invoice.paymentReceivedTimestamp | date: 'medium') : 'N/A' }}
+              </span>
+            </div>
+          </div>
+  
+          <!-- Payment Received Amount -->
+          <div class="p-col-12 p-md-6">
+            <div class="p-d-flex p-flex-column p-mb-3">
+              <label class="p-mb-1 text-sm font-medium text-600">Payment Received Amount</label>
+              <input
+                type="number"
+                [(ngModel)]="invoice.paymentReceivedAmount"
+                class="p-inputtext p-component"
+                placeholder="Enter amount"
+              />
+            </div>
+          </div>
+          </div>
+      </p-card>
+    </div>
+  
+    <!-- Emergency Visit Details -->
+    <div class="p-col-12 p-md-8 p-lg-6">
+      <p-card header="Emergency Visit Details" styleClass="custom-card">
+        <div class="p-grid p-fluid">
+          <!-- Patient Name -->
+          <div class="p-col-12 p-md-6">
+            <div class="p-d-flex p-flex-column p-mb-3">
+              <label class="p-mb-1 mr-2 text-sm font-medium text-600">Patient Name</label>
+              <span class="text-lg font-bold text-800">
+                {{ invoice.emergencyVisit.patient?.firstName }} {{ invoice.emergencyVisit.patient?.lastName }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </div>
+    <div class="p-col-12">
+        <p-button
+          label="Update Payment Received Amount"
+          icon="pi pi-check"
+          styleClass="p-button-success"
+          (click)="updatePaymentReceivedAmount()"
+        ></p-button>
+      </div>
+  </div>
