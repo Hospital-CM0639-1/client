@@ -6,9 +6,11 @@ import {
   Invoice,
   PaginatedList,
   PatientNeedingBed,
+  Response,
   WardBed,
   WardBedDetail,
 } from '../interfaces/interface';
+import { EStatusBed } from '../enums/status-bed.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -126,7 +128,7 @@ export class EmergencyService {
       );
   }
 
-  getPatientInvoices(
+  getInvoices(
     page: number,
     size: number,
     order: string
@@ -141,4 +143,18 @@ export class EmergencyService {
         })
       );
   }
+
+  countByCurrentStatusAndWardSection(): Observable<Map<string, number>[]> {
+    return this.apiService
+      .get<Map<string, number>[]>(
+        `${this.BASE_PATH_HOSPITAL_BEDS}/count-by-status-ward-section`
+      )
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+
+  
 }

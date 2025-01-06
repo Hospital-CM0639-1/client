@@ -1,6 +1,14 @@
 <app-dynamic-navbar [navItems]="navItems"></app-dynamic-navbar>
 
-
+<div class="flex p-flex-nowrap p-1 m-1" style="overflow-x: auto;">
+  <div *ngFor="let ward of countBedByWard | keyvalue" class="p-mr-3" style="flex: 0 0 auto;">
+    <p-card [header]="ward.value.section" styleClass="custom-card">
+      <div class="p-d-flex p-jc-between">
+        <p class="p-m-0">Available: {{ ward.value.count || 0 }}</p>
+      </div>
+    </p-card>
+  </div>
+</div>
 <p-card header="Real Time Ward Bed">
   <div class="card">
     <p-table
