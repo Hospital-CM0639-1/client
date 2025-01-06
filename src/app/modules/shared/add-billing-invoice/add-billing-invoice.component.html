@@ -1,7 +1,7 @@
 <div class="flex flex-column gap-4 p-4">
     <p-card>
       <div class="flex flex-column gap-3">
-        <label>ONLY DISCHARGED PATIENT WITH NO BILLING INVOICE CAN BE ADDED</label>
+        <label class="text-lg font-bold text-900">ONLY DISCHARGED PATIENT WITH NO BILLING INVOICE CAN BE ADDED</label>
         <p-dropdown
           [options]="emergencyVisits"
           [(ngModel)]="emergencyVisit"
@@ -21,6 +21,7 @@
           label="Assign Bed"
           icon="pi pi-check"
           styleClass="w-full"
+          [disabled]="!amountInvoice"
           (click)="saveInvoice()" />
 
       </div>
