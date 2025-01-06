@@ -11,6 +11,8 @@ import { environment } from '../../../environments/environments';
 export class ApiService {
   private defaultHeaders: HttpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS'
   });
 
   constructor(public http: HttpClient) { }

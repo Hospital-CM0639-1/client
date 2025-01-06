@@ -144,6 +144,16 @@ export class EmergencyService {
       );
   }
 
+  getInvoiceById(invoiceId: number): Observable<Invoice> {
+    return this.apiService
+      .get<Invoice>(`${this.BASE_PATH_INVOICE}/${invoiceId}`)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+
   countByCurrentStatusAndWardSection(): Observable<Map<string, number>[]> {
     return this.apiService
       .get<Map<string, number>[]>(

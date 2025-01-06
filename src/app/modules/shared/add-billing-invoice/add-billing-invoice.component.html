@@ -1,0 +1,26 @@
+<div class="flex flex-column gap-4 p-4">
+    <p-card>
+      <div class="flex flex-column gap-3">
+        <p-dropdown
+          [options]="invoices"
+          [(ngModel)]="invoice"
+          (onChange)="onPatientChange($event)"
+          appendTo="body"
+          optionLabel="emergencyVisit.patient.firstName"
+          optionValue=""
+          placeholder="Select a Patient"
+          styleClass="w-full" />
+
+          <div *ngIf="invoice">
+            <label>Total Amount</label>
+            {{invoice.totalAmount}}</div>
+        
+
+        <p-button 
+          label="Assign Bed"
+          icon="pi pi-check"
+          styleClass="w-full" />
+
+      </div>
+    </p-card>
+   </div>

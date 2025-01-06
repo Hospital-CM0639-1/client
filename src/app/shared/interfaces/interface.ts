@@ -92,8 +92,16 @@ export interface Invoice {
   paymentReceivedAmount: number;
   emergencyVisit: {
     id: number;
+    patient: {
+      firstName: string;
+      lastName: string;
+    };
   };
   createdByStaff: {
     id: number;
   };
+}
+
+export interface Response<T> {
+  response: T
 }
