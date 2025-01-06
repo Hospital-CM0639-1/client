@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { PrimeTemplate } from "primeng/api";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { TableModule } from "primeng/table";
@@ -20,7 +20,8 @@ import { DropdownModule } from "primeng/dropdown";
     TableModule,
     ToggleButtonComponent,
     SelectButtonModule,
-    DropdownModule
+    DropdownModule,
+    RouterLink
   ],
   templateUrl: './staff-user-list.component.html',
   styleUrl: './staff-user-list.component.scss'

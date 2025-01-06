@@ -10,7 +10,7 @@ import { USERNAME_REGEX } from "../../../regexs/user/user-regex";
 import { User } from "../../../interfaces/user/user";
 
 @Component({
-  selector: 'app-patient-user-management',
+  selector: 'app-staff-user-management',
   standalone: true,
   imports: [
     FormsModule,
@@ -22,6 +22,7 @@ import { User } from "../../../interfaces/user/user";
 })
 export class PatientUserManagementComponent implements OnInit {
   @Input() userId: null | string = null;
+  @Input() redirectTo!: string;
 
   protected userForm!: FormGroup;
   protected readonly genderChoices = [
@@ -94,7 +95,7 @@ export class PatientUserManagementComponent implements OnInit {
 
     obs.subscribe({
       next: () => {
-        this.router.navigate(['/admin/dashboard']);
+        this.router.navigate([this.redirectTo]);
       }
     })
   }

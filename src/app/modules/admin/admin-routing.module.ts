@@ -7,6 +7,9 @@ import { PatientUserListComponent } from "./admin-dashboard/patient-user-list/pa
 import {
   AdminUserManagementComponent
 } from "./user/user-management/admin-user-management/admin-user-management.component";
+import {
+  StaffUserManagementComponent
+} from "./user/user-management/staff-user-management/staff-user-management.component";
 
 const routes: Routes = [
   {
@@ -33,6 +36,10 @@ const routes: Routes = [
       {
         path: 'admin',
         component: AdminUserManagementComponent,
+      },
+      {
+        path: 'staff/:role',
+        component: StaffUserManagementComponent,
       }
     ]
   },
@@ -42,6 +49,10 @@ const routes: Routes = [
       {
         path: 'admin',
         component: AdminUserManagementComponent,
+      },
+      {
+        path: 'staff/:role',
+        component: StaffUserManagementComponent,
       }
     ]
   }

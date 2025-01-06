@@ -38,7 +38,7 @@ export interface StaffInfo {
     department: null | string;
     specialization: null | string;
     hireDate: string;
-    phone: null | string;
+    phoneNumber: null | string;
 }
 
 export interface PatientInfo {

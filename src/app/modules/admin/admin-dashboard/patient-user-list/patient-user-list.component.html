@@ -31,7 +31,6 @@
             <th>Surname</th>
             <th>Email</th>
             <th>Username</th>
-            <th>Actions</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-user>
@@ -40,9 +39,6 @@
             <td>{{ user.lastName }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.username }}</td>
-            <td>
-                <button routerLink="/admin/edit-user/{{user.id}}/patient">Edit user</button>
-            </td>
         </tr>
     </ng-template>
 </p-table>

@@ -14,7 +14,7 @@
     </div>
     <button type="submit" class="btn btn-danger btn-lg btn-block">Submit</button>
 </form>
-
+<button routerLink="/admin/new-user/staff/{{role}}">Add user</button>
 <p-table
         styleClass='p-datatable-sm p-datatable-striped'
         [value]="users"
@@ -29,7 +29,6 @@
             <th>Surname</th>
             <th>Email</th>
             <th>Username</th>
-            <th>Role</th>
             <th>Actions</th>
         </tr>
     </ng-template>
@@ -38,7 +37,6 @@
             <td>{{ user.firstName }}</td>
             <td>{{ user.lastName }}</td>
             <td>{{ user.email }}</td>
-            <td>{{ user.role }}</td>
             <td>{{ user.username }}</td>
             <td>
                 <app-toggle-button
@@ -47,6 +45,9 @@
                         [notActiveLabel]="'Not active'"
                         (onChangeEvent)="onEnableDisableUser(user.id, $event)"
                 ></app-toggle-button>
+            </td>
+            <td>
+                <button routerLink="/admin/edit-user/{{user.id}}/staff/{{role}}">Edit user</button>
             </td>
         </tr>
     </ng-template>
