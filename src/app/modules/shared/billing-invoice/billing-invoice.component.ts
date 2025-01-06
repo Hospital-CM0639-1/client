@@ -109,6 +109,8 @@ export class BillingInvoiceComponent implements OnInit {
     this.ref.onClose.subscribe((response) => {
       console.log(response);
       if (response) {
+        this.getInvoices();
+        this.cd.detectChanges();
       }
     });
   }

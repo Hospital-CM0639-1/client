@@ -6,6 +6,7 @@ import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
 import { Invoice } from '../../../shared/interfaces/interface';
 import { FormsModule } from '@angular/forms';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-add-billing-invoice',
@@ -19,7 +20,7 @@ export class AddBillingInvoiceComponent implements OnInit {
   invoices!: Invoice[];
   invoice!: Invoice;
 
-  constructor(private emergencyService: EmergencyService) {}
+  constructor(private emergencyService: EmergencyService, private ref: DynamicDialogRef) {}
 
   ngOnInit(): void {
       this.getInvoices();
@@ -36,6 +37,18 @@ export class AddBillingInvoiceComponent implements OnInit {
       },
       (error) => {
         console.error('Error fetching invoices', error);
+      }
+    );
+  }
+
+  saveInvoice(): void {
+    this.emergencyService.saveInvoice(this.invoice).subscribe(
+      (response) => {
+        console.log('Invoice saved successfully', response);
+        this.ref.close(response);
+      },
+      (error) => {
+        console.error('Error saving invoice', error);
       }
     );
   }
