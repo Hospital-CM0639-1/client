@@ -22,7 +22,7 @@ import { User } from "../../../interfaces/user/user";
 })
 export class PatientUserManagementComponent implements OnInit {
   @Input() userId: null | string = null;
-  @Input() redirectTo!: string;
+  redirectTo: string | undefined;
 
   protected userForm!: FormGroup;
   protected readonly genderChoices = [
@@ -37,6 +37,8 @@ export class PatientUserManagementComponent implements OnInit {
       private userDetailService: UserDetailService,
       private userCreateEditService: UserCreateEditService
   ) {
+    this.redirectTo = this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
+
     this.userForm = fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],

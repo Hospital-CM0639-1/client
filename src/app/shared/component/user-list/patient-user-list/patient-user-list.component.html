@@ -16,7 +16,11 @@
         <p-button label="Search" icon="pi pi-check" [loading]="loading" (onClick)="onGetUserList()" />
     </form>
 </div>
-<button routerLink="/admin/new-user/patient">Add user</button>
+@if (this.authUserService.getType() === UserTypeEnums.ADMIN) {
+    <button routerLink="/{{this.authUserService.getType()}}/new-user/patient">Add user</button>
+} @else {
+    <button routerLink="/{{this.authUserService.getRole()?.toLowerCase()}}/new-user/patient">Add user</button>
+}
 <p-table
         styleClass='p-datatable-sm p-datatable-striped'
         [value]="users"
