@@ -10,6 +10,7 @@ import {
 import {
   StaffUserManagementComponent
 } from "./user/user-management/staff-user-management/staff-user-management.component";
+import { PasswordComponent } from "../access/password/password.component";
 
 const routes: Routes = [
   {
@@ -55,6 +56,10 @@ const routes: Routes = [
         component: StaffUserManagementComponent,
       }
     ]
+  },
+  {
+    path: 'change-user-password/:userId',
+    component: PasswordComponent,
   }
 ];
 

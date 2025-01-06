@@ -25,7 +25,7 @@ export class PasswordService {
         );
   }
 
-  onChangePasswordToAnotherUser(changePassword: ChangePassword, userId: number): Observable<any> {
+  onChangePasswordToAnotherUser(changePassword: ChangePassword, userId: string): Observable<any> {
       return this.http
           .post<any>(apiManagementService + 'user/' + userId + '/change-password', changePassword);
   }

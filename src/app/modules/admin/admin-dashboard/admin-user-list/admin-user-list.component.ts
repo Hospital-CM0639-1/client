@@ -11,7 +11,7 @@ import { TableModule } from "primeng/table";
 import { DropdownModule } from "primeng/dropdown";
 import { Button, ButtonDirective } from "primeng/button";
 import { ToolbarModule } from "primeng/toolbar";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-admin-user-list',
@@ -50,6 +50,7 @@ export class AdminUserListComponent implements OnInit {
       private userListService: UserListService,
       private fb: FormBuilder,
       protected authUserService: AuthUserService,
+      protected router: Router,
   ) {
   }
 

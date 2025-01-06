@@ -54,12 +54,8 @@
                             [notActiveLabel]="'Not active'"
                             (onChangeEvent)="onEnableDisableUser(user.id, $event)"
                     ></app-toggle-button>
-                }
-                <!-- TODO: ADD CHANGE PASSWORD -->
-            </td>
-            <td>
-                @if (user.id !== this.authUserService.getLoggedUser()?.id) {
                     <button routerLink="/admin/edit-user/{{user.id}}/admin">Edit user</button>
+                    <button routerLink="/admin/change-user-password/{{user.id}}">Change password</button>
                 }
             </td>
         </tr>
