@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { map, Observable } from 'rxjs';
 import {
+  EmergencyVisit,
   EmergencyVisitStaff,
   Invoice,
   PaginatedList,
@@ -19,6 +20,7 @@ export class EmergencyService {
   constructor(public apiService: ApiService) {}
   private BASE_PATH_HOSPITAL_BEDS = 'api/v1/emergency-service/hospital-beds';
   private BASE_PATH_EMERGENCY_VISIT_STAFF = 'api/v1/emergency-service/emergency-visit-staff';
+  private BASE_PATH_EMERGENCY_VISIT = 'api/v1/emergency-service/emergency-visit';
   private BASE_PATH_INVOICE = 'api/v1/emergency-service/patient-invoices';
 
   getPatientFromEmergencyVisit(
@@ -137,6 +139,38 @@ export class EmergencyService {
       .get<PaginatedList<Invoice>>(
         `${this.BASE_PATH_INVOICE}?page=${page}&size=${size}&sort=${order}`
       )
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+
+  getEmergencyVisitById(visitId: number): Observable<EmergencyVisit> {
+    return this.apiService
+      .get<EmergencyVisit>(`${this.BASE_PATH_EMERGENCY_VISIT}/${visitId}`)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+
+  getDischargedEmergencyVisits(): Observable<EmergencyVisit[]> {
+    return this.apiService
+      .get<EmergencyVisit[]>(
+        `${this.BASE_PATH_EMERGENCY_VISIT}/discharged`
+      )
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+
+  getTotalInvoiceAmountByVisitId(visitId: number): Observable<Response<number>> {
+    return this.apiService
+      .get<Response<number>>(`${this.BASE_PATH_INVOICE}/total-amount/${visitId}`)
       .pipe(
         map((data) => {
           return data;

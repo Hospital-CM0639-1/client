@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
-import { Invoice } from '../../../shared/interfaces/interface';
+import { EmergencyVisit, Invoice } from '../../../shared/interfaces/interface';
 import { FormsModule } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
@@ -17,23 +17,20 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 })
 export class AddBillingInvoiceComponent implements OnInit {
 
-  invoices!: Invoice[];
-  invoice!: Invoice;
+  emergencyVisits!: EmergencyVisit[];
+  emergencyVisit!: EmergencyVisit;
+  amountInvoice!: number;
 
   constructor(private emergencyService: EmergencyService, private ref: DynamicDialogRef) {}
 
   ngOnInit(): void {
-      this.getInvoices();
+      this.getDischargedEmergencyVisits();
   }
 
-  getInvoices(
-    page: number = 0,
-    rows: number = 1000,
-    sort: string = 'invoiceTimestamp,DESC'
-  ): void {
-    this.emergencyService.getInvoices(page, rows, sort).subscribe(
+  getDischargedEmergencyVisits(): void {
+    this.emergencyService.getDischargedEmergencyVisits().subscribe(
       (data) => {
-        this.invoices = data.content;
+        this.emergencyVisits = data;
       },
       (error) => {
         console.error('Error fetching invoices', error);
@@ -42,10 +39,24 @@ export class AddBillingInvoiceComponent implements OnInit {
   }
 
   saveInvoice(): void {
-    this.emergencyService.saveInvoice(this.invoice).subscribe(
+    const invoice: Invoice = {
+      totalAmount: this.amountInvoice,
+      paymentStatus: 'pending',
+      invoiceTimestamp: new Date().toISOString(),
+      paymentReceivedTimestamp: null,
+      paymentReceivedAmount: 0.0,
+      emergencyVisit: {
+        id: this.emergencyVisit.id,
+      },
+      createdByStaff: {
+        id: 5
+      }
+    };
+
+    this.emergencyService.saveInvoice(invoice).subscribe(
       (response) => {
         console.log('Invoice saved successfully', response);
-        this.ref.close(response);
+        this.ref.close();
       },
       (error) => {
         console.error('Error saving invoice', error);
@@ -54,5 +65,13 @@ export class AddBillingInvoiceComponent implements OnInit {
   }
 
   onPatientChange(event: any) {
+    this.emergencyService.getTotalInvoiceAmountByVisitId(event.value.id).subscribe(
+      (amount) => {
+        this.amountInvoice = amount.response;
+      },
+      (error) => {
+        console.error('Error fetching total invoice amount', error);
+      }
+    );
   }
 }
