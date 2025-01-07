@@ -84,7 +84,7 @@ export interface PatientNeedingBed {
 }
 
 export interface Invoice {
-  id: number;
+  id?: number;
   totalAmount: number;
   paymentStatus: string;
   invoiceTimestamp: string;
@@ -92,8 +92,30 @@ export interface Invoice {
   paymentReceivedAmount: number;
   emergencyVisit: {
     id: number;
+    patient?: {
+      firstName: string;
+      lastName: string;
+    };
   };
   createdByStaff: {
     id: number;
   };
+}
+
+export interface EmergencyVisit {
+  id: number;
+  admissionTimestamp: string;
+  dischargeTimestamp: string | null;
+  patientStatus: string;
+  triageNotes: string;
+  priorityLevel: string;
+  patient: {
+    id: number;
+    firstName: string;
+    lastName: string;
+  };
+}
+
+export interface Response<T> {
+  response: T
 }

@@ -11,7 +11,9 @@ import { MenubarModule } from 'primeng/menubar';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { Column, Invoice } from '../../../shared/interfaces/interface';
 import { EmergencyService } from '../../../shared/services/emergency.service';
-import { DynamicNavbarComponent } from "../dynamic-navbar/dynamic-navbar.component";
+import { DynamicNavbarComponent } from '../dynamic-navbar/dynamic-navbar.component';
+import { AddBillingInvoiceComponent } from '../add-billing-invoice/add-billing-invoice.component';
+import { DetailBillingInvoiceComponent } from '../detail-billing-invoice/detail-billing-invoice.component';
 
 @Component({
   selector: 'app-billing-invoice',
@@ -23,8 +25,8 @@ import { DynamicNavbarComponent } from "../dynamic-navbar/dynamic-navbar.compone
     ButtonModule,
     DynamicDialogModule,
     MenubarModule,
-    DynamicNavbarComponent
-],
+    DynamicNavbarComponent,
+  ],
   providers: [DialogService],
   templateUrl: './billing-invoice.component.html',
   styleUrl: './billing-invoice.component.scss',
@@ -40,8 +42,16 @@ export class BillingInvoiceComponent implements OnInit {
   sort!: string;
   ref: DynamicDialogRef | undefined;
   navItems = [
-    { label: 'Nurse Dashboard', routerLink: '/nurse/dashboard', icon: 'pi pi-home' },
-    { label: 'Billing Invoice', routerLink: '/nurse/billing-invoice', icon: 'pi pi-dollar' },
+    {
+      label: 'Nurse Dashboard',
+      routerLink: '/nurse/dashboard',
+      icon: 'pi pi-home',
+    },
+    {
+      label: 'Billing Invoice',
+      routerLink: '/nurse/billing-invoice',
+      icon: 'pi pi-dollar',
+    },
   ];
 
   constructor(
@@ -65,7 +75,7 @@ export class BillingInvoiceComponent implements OnInit {
     sort: string = 'invoiceTimestamp,DESC'
   ): void {
     this.loading = true;
-    this.emergencyService.getPatientInvoices(page, rows, sort).subscribe(
+    this.emergencyService.getInvoices(page, rows, sort).subscribe(
       (data) => {
         this.invoices = data.content;
         this.totalRecords = data.totalElements;
@@ -93,5 +103,32 @@ export class BillingInvoiceComponent implements OnInit {
     this.getInvoices(this.page, this.rows, this.sort);
   }
 
-  addInvoice() {}
+  addInvoice() {
+    this.ref = this.dialogService.open(AddBillingInvoiceComponent, {
+      header: 'Create Billing Invoice',
+    });
+    this.ref.onClose.subscribe((response) => {
+      console.log(response);
+      if (response) {
+        this.getInvoices();
+        this.cd.detectChanges();
+      }
+    });
+  }
+
+  detailInvoice(invoice: Invoice) {
+    this.ref = this.dialogService.open(DetailBillingInvoiceComponent, {
+      header: 'Detail Billing Invoice',
+      data: {invoice: invoice},
+      style: { width: '85vw' },
+      contentStyle: { overflow: 'auto' },
+    });
+    this.ref.onClose.subscribe((response) => {
+      console.log(response);
+      if (response) {
+        this.getInvoices();
+        this.cd.detectChanges();
+      }
+    });
+  }
 }

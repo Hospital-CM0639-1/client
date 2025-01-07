@@ -1,3 +1,4 @@
+import { EStatusBed } from './../../../shared/enums/status-bed.enum';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CardModule } from 'primeng/card';
@@ -6,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { Column, WardBed } from '../../../shared/interfaces/interface';
 import { EmergencyService } from '../../../shared/services/emergency.service';
 import { MenubarModule } from 'primeng/menubar';
+import { ProgressBarModule } from 'primeng/progressbar';
 import {
   DialogService,
   DynamicDialogModule,
@@ -24,7 +26,8 @@ import { DynamicNavbarComponent } from "../../shared/dynamic-navbar/dynamic-navb
     ButtonModule,
     DynamicDialogModule,
     MenubarModule,
-    DynamicNavbarComponent
+    DynamicNavbarComponent,
+    ProgressBarModule
 ],
   providers: [DialogService],
   templateUrl: './nurse-dashboard.component.html',
@@ -44,6 +47,7 @@ export class NurseDashboardComponent implements OnInit {
     { label: 'Nurse Dashboard', routerLink: '/nurse/dashboard', icon: 'pi pi-home' },
     { label: 'Billing Invoice', routerLink: '/nurse/billing-invoice', icon: 'pi pi-dollar' },
   ];
+  countBedByWard!: any[];
 
   constructor(
     private emergencyService: EmergencyService,
@@ -58,6 +62,7 @@ export class NurseDashboardComponent implements OnInit {
       { field: 'currentStatus', header: 'Status' },
     ];
     this.populateWardBeds();
+    this.countByCurrentStatusAndWardSection();
   }
 
   lazyLoad(event: TableLazyLoadEvent): void {
@@ -104,6 +109,19 @@ export class NurseDashboardComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error retrieving bed:', err);
+      }
+    });
+  }
+
+  countByCurrentStatusAndWardSection(): void {
+    this.emergencyService.countByCurrentStatusAndWardSection().subscribe({
+      next: (response) => {
+        this.countBedByWard = response;
+        console.log(response);
+        this.cd.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error counting beds by ward section:', err);
       }
     });
   }

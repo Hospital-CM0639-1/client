@@ -2,22 +2,26 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { map, Observable } from 'rxjs';
 import {
+  EmergencyVisit,
   EmergencyVisitStaff,
   Invoice,
   PaginatedList,
   PatientNeedingBed,
+  Response,
   WardBed,
   WardBedDetail,
 } from '../interfaces/interface';
+import { EStatusBed } from '../enums/status-bed.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmergencyService {
   constructor(public apiService: ApiService) {}
-  private BASE_PATH_HOSPITAL_BEDS = 'api/v1/hospital-beds';
-  private BASE_PATH_EMERGENCY_VISIT_STAFF = 'api/v1/emergency-visit-staff';
-  private BASE_PATH_INVOICE = 'api/v1/patient-invoices';
+  private BASE_PATH_HOSPITAL_BEDS = 'api/v1/emergency-service/hospital-beds';
+  private BASE_PATH_EMERGENCY_VISIT_STAFF = 'api/v1/emergency-service/emergency-visit-staff';
+  private BASE_PATH_EMERGENCY_VISIT = 'api/v1/emergency-service/emergency-visit';
+  private BASE_PATH_INVOICE = 'api/v1/emergency-service/patient-invoices';
 
   getPatientFromEmergencyVisit(
     page: number,
@@ -126,7 +130,7 @@ export class EmergencyService {
       );
   }
 
-  getPatientInvoices(
+  getInvoices(
     page: number,
     size: number,
     order: string
@@ -141,4 +145,70 @@ export class EmergencyService {
         })
       );
   }
+
+  getEmergencyVisitById(visitId: number): Observable<EmergencyVisit> {
+    return this.apiService
+      .get<EmergencyVisit>(`${this.BASE_PATH_EMERGENCY_VISIT}/${visitId}`)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+
+  getDischargedEmergencyVisits(): Observable<EmergencyVisit[]> {
+    return this.apiService
+      .get<EmergencyVisit[]>(
+        `${this.BASE_PATH_EMERGENCY_VISIT}/discharged`
+      )
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+
+  getTotalInvoiceAmountByVisitId(visitId: number): Observable<Response<number>> {
+    return this.apiService
+      .get<Response<number>>(`${this.BASE_PATH_INVOICE}/total-amount/${visitId}`)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+
+  getInvoiceById(invoiceId: number): Observable<Invoice> {
+    return this.apiService
+      .get<Invoice>(`${this.BASE_PATH_INVOICE}/${invoiceId}`)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+
+  saveInvoice(invoice: Invoice): Observable<Invoice> {
+    return this.apiService
+      .post<Invoice>(`${this.BASE_PATH_INVOICE}`, invoice)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+
+  countByCurrentStatusAndWardSection(): Observable<Map<string, number>[]> {
+    return this.apiService
+      .get<Map<string, number>[]>(
+        `${this.BASE_PATH_HOSPITAL_BEDS}/count-by-status-ward-section`
+      )
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+
+  
 }
