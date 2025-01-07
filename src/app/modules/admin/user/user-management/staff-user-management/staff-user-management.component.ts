@@ -40,9 +40,9 @@ export class StaffUserManagementComponent implements OnInit {
       type: ['staff', Validators.required],
       staffInfo: fb.group({
         role: [this.role, Validators.required],
-        phoneNumber: ['', Validators.required],
-        department: ['', Validators.required],
-        specialization: ['', Validators.required],
+        phoneNumber: [''],
+        department: [''],
+        specialization: [''],
         hireDate: ['', Validators.required],
       })
     });
