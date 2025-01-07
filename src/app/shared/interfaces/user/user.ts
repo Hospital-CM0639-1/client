@@ -24,13 +24,8 @@ export interface LoggedUser {
     lastLogin: null | string;
     expiredPassword: boolean; // if true, force user to change password
     token: string; // the JWT Token
-    staffInfo: null | { // only if type == staff
-        role: string;
-        department: null | string;
-        specialization: null | string;
-        hireDate: string;
-        phone: null | string;
-    }
+    staffInfo: null | StaffInfo;
+    patientInfo: null | PatientInfo;
 }
 
 export interface StaffInfo {
