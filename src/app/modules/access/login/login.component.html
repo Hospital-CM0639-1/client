@@ -1,10 +1,65 @@
-<div >
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-        <div>
-            <h1>Login</h1>
+<div class="surface-ground min-h-screen flex align-items-center justify-content-center">
+    <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6 md:w-8">
+      <div class="text-center mb-5">
+        <!-- Optional Logo -->
+        <div class="text-900 text-3xl font-medium mb-3">Welcome</div>
+        <span class="text-600 font-medium">Sign in to continue</span>
+      </div>
+  
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <!-- Username Input -->
+        <div class="mb-5">
+          <span class="p-float-label">
+            <input 
+              id="username" 
+              type="text" 
+              pInputText 
+              formControlName="username" 
+              class="w-full p-3"
+              [ngClass]="{'ng-invalid ng-dirty': loginForm.get('username')?.invalid && loginForm.get('username')?.touched}"
+            />
+            <label for="username" class="text-900">Username</label>
+          </span>
+          <small *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" 
+                 class="p-error block mt-2">
+            Username is required.
+          </small>
         </div>
-        <input placeholder="Username" formControlName="username" />
-        <input type="password" formControlName="password" placeholder="Password" />
-        <button type="submit" [disabled]="!loginForm.valid">Login</button>
-    </form>
-</div>
+  
+        <!-- Password Input -->
+        <div class="mb-5">
+          <span class="p-float-label">
+            <input 
+              id="password" 
+              type="password" 
+              pInputText 
+              formControlName="password"
+              class="w-full p-3"
+              [ngClass]="{'ng-invalid ng-dirty': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}"
+            />
+            <label for="password" class="text-900">Password</label>
+          </span>
+          <small *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" 
+                 class="p-error block mt-2">
+            Password is required.
+          </small>
+        </div>
+  
+        <!-- Login Button -->
+        <button 
+          type="submit" 
+          pButton 
+          pRipple 
+          label="Sign In" 
+          class="w-full p-3"
+          [disabled]="!loginForm.valid || loading"
+        >
+          <ng-container *ngIf="!loading">
+          </ng-container>
+          <ng-container *ngIf="loading">
+            <i class="pi pi-spinner pi-spin mr-2"></i>Signing in...
+          </ng-container>
+        </button>
+      </form>
+    </div>
+  </div>
