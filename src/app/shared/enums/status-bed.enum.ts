@@ -1,4 +1,4 @@
 export enum EStatusBed {
-    UCCUPIED = 'UCCUPIED',
+    OCCUPIED = 'OCCUPIED',
     AVAILABLE = 'AVAILABLE'
 }

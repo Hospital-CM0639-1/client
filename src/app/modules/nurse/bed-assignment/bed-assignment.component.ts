@@ -41,8 +41,8 @@ export class BedAssignmentComponent implements OnInit {
       label: ward, // This will show 'CARDIAC', 'ORTHOPEDIC', 'GENERAL'
       value: ward  // The actual enum value
     }));
-    this.selectStatusBed = EStatusBed.UCCUPIED;
-    this.statusBed = [EStatusBed.UCCUPIED];
+    this.selectStatusBed = EStatusBed.OCCUPIED;
+    this.statusBed = [EStatusBed.OCCUPIED];
     this.getPatientsNeedingBed();
     console.log(this.config.data)
     this.selectWardSection = this.config.data?.wardSection;
