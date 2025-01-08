@@ -41,10 +41,10 @@ export class AddBillingInvoiceComponent implements OnInit {
   saveInvoice(): void {
     const invoice: Invoice = {
       totalAmount: this.amountInvoice,
-      paymentStatus: 'pending',
+      paymentStatus: 'PENDING',
       invoiceTimestamp: new Date().toISOString(),
       paymentReceivedTimestamp: null,
-      paymentReceivedAmount: 0.0,
+      paymentReceived: false,
       emergencyVisit: {
         id: this.emergencyVisit.id,
       },
