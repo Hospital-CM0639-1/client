@@ -5,11 +5,14 @@ import {CardModule} from "primeng/card";
 import {NgForOf, NgIf} from "@angular/common";
 import {PrimeTemplate} from "primeng/api";
 import {TableLazyLoadEvent, TableModule} from "primeng/table";
-import {Column, Patient, WardBed} from "../../../shared/interfaces/interface";
-import { ReceptionService } from '../../../shared/services/reception.service';
+import {Column, Patient} from "../../../shared/interfaces/interface";
+import {ReceptionService, searchFilter} from '../../../shared/services/reception.service';
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {SecretaryDetailComponent} from "../secretary-detail/secretary-detail.component";
-import {SecretaryRegisterComponent} from "../secretary-register/secretary-register.component";
+import {FloatLabelModule} from "primeng/floatlabel";
+import {InputTextModule} from "primeng/inputtext";
+import {PaginatorModule} from "primeng/paginator";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-secretary-dashboard',
@@ -21,7 +24,11 @@ import {SecretaryRegisterComponent} from "../secretary-register/secretary-regist
     NgForOf,
     NgIf,
     PrimeTemplate,
-    TableModule
+    TableModule,
+    FloatLabelModule,
+    InputTextModule,
+    PaginatorModule,
+    ReactiveFormsModule
   ],
   providers: [DialogService],
   templateUrl: './secretary-dashboard.component.html',
@@ -40,6 +47,24 @@ export class SecretaryDashboardComponent implements OnInit {
   navItems = [
     { label: 'Secretary Dashboard', routerLink: '/secretary/dashboard', icon: 'pi pi-home' },
     { label: 'Billing Invoice', routerLink: '/nurse/billing-invoice', icon: 'pi pi-dollar' },
+  ];
+
+  searchById: number | undefined;
+  searchBySurname: string | undefined;
+  searchByPriority: string | undefined;
+  searchByStatus: string | undefined;
+
+  statusOptions = [
+    {label: 'IN_TREATMENT', value: 'IN_TREATMENT'},
+    {label: 'DISCHARGED', value: 'DISCHARGED'},
+    {label: 'WAITING', value: 'WAITING'},
+    {label: 'ADMITTED', value: 'ADMITTED'}
+  ];
+
+  priorityOptions = [
+    {label: 'RED', value: 'RED'},
+    {label: 'ORANGE', value: 'ORANGE'},
+    {label: 'GREEN', value: 'GREEN'}
   ];
 
   constructor(
@@ -67,8 +92,9 @@ export class SecretaryDashboardComponent implements OnInit {
     this.populatePatientTable(this.rows,this.page+1);
   }
 
-  populatePatientTable(size: number = 10, page: number = 1): void {
-    this.receptionService.getAllPatients(size,page).subscribe((data) => {
+  private populatePatientTable(size: number = 10, page: number = 1): void {
+    console.log(this.buildFilter())
+    this.receptionService.getAllPatients(size,page,this.buildFilter()).subscribe((data) => {
         this.patients = data.content;
         this.totalRecords = data.totalElements;
         this.loading = false;
@@ -96,4 +122,16 @@ export class SecretaryDashboardComponent implements OnInit {
     });
   }
 
+  onSearchChange(){
+    this.populatePatientTable();
+  }
+
+  private buildFilter(): searchFilter {
+    return {
+      byId: this.searchById ,
+      bySurname: this.searchBySurname,
+      byPriority: this.searchByPriority,
+      byStatus: this.searchByStatus,
+    };
+  }
 }

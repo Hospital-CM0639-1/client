@@ -23,8 +23,21 @@ export class ReceptionService {
       );
   }
 
-  getAllPatients(number: number, page: number): Observable<PaginatedList<Patient>> {
-    const url = `${this.BASE_PATH_HOSPITAL_PATIENT}/getall?number=${number}&page=${page}`;
+  getAllPatients(number: number, page: number, search: searchFilter): Observable<PaginatedList<Patient>> {
+    let url = `${this.BASE_PATH_HOSPITAL_PATIENT}/getall?number=${number}&page=${page}`;
+
+    if (search.byId) {
+      url = url.concat(`&id=${search.byId}`);
+    }
+    if (search.bySurname) {
+      url =url.concat(`&surname=${search.bySurname}`);
+    }
+    if (search.byPriority){
+      url = url.concat(`&priority=${search.byPriority}`);
+    }
+    if (search.byStatus){
+      url = url.concat(`&status=${search.byStatus}`);
+    }
     return this.apiService
       .get<PaginatedList<Patient>>(url)
       .pipe(
@@ -65,5 +78,11 @@ export class ReceptionService {
         })
       );
   }
+}
 
+export interface searchFilter{
+  byId: number | undefined;
+  bySurname: string| undefined;
+  byStatus: string | undefined;
+  byPriority: string | undefined;
 }
