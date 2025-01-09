@@ -13,6 +13,7 @@ import {FloatLabelModule} from "primeng/floatlabel";
 import {InputTextModule} from "primeng/inputtext";
 import {PaginatorModule} from "primeng/paginator";
 import {ReactiveFormsModule} from "@angular/forms";
+import {TriageComponent} from "../triage/triage.component";
 
 @Component({
   selector: 'app-secretary-dashboard',
@@ -84,7 +85,6 @@ export class SecretaryDashboardComponent implements OnInit {
   }
 
   lazyLoad(event: TableLazyLoadEvent): void {
-    console.log(event)
     if (event.first != null && event.rows != null) {
       this.page = event.first / event.rows; // calculate rows
     }
@@ -93,7 +93,6 @@ export class SecretaryDashboardComponent implements OnInit {
   }
 
   private populatePatientTable(size: number = 10, page: number = 1): void {
-    console.log(this.buildFilter())
     this.receptionService.getAllPatients(size,page,this.buildFilter()).subscribe((data) => {
         this.patients = data.content;
         this.totalRecords = data.totalElements;
@@ -107,8 +106,6 @@ export class SecretaryDashboardComponent implements OnInit {
       data: {patient: data, detail: true}
     });
     this.ref.onClose.subscribe((response) => {
-      console.log(response);
-      console.log("AASASAS")
       if (response) {
         this.populatePatientTable();
       }
@@ -119,6 +116,18 @@ export class SecretaryDashboardComponent implements OnInit {
     this.ref = this.dialogService.open(SecretaryDetailComponent, {
       header: 'Registration',
       data: {detail: false}
+    });
+  }
+
+  updateTriage(data?: Patient) {
+    this.ref = this.dialogService.open(TriageComponent, {
+      header: 'Update Triage',
+      data: {patient: data}
+    });
+    this.ref.onClose.subscribe((response) => {
+      if (response) {
+        this.populatePatientTable();
+      }
     });
   }
 

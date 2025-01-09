@@ -1,0 +1,38 @@
+<div class="flex flex-column gap-4 p-2" style="width: 700px">
+  <p-card>
+    <div class="flex flex-column gap-5">
+      <p-floatLabel>
+        <input [(ngModel)]="patientId" id="patientId" pInputText readonly/>
+        <label for="patientId">Patient ID</label>
+      </p-floatLabel>
+      <p-floatLabel>
+        <input [(ngModel)]="patientName" id="patientName" pInputText readonly/>
+        <label for="patientName">Patient Name</label>
+      </p-floatLabel>
+      <p-floatLabel>
+        <p-dropdown [(ngModel)]="priority" [options]="priorityOptions" [showClear]="true" id="priorityLevel"
+                    optionLabel="label" optionValue="value"/>
+
+        <label for="priorityLevel">Priority Level</label>
+      </p-floatLabel>
+      <p-floatLabel>
+        <p-dropdown [(ngModel)]="status" [options]="statusOptions" [showClear]="true" id="currentStatus"
+                    optionLabel="label"
+                    optionValue="value"/>
+        <label for="currentStatus">Current Status</label>
+      </p-floatLabel>
+      <textarea
+        [(ngModel)]="triageNotes"
+        cols="30"
+        pInputTextarea
+        rows="5">
+</textarea>
+      <p-button
+        (onClick)="onSubmit()"
+        icon="pi pi-check"
+        label="Update"
+        styleClass="w-full"
+        type="submit"/>
+    </div>
+  </p-card>
+</div>

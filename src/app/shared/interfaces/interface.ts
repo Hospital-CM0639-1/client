@@ -123,6 +123,7 @@ export interface Response<T> {
 export interface Patient {
   priorityLevel: string;
   currentStatus: string;
+  triageNotes: string;
   patientId: number;
   firstName: string;
   lastName: string;

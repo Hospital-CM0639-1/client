@@ -1,17 +1,18 @@
-﻿import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
-import { map, Observable } from 'rxjs';
-import {
-  PaginatedList,
-  Patient,
-} from '../interfaces/interface';
+﻿import {Injectable} from '@angular/core';
+import {ApiService} from './api.service';
+import {map, Observable} from 'rxjs';
+import {PaginatedList, Patient,} from '../interfaces/interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReceptionService {
-  constructor(public apiService: ApiService) {}
+  constructor(public apiService: ApiService) {
+  }
+
   private BASE_PATH_HOSPITAL_PATIENT = 'api/v1/reception-service/patient';
+  private BASE_PATH_HOSPITAL_TRIAGE = 'api/v1/reception-service/triage';
+
 
   getPatientInfo(patientId: number): Observable<Patient> {
     return this.apiService
@@ -30,19 +31,18 @@ export class ReceptionService {
       url = url.concat(`&id=${search.byId}`);
     }
     if (search.bySurname) {
-      url =url.concat(`&surname=${search.bySurname}`);
+      url = url.concat(`&surname=${search.bySurname}`);
     }
-    if (search.byPriority){
+    if (search.byPriority) {
       url = url.concat(`&priority=${search.byPriority}`);
     }
-    if (search.byStatus){
+    if (search.byStatus) {
       url = url.concat(`&status=${search.byStatus}`);
     }
     return this.apiService
       .get<PaginatedList<Patient>>(url)
       .pipe(
         map((data) => {
-          console.log(data);
           return data;
         })
       );
@@ -69,7 +69,6 @@ export class ReceptionService {
   }
 
   createPatient(patient: Patient): Observable<Patient> {
-    console.log('Registering patient');
     return this.apiService
       .post<Patient>(`${this.BASE_PATH_HOSPITAL_PATIENT}/create`, patient)
       .pipe(
@@ -78,11 +77,28 @@ export class ReceptionService {
         })
       );
   }
+
+  updateTriage(triage: triageEdit): Observable<Patient> {
+    return this.apiService
+      .post<Patient>(`${this.BASE_PATH_HOSPITAL_TRIAGE}/create`, triage)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
 }
 
-export interface searchFilter{
+export interface searchFilter {
   byId: number | undefined;
-  bySurname: string| undefined;
+  bySurname: string | undefined;
   byStatus: string | undefined;
   byPriority: string | undefined;
+}
+
+export interface triageEdit {
+  patientId: number;
+  status: string | undefined;
+  priorityLevel : string | undefined;
+  triageNotes: string | undefined;
 }

@@ -34,18 +34,6 @@ import {ReceptionService} from "../../../shared/services/reception.service";
 export class SecretaryDetailComponent implements OnInit {
   patientForm: FormGroup;
   detail: boolean = false;
-  priorityOptions = [
-    {label: 'RED', value: 'RED'},
-    {label: 'ORANGE', value: 'ORANGE'},
-    {label: 'GREEN', value: 'GREEN'}
-  ];
-
-  statusOptions = [
-    {label: 'IN_TREATMENT', value: 'IN_TREATMENT'},
-    {label: 'DISCHARGED', value: 'DISCHARGED'},
-    {label: 'WAITING', value: 'WAITING'},
-    {label: 'ADMITTED', value: 'ADMITTED'}
-  ];
 
   genderOptions = [
     {label: 'Male', value: 'Male'},
@@ -60,8 +48,6 @@ export class SecretaryDetailComponent implements OnInit {
     private ref: DynamicDialogRef,
   ) {
     this.patientForm = this.fb.group({
-      priorityLevel: [''],
-      currentStatus: [''],
       patientId: [{value: '', disabled: true}],
       createdAt: [{value: '', disabled: true}],
       firstName: ['', Validators.required],
@@ -82,8 +68,6 @@ export class SecretaryDetailComponent implements OnInit {
     const patient = this.config.data.patient;
     if (patient) {
       this.patientForm.patchValue({
-        priorityLevel: patient.priorityLevel,
-        currentStatus: patient.currentStatus,
         patientId: patient.patientId,
         createdAt: patient.createdAt,
         firstName: patient.firstName,
