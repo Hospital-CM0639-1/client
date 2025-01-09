@@ -119,3 +119,20 @@ export interface EmergencyVisit {
 export interface Response<T> {
   response: T
 }
+
+export interface Patient {
+  priorityLevel: string;
+  currentStatus: string;
+  patientId: number;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  gender: string;
+  contactNumber: string | null;
+  emergencyContactName: string;
+  emergencyContactNumber: string;
+  address: string;
+  email: string;
+  insuranceProvider: string | null;
+  insurancePolicyNumber: string | null;
+}
