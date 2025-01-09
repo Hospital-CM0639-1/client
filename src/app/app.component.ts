@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
+import { AuthUserService } from "./shared/services/user/auth-user.service";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,22 @@ import { ButtonModule } from 'primeng/button';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  title = 'client';
+export class AppComponent implements OnInit {
 
+  constructor(
+      private authUserService: AuthUserService,
+      private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    if (this.authUserService.getToken() === null) {
+      this.router.navigate(['/']);
+    } else {
+      this.authUserService.onLogged().subscribe({
+        next: () => {
+          this.router.navigate([this.authUserService.getFirstRouteAfterAuthentication()]);
+        }
+      });
+    }
+  }
 }

@@ -1,0 +1,23 @@
+<div >
+    <form [formGroup]="userForm" (ngSubmit)="onSaveUser()">
+        <div>
+            @if (userId) {
+                <h1>Edit {{ role }}</h1>
+            } @else {
+                <h1>New {{ role }}</h1>
+            }
+        </div>
+        <input placeholder="First name" formControlName="firstName" />
+        <input placeholder="Last name" formControlName="lastName" />
+        <input placeholder="Email" formControlName="email" />
+        <input placeholder="Username" formControlName="username" />
+
+        <div formGroupName="staffInfo" >
+            <input placeholder="Phone Number" formControlName="phoneNumber" />
+            <input placeholder="Specialization" formControlName="specialization" />
+            <input placeholder="Department" formControlName="department" />
+            <input type="date" formControlName="hireDate">
+        </div>
+        <button type="submit" [disabled]="!userForm.valid">Save</button>
+    </form>
+</div>

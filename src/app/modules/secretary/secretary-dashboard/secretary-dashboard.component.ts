@@ -14,6 +14,8 @@ import {InputTextModule} from "primeng/inputtext";
 import {PaginatorModule} from "primeng/paginator";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TriageComponent} from "../triage/triage.component";
+import { RouterLink, RouterOutlet } from "@angular/router";
+import { LogoutComponent } from "../../../shared/component/logout/logout.component";
 
 @Component({
   selector: 'app-secretary-dashboard',
@@ -29,9 +31,13 @@ import {TriageComponent} from "../triage/triage.component";
     FloatLabelModule,
     InputTextModule,
     PaginatorModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterOutlet,
+    LogoutComponent,
+    RouterLink
   ],
   providers: [DialogService],
+
   templateUrl: './secretary-dashboard.component.html',
   styleUrl: './secretary-dashboard.component.scss'
 })

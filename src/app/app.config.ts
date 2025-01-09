@@ -3,9 +3,26 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { JwtInterceptorService } from "./shared/services/interceptor/jwt-interceptor.service";
+import { ErrorInterceptorService } from "./shared/services/interceptor/error-interceptor.service";
+import { provideAnimations } from "@angular/platform-browser/animations";
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(), provideHttpClient(), provideAnimations()]
+  providers: [
+      provideRouter(routes),
+      provideHttpClient(withInterceptorsFromDi()),
+      {
+        provide:HTTP_INTERCEPTORS,
+        useClass:JwtInterceptorService,
+        multi:true
+      },
+      {
+          provide: HTTP_INTERCEPTORS,
+          useClass: ErrorInterceptorService,
+          multi: true
+      },
+      provideAnimations(),
+      provideClientHydration()
+  , provideHttpClient(), provideAnimations()]
 };

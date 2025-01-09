@@ -1,5 +1,5 @@
 export enum StaffRoleEnums {
-    DOCTOR = 'doctor',
-    NURSE = 'nurse',
-    SECRETARY = 'secretary'
+    DOCTOR = 'DOCTOR',
+    NURSE = 'NURSE',
+    SECRETARY = 'SECRETARY'
 }

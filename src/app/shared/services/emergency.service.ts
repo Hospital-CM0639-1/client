@@ -19,8 +19,10 @@ import { EStatusBed } from '../enums/status-bed.enum';
 export class EmergencyService {
   constructor(public apiService: ApiService) {}
   private BASE_PATH_HOSPITAL_BEDS = 'api/v1/emergency-service/hospital-beds';
-  private BASE_PATH_EMERGENCY_VISIT_STAFF = 'api/v1/emergency-service/emergency-visit-staff';
-  private BASE_PATH_EMERGENCY_VISIT = 'api/v1/emergency-service/emergency-visit';
+  private BASE_PATH_EMERGENCY_VISIT_STAFF =
+    'api/v1/emergency-service/emergency-visit-staff';
+  private BASE_PATH_EMERGENCY_VISIT =
+    'api/v1/emergency-service/emergency-visit';
   private BASE_PATH_INVOICE = 'api/v1/emergency-service/patient-invoices';
 
   getPatientFromEmergencyVisit(
@@ -158,9 +160,7 @@ export class EmergencyService {
 
   getDischargedEmergencyVisits(): Observable<EmergencyVisit[]> {
     return this.apiService
-      .get<EmergencyVisit[]>(
-        `${this.BASE_PATH_EMERGENCY_VISIT}/discharged`
-      )
+      .get<EmergencyVisit[]>(`${this.BASE_PATH_EMERGENCY_VISIT}/discharged`)
       .pipe(
         map((data) => {
           return data;
@@ -168,9 +168,13 @@ export class EmergencyService {
       );
   }
 
-  getTotalInvoiceAmountByVisitId(visitId: number): Observable<Response<number>> {
+  getTotalInvoiceAmountByVisitId(
+    visitId: number
+  ): Observable<Response<number>> {
     return this.apiService
-      .get<Response<number>>(`${this.BASE_PATH_INVOICE}/total-amount/${visitId}`)
+      .get<Response<number>>(
+        `${this.BASE_PATH_INVOICE}/total-amount/${visitId}`
+      )
       .pipe(
         map((data) => {
           return data;
@@ -198,6 +202,16 @@ export class EmergencyService {
       );
   }
 
+  updateInvoice(invoiceId: number, invoice: Invoice): Observable<Invoice> {
+    return this.apiService
+      .put<Invoice>(`${this.BASE_PATH_INVOICE}/${invoiceId}`, invoice)
+      .pipe(
+        map((data) => {
+          return data;
+        })
+      );
+  }
+
   countByCurrentStatusAndWardSection(): Observable<Map<string, number>[]> {
     return this.apiService
       .get<Map<string, number>[]>(
@@ -209,6 +223,4 @@ export class EmergencyService {
         })
       );
   }
-
-  
 }

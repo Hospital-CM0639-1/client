@@ -1,0 +1,15 @@
+<div >
+    <form [formGroup]="userForm" (ngSubmit)="onSaveUser()">
+        <div>
+            @if (userId) {
+                <h1>Edit User</h1>
+            } @else {
+                <h1>New User</h1>
+            }
+        </div>
+        <input placeholder="First name" formControlName="firstName" />
+        <input placeholder="Last name" formControlName="lastName" />
+        <input placeholder="Email" formControlName="email" />
+        <input placeholder="Username" formControlName="username" />
+    </form>
+</div>

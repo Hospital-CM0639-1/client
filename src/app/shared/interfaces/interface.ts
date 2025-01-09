@@ -88,8 +88,8 @@ export interface Invoice {
   totalAmount: number;
   paymentStatus: string;
   invoiceTimestamp: string;
+  paymentReceived: boolean;
   paymentReceivedTimestamp: string | null;
-  paymentReceivedAmount: number;
   emergencyVisit: {
     id: number;
     patient?: {

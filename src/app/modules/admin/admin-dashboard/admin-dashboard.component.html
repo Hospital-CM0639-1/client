@@ -1,0 +1,99 @@
+@if (dashboardData !== undefined) {
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+    <p-card
+        routerLink="/admin/dashboard/admin/list"
+        header="Admin"
+        [style]="{
+            border: '1px solid #ccc',
+            borderRadius: '12px',
+            width: '200px',
+            backgroundColor: '#083d77',
+            color: 'white',
+            textAlign: 'center',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            padding: '5px'
+        }"
+    >
+        <p style="font-size: 24px; font-weight: bold; margin: -20px 0 0 0; padding: -10px">
+            {{ dashboardData.admin }}
+        </p>
+    </p-card>
+    <p-card
+            routerLink="/admin/dashboard/staff/doctor/list"
+            header="Doctors"
+            [style]="{
+            border: '1px solid #ccc',
+            borderRadius: '12px',
+            width: '200px',
+            backgroundColor: 'red',
+            color: 'white',
+            textAlign: 'center',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            padding: '5px'
+        }"
+    >
+        <p style="font-size: 24px; font-weight: bold; margin: -20px 0 0 0; padding: -10px">
+            {{ dashboardData.doctors }}
+        </p>
+    </p-card>
+    <p-card
+        routerLink="/admin/dashboard/staff/nurse/list"
+        header="Nurses"
+        [style]="{
+            border: '1px solid #ccc',
+            borderRadius: '12px',
+            width: '200px',
+            backgroundColor: 'brown',
+            color: 'white',
+            textAlign: 'center',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            padding: '5px'
+        }"
+    >
+        <p style="font-size: 24px; font-weight: bold; margin: -20px 0 0 0; padding: -10px">
+            {{ dashboardData.nurses }}
+        </p>
+    </p-card>
+    <p-card
+        routerLink="/admin/dashboard/staff/secretary/list"
+        header="Secretaries"
+        [style]="{
+            border: '1px solid #ccc',
+            borderRadius: '12px',
+            width: '200px',
+            backgroundColor: 'orange',
+            color: 'white',
+            textAlign: 'center',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            padding: '5px'
+        }"
+    >
+    <p style="font-size: 24px; font-weight: bold; margin: -20px 0 0 0; padding: -10px">
+    {{ dashboardData.secretaries }}
+    </p>
+    </p-card>
+    <p-card
+        routerLink="/admin/dashboard/patient/list"
+        header="Patients"
+        [style]="{
+            border: '1px solid #ccc',
+            borderRadius: '12px',
+            width: '200px',
+            backgroundColor: 'green',
+            color: 'white',
+            textAlign: 'center',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            padding: '5px'
+        }"
+    >
+        <p style="font-size: 24px; font-weight: bold; margin: -20px 0 0 0; padding: -10px">
+            {{ dashboardData.patients }}
+        </p>
+    </p-card>
+    </div>
+}
+
+
+<app-logout />
+
+<router-outlet />

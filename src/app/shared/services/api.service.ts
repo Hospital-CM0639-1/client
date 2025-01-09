@@ -12,7 +12,10 @@ export class ApiService {
   private defaultHeaders: HttpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS'
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+    //'Cache-Control':  'no-cache, no-store, must-revalidate, post-check=0, pre-check=0',
+    //'Pragma': 'no-cache',
+    //'Expires': '0'
   });
 
   constructor(public http: HttpClient) { }
