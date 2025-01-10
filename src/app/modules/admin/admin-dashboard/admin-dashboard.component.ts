@@ -49,19 +49,19 @@ export class AdminDashboardComponent implements OnInit {
   addUser(role: string) {
     switch (role) {
       case 'admin':
-        this.router.navigate(['/admin/dashboard/admin/add']);
+        this.router.navigate(['/admin/dashboard/admin/list']);
         break;
       case 'doctor':
-        this.router.navigate(['/admin/dashboard/staff/doctor/add']);
+        this.router.navigate(['/admin/dashboard/staff/doctor/list']);
         break;
       case 'nurse':
-        this.router.navigate(['/admin/dashboard/staff/nurse/add']);
+        this.router.navigate(['/admin/dashboard/staff/nurse/list']);
         break;
       case 'secretary':
-        this.router.navigate(['/admin/dashboard/staff/secretary/add']);
+        this.router.navigate(['/admin/dashboard/staff/secretary/list']);
         break;
       case 'patient':
-        this.router.navigate(['/admin/dashboard/patient/add']);
+        this.router.navigate(['/admin/dashboard/patient/list']);
         break;
       default:
         console.log('Invalid role');
