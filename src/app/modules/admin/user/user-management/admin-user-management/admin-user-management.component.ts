@@ -6,12 +6,20 @@ import { USERNAME_REGEX } from "../../../../../shared/regexs/user/user-regex";
 import { UserDetailService } from "../../../../../shared/services/user/user-detail.service";
 import { User } from "../../../../../shared/interfaces/user/user";
 import { UserCreateEditService } from "../../../../../shared/services/user/user-create-edit.service";
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin-user-management',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CardModule,
+    InputTextModule,
+    ButtonModule,
+    CommonModule
   ],
   templateUrl: './admin-user-management.component.html',
   styleUrl: './admin-user-management.component.scss'

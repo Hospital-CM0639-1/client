@@ -1,15 +1,90 @@
-<div >
-    <form [formGroup]="userForm" (ngSubmit)="onSaveUser()">
-        <div>
-            @if (userId) {
-                <h1>Edit User</h1>
-            } @else {
-                <h1>New User</h1>
-            }
-        </div>
-        <input placeholder="First name" formControlName="firstName" />
-        <input placeholder="Last name" formControlName="lastName" />
-        <input placeholder="Email" formControlName="email" />
-        <input placeholder="Username" formControlName="username" />
-    </form>
+<div class="surface-ground p-4">
+    <p-card>
+        <ng-template pTemplate="header">
+            <div class="flex align-items-center justify-content-between p-4 bg-primary">
+                <div class="flex align-items-center">
+                    <i class="pi pi-user-edit text-2xl mr-2 text-white"></i>
+                    <span class="text-2xl font-bold text-white">
+                        @if (userId) {
+                            Edit User
+                        } @else {
+                            New User
+                        }
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        
+        <form [formGroup]="userForm" (ngSubmit)="onSaveUser()" class="p-fluid">
+            <div class="grid">
+                <!-- First Name -->
+                <div class="field col-12 md:col-6">
+                    <label for="firstName" class="block text-900 font-medium mb-2">First Name</label>
+                    <span class="p-input-icon-right">
+                        <i class="pi pi-user"></i>
+                        <input id="firstName" type="text" pInputText formControlName="firstName" 
+                            placeholder="Enter first name" class="w-full"/>
+                    </span>
+                    <small class="p-error block" *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched">
+                        First name is required
+                    </small>
+                </div>
+
+                <!-- Last Name -->
+                <div class="field col-12 md:col-6">
+                    <label for="lastName" class="block text-900 font-medium mb-2">Last Name</label>
+                    <span class="p-input-icon-right">
+                        <i class="pi pi-user"></i>
+                        <input id="lastName" type="text" pInputText formControlName="lastName" 
+                            placeholder="Enter last name" class="w-full"/>
+                    </span>
+                    <small class="p-error block" *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched">
+                        Last name is required
+                    </small>
+                </div>
+
+                <!-- Email -->
+                <div class="field col-12 md:col-6">
+                    <label for="email" class="block text-900 font-medium mb-2">Email</label>
+                    <span class="p-input-icon-right">
+                        <i class="pi pi-envelope"></i>
+                        <input id="email" type="email" pInputText formControlName="email" 
+                            placeholder="Enter email address" class="w-full"/>
+                    </span>
+                    <small class="p-error block" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+                        @if (userForm.get('email')?.errors?.['required']) {
+                            Email is required
+                        } @else if (userForm.get('email')?.errors?.['email']) {
+                            Please enter a valid email address
+                        }
+                    </small>
+                </div>
+
+                <!-- Username -->
+                <div class="field col-12 md:col-6">
+                    <label for="username" class="block text-900 font-medium mb-2">Username</label>
+                    <span class="p-input-icon-right">
+                        <i class="pi pi-id-card"></i>
+                        <input id="username" type="text" pInputText formControlName="username" 
+                            placeholder="Enter username" class="w-full"/>
+                    </span>
+                    <small class="p-error block" *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched">
+                        @if (userForm.get('username')?.errors?.['required']) {
+                            Username is required
+                        } @else if (userForm.get('username')?.errors?.['pattern']) {
+                            Username format is invalid
+                        }
+                    </small>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="col-12 flex justify-content-end mt-4">
+                    <p-button type="submit" [disabled]="!userForm.valid" 
+                        [label]="userId ? 'Update' : 'Save'" 
+                        icon="pi pi-save" styleClass="p-button-primary">
+                    </p-button>
+                </div>
+            </div>
+        </form>
+    </p-card>
 </div>
