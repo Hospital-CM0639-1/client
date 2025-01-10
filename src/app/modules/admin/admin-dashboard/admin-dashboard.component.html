@@ -1,99 +1,188 @@
+<app-spinner-loader [visible]="loading"></app-spinner-loader>
+<app-dynamic-navbar></app-dynamic-navbar>
+
 @if (dashboardData !== undefined) {
     <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
-    <p-card
-        routerLink="/admin/dashboard/admin/list"
-        header="Admin"
-        [style]="{
-            border: '1px solid #ccc',
-            borderRadius: '12px',
-            width: '200px',
-            backgroundColor: '#083d77',
-            color: 'white',
-            textAlign: 'center',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            padding: '5px'
-        }"
-    >
-        <p style="font-size: 24px; font-weight: bold; margin: -20px 0 0 0; padding: -10px">
-            {{ dashboardData.admin }}
-        </p>
-    </p-card>
-    <p-card
+        <!-- Admin Card -->
+        <p-card
+            routerLink="/admin/dashboard/admin/list"
+            header="Admin"
+            [style]="{
+                border: '1px solid #ccc',
+                borderRadius: '12px',
+                width: '200px',
+                backgroundColor: '#083d77',
+                color: 'white',
+                textAlign: 'center',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                padding: '5px'
+            }"
+        >
+            <p style="font-size: 24px; font-weight: bold; margin: -20px 0 0 0; padding: -10px">
+                {{ dashboardData.admin }}
+            </p>
+            <!-- PrimeNG Button for Adding Admin -->
+            <button
+                pButton
+                type="button"
+                label="Add Admin"
+                icon="pi pi-plus"
+                class="p-button-rounded mt-2"
+                style="
+                    background-color: rgba(255, 255, 255, 0.2);
+                    color: white;
+                    border: 1px solid white;
+                    font-size: 14px;
+                    padding: 8px 16px;
+                "
+                (click)="addUser('admin')"
+            ></button>
+        </p-card>
+
+        <!-- Doctors Card -->
+        <p-card
             routerLink="/admin/dashboard/staff/doctor/list"
             header="Doctors"
             [style]="{
-            border: '1px solid #ccc',
-            borderRadius: '12px',
-            width: '200px',
-            backgroundColor: 'red',
-            color: 'white',
-            textAlign: 'center',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            padding: '5px'
-        }"
-    >
-        <p style="font-size: 24px; font-weight: bold; margin: -20px 0 0 0; padding: -10px">
-            {{ dashboardData.doctors }}
-        </p>
-    </p-card>
-    <p-card
-        routerLink="/admin/dashboard/staff/nurse/list"
-        header="Nurses"
-        [style]="{
-            border: '1px solid #ccc',
-            borderRadius: '12px',
-            width: '200px',
-            backgroundColor: 'brown',
-            color: 'white',
-            textAlign: 'center',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            padding: '5px'
-        }"
-    >
-        <p style="font-size: 24px; font-weight: bold; margin: -20px 0 0 0; padding: -10px">
-            {{ dashboardData.nurses }}
-        </p>
-    </p-card>
-    <p-card
-        routerLink="/admin/dashboard/staff/secretary/list"
-        header="Secretaries"
-        [style]="{
-            border: '1px solid #ccc',
-            borderRadius: '12px',
-            width: '200px',
-            backgroundColor: 'orange',
-            color: 'white',
-            textAlign: 'center',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            padding: '5px'
-        }"
-    >
-    <p style="font-size: 24px; font-weight: bold; margin: -20px 0 0 0; padding: -10px">
-    {{ dashboardData.secretaries }}
-    </p>
-    </p-card>
-    <p-card
-        routerLink="/admin/dashboard/patient/list"
-        header="Patients"
-        [style]="{
-            border: '1px solid #ccc',
-            borderRadius: '12px',
-            width: '200px',
-            backgroundColor: 'green',
-            color: 'white',
-            textAlign: 'center',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            padding: '5px'
-        }"
-    >
-        <p style="font-size: 24px; font-weight: bold; margin: -20px 0 0 0; padding: -10px">
-            {{ dashboardData.patients }}
-        </p>
-    </p-card>
+                border: '1px solid #ccc',
+                borderRadius: '12px',
+                width: '200px',
+                backgroundColor: 'red',
+                color: 'white',
+                textAlign: 'center',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                padding: '5px'
+            }"
+        >
+            <p style="font-size: 24px; font-weight: bold; margin: -20px 0 0 0; padding: -10px">
+                {{ dashboardData.doctors }}
+            </p>
+            <!-- PrimeNG Button for Adding Doctor -->
+            <button
+                pButton
+                type="button"
+                label="Add Doctor"
+                icon="pi pi-plus"
+                class="p-button-rounded mt-2"
+                style="
+                    background-color: rgba(255, 255, 255, 0.2);
+                    color: white;
+                    border: 1px solid white;
+                    font-size: 14px;
+                    padding: 8px 16px;
+                "
+                (click)="addUser('doctor')"
+            ></button>
+        </p-card>
+
+        <!-- Nurses Card -->
+        <p-card
+            routerLink="/admin/dashboard/staff/nurse/list"
+            header="Nurses"
+            [style]="{
+                border: '1px solid #ccc',
+                borderRadius: '12px',
+                width: '200px',
+                backgroundColor: 'brown',
+                color: 'white',
+                textAlign: 'center',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                padding: '5px'
+            }"
+        >
+            <p style="font-size: 24px; font-weight: bold; margin: -20px 0 0 0; padding: -10px">
+                {{ dashboardData.nurses }}
+            </p>
+            <!-- PrimeNG Button for Adding Nurse -->
+            <button
+                pButton
+                type="button"
+                label="Add Nurse"
+                icon="pi pi-plus"
+                class="p-button-rounded mt-2"
+                style="
+                    background-color: rgba(255, 255, 255, 0.2);
+                    color: white;
+                    border: 1px solid white;
+                    font-size: 14px;
+                    padding: 8px 16px;
+                "
+                (click)="addUser('nurse')"
+            ></button>
+        </p-card>
+
+        <!-- Secretaries Card -->
+        <p-card
+            routerLink="/admin/dashboard/staff/secretary/list"
+            header="Secretaries"
+            [style]="{
+                border: '1px solid #ccc',
+                borderRadius: '12px',
+                width: '200px',
+                backgroundColor: 'orange',
+                color: 'white',
+                textAlign: 'center',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                padding: '5px'
+            }"
+        >
+            <p style="font-size: 24px; font-weight: bold; margin: -20px 0 0 0; padding: -10px">
+                {{ dashboardData.secretaries }}
+            </p>
+            <!-- PrimeNG Button for Adding Secretary -->
+            <button
+                pButton
+                type="button"
+                label="Add Secretary"
+                icon="pi pi-plus"
+                class="p-button-rounded mt-2"
+                style="
+                    background-color: rgba(255, 255, 255, 0.2);
+                    color: white;
+                    border: 1px solid white;
+                    font-size: 14px;
+                    padding: 8px 16px;
+                "
+                (click)="addUser('secretary')"
+            ></button>
+        </p-card>
+
+        <!-- Patients Card -->
+        <p-card
+            routerLink="/admin/dashboard/patient/list"
+            header="Patients"
+            [style]="{
+                border: '1px solid #ccc',
+                borderRadius: '12px',
+                width: '200px',
+                backgroundColor: 'green',
+                color: 'white',
+                textAlign: 'center',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                padding: '5px'
+            }"
+        >
+            <p style="font-size: 24px; font-weight: bold; margin: -20px 0 0 0; padding: -10px">
+                {{ dashboardData.patients }}
+            </p>
+            <!-- PrimeNG Button for Adding Patient -->
+            <button
+                pButton
+                type="button"
+                label="Add Patient"
+                icon="pi pi-plus"
+                class="p-button-rounded mt-2"
+                style="
+                    background-color: rgba(255, 255, 255, 0.2);
+                    color: white;
+                    border: 1px solid white;
+                    font-size: 14px;
+                    padding: 8px 16px;
+                "
+                (click)="addUser('patient')"
+            ></button>
+        </p-card>
     </div>
 }
-
-
-<app-logout />
 
 <router-outlet />

@@ -1,3 +1,5 @@
+<app-spinner-loader [visible]="loading"></app-spinner-loader>
+
 <p-menubar styleClass="w-full p-0 bg-white shadow-2 border-none m-0">
     <ng-template pTemplate="start">
       <div class="flex align-items-center justify-content-start w-full">
@@ -14,7 +16,7 @@
     <ng-template pTemplate="end">
       <div class="flex align-items-center justify-content-end">
         <button pButton type="button" icon="pi pi-user" class="p-button-text p-button-rounded p-button-lg hover:bg-blue-100"></button>
-        <button pButton type="button" icon="pi pi-cog" class="p-button-text p-button-rounded p-button-lg ml-2 hover:bg-blue-100"></button>
+        <button pButton type="button" icon="pi pi-sign-out" class="p-button-text p-button-rounded p-button-lg ml-2 hover:bg-blue-100" (click)="logout()"></button>
       </div>
     </ng-template>
 </p-menubar>

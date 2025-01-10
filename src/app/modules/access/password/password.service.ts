@@ -6,7 +6,7 @@ import { Observable, tap } from "rxjs";
 import { AuthUserService } from "../../../shared/services/user/auth-user.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PasswordService {
 

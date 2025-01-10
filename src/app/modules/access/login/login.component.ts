@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CardModule } from 'primeng/card';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { SpinnerLoaderComponent } from "../../../shared/component/spinner-loader/spinner-loader.component";
 
 @Component({
   standalone: true,
@@ -23,7 +24,8 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     ProgressSpinnerModule,
     CardModule,
     FloatLabelModule,
-  ],
+    SpinnerLoaderComponent
+],
 })
 export class LoginComponent implements OnInit {
   protected loginForm!: FormGroup;

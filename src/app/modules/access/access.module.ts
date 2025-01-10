@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AccessRoutingModule } from './access-routing.module';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     AccessRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    LoginComponent
+    LoginComponent,
+    ButtonModule
   ]
 })
 export class AccessModule { }

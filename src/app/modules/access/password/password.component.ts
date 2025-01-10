@@ -3,15 +3,21 @@ import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModu
 import { ActivatedRoute, Router } from "@angular/router";
 import { PasswordService } from "./password.service";
 import { PASSWORD_REGEX } from "../../../shared/regexs/access/access-regex";
-import { DatePipe } from "@angular/common";
-import { User } from "../../../shared/interfaces/user/user";
+import { PasswordModule } from 'primeng/password';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-password',
   standalone: true,
     imports: [
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ButtonModule,
+        PasswordModule,
+        CardModule,
+        ProgressSpinnerModule
     ],
   templateUrl: './password.component.html',
   styleUrl: './password.component.scss'
@@ -20,6 +26,7 @@ export class PasswordComponent implements OnInit {
     protected passwordForm!: FormGroup;
     @Input() userId : null | string = null;
     redirectTo: string | undefined;
+    loading = false;
 
     constructor(
         private fb: FormBuilder,
@@ -58,17 +65,27 @@ export class PasswordComponent implements OnInit {
     }
 
     onChangePassword() {
+        this.loading = true;
         this.passwordService.onChangePassword(this.passwordForm.value).subscribe({
             next: () => {
+                this.loading = false;
                 this.router.navigate(['/']);
+            },
+            error: () => {
+                this.loading = false;
             }
         });
     }
 
     onChangePasswordToAnotherUser() {
+        this.loading = true;
         this.passwordService.onChangePasswordToAnotherUser(this.passwordForm.value, <string>this.userId).subscribe({
             next: () => {
+                this.loading = false;
                 this.router.navigate([this.redirectTo]);
+            },
+            error: () => {
+                this.loading = false;
             }
         });
     }
