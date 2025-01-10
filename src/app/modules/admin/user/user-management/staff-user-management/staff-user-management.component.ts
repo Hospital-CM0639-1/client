@@ -5,96 +5,169 @@ import { UserDetailService } from "../../../../../shared/services/user/user-deta
 import { UserCreateEditService } from "../../../../../shared/services/user/user-create-edit.service";
 import { USERNAME_REGEX } from "../../../../../shared/regexs/user/user-regex";
 import { User } from "../../../../../shared/interfaces/user/user";
-import { DatePipe } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
 import { DropdownModule } from "primeng/dropdown";
-import { log } from "node:util";
+import { FieldsetModule } from 'primeng/fieldset';
+import { InputTextModule } from 'primeng/inputtext';
+import { CalendarModule } from 'primeng/calendar';
+import { InputMaskModule } from 'primeng/inputmask';
+import { CardModule } from 'primeng/card';
+import { SpinnerLoaderComponent } from "../../../../../shared/component/spinner-loader/spinner-loader.component";
 
 @Component({
   selector: 'app-staff-user-management',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    DropdownModule
-  ],
+    DropdownModule,
+    FieldsetModule,
+    CommonModule,
+    InputTextModule,
+    CalendarModule,
+    InputMaskModule,
+    CardModule,
+    SpinnerLoaderComponent
+],
   templateUrl: './staff-user-management.component.html',
-  styleUrl: './staff-user-management.component.scss'
+  styleUrl: './staff-user-management.component.scss',
+  providers: [DatePipe] // Provide DatePipe for use in the component
 })
 export class StaffUserManagementComponent implements OnInit {
-  @Input() userId: null | string = null;
-  @Input({required: true}) role!: string;
+  @Input() userId: string | null = null;
+  @Input({ required: true }) role!: string;
+  specializationOptions = [
+    { name: 'Cardiology' },
+    { name: 'Neurology' },
+    { name: 'Orthopedics' },
+    { name: 'Pediatrics' },
+    { name: 'Dermatology' },
+    { name: 'Oncology' },
+    { name: 'Radiology' },
+    { name: 'General Surgery' },
+    { name: 'Internal Medicine' },
+    { name: 'Emergency Medicine' }
+  ];
+  
+  departmentOptions = [
+    { name: 'Cardiology Department' },
+    { name: 'Neurology Department' },
+    { name: 'Orthopedics Department' },
+    { name: 'Pediatrics Department' },
+    { name: 'Dermatology Department' },
+    { name: 'Oncology Department' },
+    { name: 'Radiology Department' },
+    { name: 'General Surgery Department' },
+    { name: 'Internal Medicine Department' },
+    { name: 'Emergency Medicine Department' },
+    { name: 'Human Resources' },
+    { name: 'Information Technology' },
+    { name: 'Finance' },
+    { name: 'Marketing' },
+    { name: 'Research and Development' }
+  ];
+  loading = false;
 
   protected userForm!: FormGroup;
 
   constructor(
-      fb: FormBuilder,
-      private router: Router,
-      private route: ActivatedRoute,
-      private userDetailService: UserDetailService,
-      private userCreateEditService: UserCreateEditService
-  ) {
-    this.userForm = fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.email],
-      username: ['', Validators.pattern(USERNAME_REGEX)],
-      type: ['staff', Validators.required],
-      staffInfo: fb.group({
-        role: [this.role, Validators.required],
-        phoneNumber: [''],
-        department: [''],
-        specialization: [''],
-        hireDate: ['', Validators.required],
-      })
-    });
-  }
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private userDetailService: UserDetailService,
+    private userCreateEditService: UserCreateEditService,
+    private datePipe: DatePipe
+  ) {}
 
   ngOnInit(): void {
+    this.initializeForm();
+
     this.route.paramMap.subscribe(params => {
       this.userId = params.get('userId');
-      this.role = <string>params.get('role');
+      this.role = params.get('role') || this.role;
 
-      if (this.userId !== null) {
-        let datePipe = new DatePipe("en-US");
-        this.userDetailService.onGetUserDetail(this.userId).subscribe({
-          next: (user: User) => {
-            this.userForm.patchValue({
-              firstName: user.firstName,
-              lastName: user.lastName,
-              email: user.email,
-              username: user.username,
-              staffInfo: {
-                role: user.staffInfo?.role,
-                phoneNumber: user.staffInfo?.phoneNumber,
-                department: user.staffInfo?.department,
-                specialization: user.staffInfo?.specialization,
-                hireDate: datePipe.transform(user.staffInfo?.hireDate, 'yyyy-MM-dd'),
-              }
-            })
-          }
-        })
-
-        this.userForm.controls['username'].disable({ emitEvent: false });
+      if (this.userId) {
+        this.loadUserDetails(this.userId);
       } else {
         this.userForm.patchValue({
           staffInfo: {
             role: this.role.toUpperCase(),
           }
-        })
+        });
       }
     });
-
-    setInterval(() => console.log(this.userForm.controls), 5000);
   }
 
-  onSaveUser() {
-    let obs = this.userId === null
-        ? this.userCreateEditService.onCreateUser(this.userForm.value)
-        : this.userCreateEditService.onEditUser(this.userId, this.userForm.value);
+  private initializeForm(): void {
+    this.userForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.pattern(USERNAME_REGEX)]],
+      type: ['staff', Validators.required],
+      staffInfo: this.fb.group({
+        role: [this.role, Validators.required],
+        phoneNumber: [''],
+        department: [''],
+        specialization: [''],
+        hireDate: [null, Validators.required],
+      })
+    });
+  }
 
+  private loadUserDetails(userId: string): void {
+    this.loading = true;
+    this.userDetailService.onGetUserDetail(userId).subscribe({
+      next: (user: User) => {
+        this.userForm.patchValue({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          username: user.username,
+          staffInfo: {
+            role: user.staffInfo?.role,
+            phoneNumber: user.staffInfo?.phoneNumber,
+            department: user.staffInfo?.department,
+            specialization: user.staffInfo?.specialization,
+            hireDate: user.staffInfo?.hireDate ? new Date(user.staffInfo.hireDate) : null,
+          }
+        });
+        this.loading = false;
+        // Disable username field after patching value
+        this.userForm.get('username')?.disable({ emitEvent: false });
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error('Failed to load user details:', err);
+      }
+    });
+  }
+
+  onSaveUser(): void {
+    if (this.userForm.invalid) {
+      console.error('Form is invalid');
+      return;
+    }
+    this.loading = true;
+    const userData = this.userForm.getRawValue();
+    
+    // Convert Date to ISO string if it exists
+    if (userData.staffInfo?.hireDate) {
+      userData.staffInfo.hireDate = userData.staffInfo.hireDate.toISOString();
+    }
+  
+    const obs = this.userId
+      ? this.userCreateEditService.onEditUser(this.userId, userData)
+      : this.userCreateEditService.onCreateUser(userData);
+  
     obs.subscribe({
       next: () => {
         this.router.navigate(['/admin/dashboard']);
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Failed to save user:', err);
+        this.loading = false;
       }
-    })
+    });
   }
 }

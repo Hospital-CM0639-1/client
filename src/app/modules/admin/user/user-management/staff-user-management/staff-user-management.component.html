@@ -1,23 +1,136 @@
-<div >
-    <form [formGroup]="userForm" (ngSubmit)="onSaveUser()">
-        <div>
-            @if (userId) {
-                <h1>Edit {{ role }}</h1>
-            } @else {
-                <h1>New {{ role }}</h1>
-            }
-        </div>
-        <input placeholder="First name" formControlName="firstName" />
-        <input placeholder="Last name" formControlName="lastName" />
-        <input placeholder="Email" formControlName="email" />
-        <input placeholder="Username" formControlName="username" />
+<app-spinner-loader [visible]="loading"></app-spinner-loader>
+<div class="surface-ground p-4">
+    <p-card>
+        <ng-template pTemplate="header">
+            <div class="flex align-items-center justify-content-between p-4 bg-primary">
+                <div class="flex align-items-center">
+                    <i class="pi pi-user-edit text-2xl mr-2 text-white"></i>
+                    <span class="text-2xl font-bold text-white">
+                        @if (userId) {
+                            Edit {{ role }}
+                        } @else {
+                            New {{ role }}
+                        }
+                    </span>
+                </div>
+            </div>
+        </ng-template>
 
-        <div formGroupName="staffInfo" >
-            <input placeholder="Phone Number" formControlName="phoneNumber" />
-            <input placeholder="Specialization" formControlName="specialization" />
-            <input placeholder="Department" formControlName="department" />
-            <input type="date" formControlName="hireDate">
-        </div>
-        <button type="submit" [disabled]="!userForm.valid">Save</button>
-    </form>
+        <!-- Form Content -->
+        <form [formGroup]="userForm" (ngSubmit)="onSaveUser()">
+            <!-- Grid Layout for Form Fields -->
+            <div class="grid">
+                <!-- Personal Information Section -->
+                <div class="col-12">
+                    <div class="text-500 font-medium mb-3">Personal Information</div>
+                    <div class="grid formgrid p-fluid">
+                        <div class="field col-12 md:col-6">
+                            <label for="firstName" class="block text-900 font-medium mb-2">First Name</label>
+                            <span class="p-input-icon-right">
+                                <i class="pi pi-user"></i>
+                                <input id="firstName" type="text" pInputText formControlName="firstName" 
+                                    placeholder="First name" class="w-full"/>
+                            </span>
+                            <small class="p-error block" *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched">
+                                First name is required
+                            </small>
+                        </div>
+
+                        <div class="field col-12 md:col-6">
+                            <label for="lastName" class="block text-900 font-medium mb-2">Last Name</label>
+                            <span class="p-input-icon-right">
+                                <i class="pi pi-user"></i>
+                                <input id="lastName" type="text" pInputText formControlName="lastName" 
+                                    placeholder="Last name" class="w-full"/>
+                            </span>
+                            <small class="p-error block" *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched">
+                                Last name is required
+                            </small>
+                        </div>
+
+                        <div class="field col-12 md:col-6">
+                            <label for="email" class="block text-900 font-medium mb-2">Email</label>
+                            <span class="p-input-icon-right">
+                                <i class="pi pi-envelope"></i>
+                                <input id="email" type="email" pInputText formControlName="email" 
+                                    placeholder="Email address" class="w-full"/>
+                            </span>
+                            <small class="p-error block" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+                                Valid email is required
+                            </small>
+                        </div>
+
+                        <div class="field col-12 md:col-6">
+                            <label for="username" class="block text-900 font-medium mb-2">Username</label>
+                            <span class="p-input-icon-right">
+                                <i class="pi pi-id-card"></i>
+                                <input id="username" type="text" pInputText formControlName="username" 
+                                    placeholder="Username" class="w-full"/>
+                            </span>
+                            <small class="p-error block" *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched">
+                                Username is required
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Staff Information Section -->
+                <div class="col-12" formGroupName="staffInfo">
+                    <div class="text-500 font-medium mb-3 mt-4">Staff Information</div>
+                    <div class="grid formgrid p-fluid">
+                        <div class="field col-12 md:col-6">
+                            <label for="phoneNumber" class="block text-900 font-medium mb-2">Phone Number</label>
+                            <p-inputMask id="phoneNumber" formControlName="phoneNumber" 
+                                mask="9999999999" placeholder="Phone Number">
+                            </p-inputMask>
+                            <small class="p-error block" *ngIf="userForm.get('staffInfo.phoneNumber')?.invalid && userForm.get('staffInfo.phoneNumber')?.touched">
+                                Phone number is required
+                            </small>
+                        </div>
+
+                        <div class="field col-12 md:col-6">
+                            <label for="specialization" class="block text-900 font-medium mb-2">Specialization</label>
+                            <p-dropdown id="specialization" formControlName="specialization" 
+                                [options]="specializationOptions" optionLabel="name"  optionValue="name"
+                                placeholder="Select Specialization" [showClear]="true" class="w-full">
+                            </p-dropdown>
+                            <small class="p-error block" *ngIf="userForm.get('staffInfo.specialization')?.invalid && userForm.get('staffInfo.specialization')?.touched">
+                                Specialization is required
+                            </small>
+                        </div>
+
+                        <div class="field col-12 md:col-6">
+                            <label for="department" class="block text-900 font-medium mb-2">Department</label>
+                            <p-dropdown id="department" formControlName="department" 
+                                [options]="departmentOptions" optionLabel="name" optionValue="name"
+                                placeholder="Select Department" [showClear]="true" class="w-full">
+                            </p-dropdown>
+                            <small class="p-error block" *ngIf="userForm.get('staffInfo.department')?.invalid && userForm.get('staffInfo.department')?.touched">
+                                Department is required
+                            </small>
+                        </div>
+
+                        <div class="field col-12 md:col-6">
+                            <label for="hireDate" class="block text-900 font-medium mb-2">Hire Date</label>
+                            <p-calendar id="hireDate" formControlName="hireDate" 
+                                [showIcon]="true" dateFormat="dd/mm/yy" 
+                                placeholder="Select Date" class="w-full">
+                            </p-calendar>
+                            <small class="p-error block" *ngIf="userForm.get('staffInfo.hireDate')?.invalid && userForm.get('staffInfo.hireDate')?.touched">
+                                Hire date is required
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="col-12 flex justify-content-end mt-4">
+                    <p-button type="submit" [disabled]="!userForm.valid" 
+                        [label]="userId ? 'Update' : 'Save'" 
+                        icon="pi pi-save" styleClass="p-button-primary">
+                    </p-button>
+                </div>
+            </div>
+        </form>
+    </p-card>
 </div>

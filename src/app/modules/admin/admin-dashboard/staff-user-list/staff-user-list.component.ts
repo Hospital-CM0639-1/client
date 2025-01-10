@@ -10,6 +10,9 @@ import { ToggleButtonComponent } from "../../../../shared/component/toggle-butto
 import { UserEnableDisableService } from "../../../../shared/services/user/user-enable-disable.service";
 import { SelectButtonModule } from "primeng/selectbutton";
 import { DropdownModule } from "primeng/dropdown";
+import { SpinnerLoaderComponent } from "../../../../shared/component/spinner-loader/spinner-loader.component";
+import { CardModule } from 'primeng/card';
+import { ToolbarModule } from 'primeng/toolbar';
 
 @Component({
   selector: 'app-staff-user-list',
@@ -21,13 +24,16 @@ import { DropdownModule } from "primeng/dropdown";
     ToggleButtonComponent,
     SelectButtonModule,
     DropdownModule,
-    RouterLink
-  ],
+    RouterLink,
+    SpinnerLoaderComponent,
+    CardModule,
+    ToolbarModule
+],
   templateUrl: './staff-user-list.component.html',
   styleUrl: './staff-user-list.component.scss'
 })
 export class StaffUserListComponent implements OnInit {
-
+  public visible = false;
   protected readonly activeChoices = [
     { label: 'All', value: 'all' },
     { label: 'Active', value: 'active' },
@@ -51,17 +57,20 @@ export class StaffUserListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.visible = true;
     this.route.paramMap.subscribe(params => {
       this.role = params.get('role');
       this.filterForm = this.fb.group({
         status: ['all'],
         role: this.role
       });
+      this.visible = false;
       this.onGetUserList();
-    });
+    }, () => {this.visible = false;});
   }
 
   onGetUserList() {
+    this.visible = true;
     this.filter.status = this.filterForm.value.status;
     this.filter.role = this.filterForm.value.role.toUpperCase();
 
@@ -70,7 +79,8 @@ export class StaffUserListComponent implements OnInit {
       .subscribe({
         next: (data: SimpleUser[]) => {
           this.users = data;
-        }
+          this.visible = false;
+        }, error: () => {this.visible = false;}
       });
   }
 
