@@ -1,3 +1,119 @@
 <p-card header="Personal Information">
+  <p-splitter [style]="{ height: '200px' }" styleClass="mb-8">
+    <ng-template pTemplate>
+      <div class="flex items-center justify-center h-full">
+        {{ logged_user?.lastName || "Unknown" }} {{ logged_user?.firstName || "Unknown" }}
+      </div>
+      <div class="flex items-left justify-center h-full">
+        <p>  {{ logged_user?.email || "No email available" }} </p>
+      </div>
+    </ng-template>
+    <ng-template pTemplate>
+      <div class="flex items-center justify-center h-full">
+        Date of birth: {{ logged_user?.patientInfo?.dateOfBirth || "Not available" }}
+      </div>
+      <div class="flex items-center justify-center h-full">
+        Gender: {{ logged_user?.patientInfo?.gender || "Not available" }}
+      </div>
+      <div class="flex items-center justify-center h-full">
+        Contact number: {{ logged_user?.patientInfo?.contactNumber || "Not available" }}
+      </div>
+      <div class="flex items-center justify-center h-full">
+        Emergency contact: {{ logged_user?.patientInfo?.emergencyContactNumber || "Not available" }} {{ logged_user?.patientInfo?.emergencyContactName || "" }}
+      </div>
+      <div class="flex items-center justify-center h-full">
+        Address: {{ logged_user?.patientInfo?.address || "Not available" }}
+      </div>
+      <div class="flex items-center justify-center h-full">
+        Insurance provider: {{ logged_user?.patientInfo?.insuranceProvider || "Not available" }}
+      </div>
+      <div class="flex items-center justify-center h-full">
+        Insurance number: {{ logged_user?.patientInfo?.insurancePolicyNumber || "Not available" }}
+      </div>
+      </ng-template>
+  </p-splitter>
+</p-card>
 
+<p-card header="Medical procedures">
+  <p-table
+    styleClass='p-datatable-sm p-datatable-striped'
+    [value]="procedures"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [scrollable]="true"
+  >
+
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th>Date</th>
+        <th>Procedure</th>
+        <th>Description</th>
+        <th>Cost</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-procedure>
+      <tr>
+        <td>{{ procedure.procedureTimeStamp }}</td>
+        <td>{{ procedure.procedureName }}</td>
+        <td>{{ procedure.description}}</td>
+        <td>{{ procedure.procedureCost }}</td>
+
+        <!--        <td>
+          @if (user.id !== this.authUserService.getLoggedUser()?.id) {
+          <app-toggle-button
+            [active]="user.active"
+            [activeLabel]="'Active'"
+            [notActiveLabel]="'Not active'"
+            (onChangeEvent)="onEnableDisableUser(user.id, $event)"
+          ></app-toggle-button>
+          <button routerLink="/admin/edit-user/{{user.id}}/admin">Edit user</button>
+          <button routerLink="/admin/change-user-password/{{user.id}}">Change password</button>
+          }
+        </td>-->
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+
+<p-card header="Medical History: Vitals">
+  <p-table
+    styleClass='p-datatable-sm p-datatable-striped'
+    [value]="vitals"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [scrollable]="true"
+  >
+
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th>Date</th>
+        <th>Heart rate</th>
+        <th>Blood Pressure</th>
+        <th>Saturation</th>
+        <th>Respiratory rate</th>
+        <th>Body temperature</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-vital>
+      <tr>
+        <td>{{ vital.recordedAt }}</td>
+        <td>{{ vital.heartRate }}</td>
+        <td>{{ vital.bloodPressureSystolic }} / {{ vital.bloodPressureDiastolic }}</td>
+        <td>{{ vital.oxygenSaturation }}</td>
+        <td>{{ vital.respiratoryRate }}</td>
+        <td>{{ vital.bodyTemperature }}°C</td>
+
+        <!--        <td>
+          @if (user.id !== this.authUserService.getLoggedUser()?.id) {
+          <app-toggle-button
+            [active]="user.active"
+            [activeLabel]="'Active'"
+            [notActiveLabel]="'Not active'"
+            (onChangeEvent)="onEnableDisableUser(user.id, $event)"
+          ></app-toggle-button>
+          <button routerLink="/admin/edit-user/{{user.id}}/admin">Edit user</button>
+          <button routerLink="/admin/change-user-password/{{user.id}}">Change password</button>
+          }
+        </td>-->
+      </tr>
+    </ng-template>
+  </p-table>
 </p-card>
