@@ -16,7 +16,9 @@ export class AuthUserService {
 
   constructor(
       private http: HttpClient,
-  ) { }
+  ) {
+      console.log(this.loggedUser, "AuthUserService");
+    }
 
   onLogin(data: LoginRequest): Observable<LoggedUser> {
     return this.http
