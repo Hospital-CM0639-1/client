@@ -1,3 +1,4 @@
+import { DoctorDetailPatientComponent } from './doctor-detail-patient/doctor-detail-patient.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DoctorDashboardComponent } from './doctor-dashboard/doctor-dashboard.component';
@@ -7,6 +8,10 @@ const routes: Routes = [
     path: 'dashboard',
     component: DoctorDashboardComponent,
   },
+  {
+    path: 'detail',
+    component: DoctorDetailPatientComponent
+  }
 ];
 
 @NgModule({
