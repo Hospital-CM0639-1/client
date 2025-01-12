@@ -45,7 +45,7 @@ export class AddPatientVitalComponent implements OnInit {
         ...vitalData,
         staff: { id: this.config.data.idD }, // Replace with actual staff ID
         emergencyVisit: { id: this.config.data.emergencyVisitId }, // Pass the emergency visit ID dynamically
-        recordedAt: new Date(new Date().getTime() + 60 * 60 * 1000).toISOString()
+        recordedAt: new Date(new Date().getTime() + 60 * 60 * 1000).toISOString(),
       };
 
       this.serviceDoctor.addPatientVital(patientVitalDto).subscribe(
