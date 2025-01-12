@@ -3,7 +3,7 @@
   <p-toolbar>
     <div class="p-toolbar-group-left">
       <form [formGroup]="filterForm" (ngSubmit)="onGetUserList()" class="p-fluid">
-        <div class="p-field">
+        <div class="p-field" style="width: 250px;">
           <label for="status">Status</label>
           <p-dropdown
             id="status"
@@ -18,11 +18,11 @@
             styleClass="w-full"
           ></p-dropdown>
         </div>
-        <button type="submit" class="p-button p-button-danger p-button-lg">Search</button>
+        <button type="submit" class="p-button p-button-danger p-button-lg mt-2">Search</button>
       </form>
     </div>
     <div class="p-toolbar-group-right">
-      <button pButton type="button" routerLink="/admin/new-user/staff/{{ role }}" class="p-button p-button-success p-button-lg">Add User</button>
+      <button pButton type="button" routerLink="/admin/new-user/staff/{{ role }}" class="p-button p-button-success p-button-lg" size="large">Add User</button>
     </div>
   </p-toolbar>
   <div class="p-grid">

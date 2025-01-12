@@ -134,6 +134,7 @@ export class SecretaryDashboardComponent implements OnInit {
   }
 
   updateTriage(data?: Patient) {
+    this.loading=true;
     this.ref = this.dialogService.open(TriageComponent, {
       header: 'Update Triage',
       data: {patient: data}
@@ -142,6 +143,9 @@ export class SecretaryDashboardComponent implements OnInit {
       if (response) {
         this.populatePatientTable();
       }
+      this.loading=false;
+    }, ()=>{
+        this.loading=false;
     });
   }
 

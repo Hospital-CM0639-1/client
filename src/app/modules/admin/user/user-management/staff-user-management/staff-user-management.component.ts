@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Location } from '@angular/common';
 import { UserDetailService } from "../../../../../shared/services/user/user-detail.service";
 import { UserCreateEditService } from "../../../../../shared/services/user/user-create-edit.service";
 import { USERNAME_REGEX } from "../../../../../shared/regexs/user/user-regex";
@@ -36,6 +37,7 @@ import { MessageService } from "primeng/api";
   providers: [MessageService, DatePipe] // Provide DatePipe for use in the component
 })
 export class StaffUserManagementComponent implements OnInit {
+
   @Input() userId: string | null = null;
   @Input({ required: true }) role!: string;
   specializationOptions = [
@@ -80,6 +82,7 @@ export class StaffUserManagementComponent implements OnInit {
     private userCreateEditService: UserCreateEditService,
     private datePipe: DatePipe,
     private messageService: MessageService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -175,4 +178,9 @@ export class StaffUserManagementComponent implements OnInit {
       },
     });
   }
+
+  goBack() {
+    this.location.back();
+  }
+
 }

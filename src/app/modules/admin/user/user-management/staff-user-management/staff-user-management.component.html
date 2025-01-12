@@ -123,9 +123,11 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Submit Button -->
-                <div class="col-12 flex justify-content-end mt-4">
+                <div class="col-12 flex justify-content-end mt-4 gap-2">
+                <!-- Revert Button -->
+                    <p-button [label]="'Cancel'" icon="pi pi-delete-left" styleClass="p-button-danger" (click)="goBack()">
+                    </p-button>
+                    <!-- Submit Button -->
                     <p-button type="submit" [disabled]="!userForm.valid" 
                         [label]="userId ? 'Update' : 'Save'" 
                         icon="pi pi-save" styleClass="p-button-primary">
