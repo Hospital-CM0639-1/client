@@ -12,6 +12,7 @@ export class ReceptionService {
 
   private BASE_PATH_HOSPITAL_PATIENT = 'api/v1/service-reception/patient';
   private BASE_PATH_HOSPITAL_TRIAGE = 'api/v1/service-reception/triage';
+  private BASE_PATH_GET_DOCTORS = 'api/v1/service-reception/info';
 
 
   getPatientInfo(patientId: number): Observable<Patient> {
@@ -79,6 +80,7 @@ export class ReceptionService {
   }
 
   updateTriage(triage: triageEdit): Observable<Patient> {
+    console.log(triage);
     return this.apiService
       .post<Patient>(`${this.BASE_PATH_HOSPITAL_TRIAGE}/create`, triage)
       .pipe(
@@ -86,6 +88,14 @@ export class ReceptionService {
           return data;
         })
       );
+  }
+
+  getDoctors(): Observable<DoctorsAssign[]> {
+    return this.apiService
+      .get<DoctorsAssign[]>(`${this.BASE_PATH_GET_DOCTORS}/get_doctors`)
+      .pipe(
+        map((data) => {return data;})
+      )
   }
 }
 
@@ -101,4 +111,11 @@ export interface triageEdit {
   status: string | undefined;
   priorityLevel : string | undefined;
   triageNotes: string | undefined;
+  doctorId: number | undefined;
+}
+
+export interface DoctorsAssign {
+  id: number;
+  name: string;
+  department: string
 }

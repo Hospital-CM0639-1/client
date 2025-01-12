@@ -6,7 +6,7 @@ import {CardModule} from "primeng/card";
 import {Button} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {ReceptionService, triageEdit} from "../../../shared/services/reception.service";
+import {DoctorsAssign, ReceptionService, triageEdit} from "../../../shared/services/reception.service";
 
 @Component({
   selector: 'app-triage',
@@ -29,6 +29,8 @@ export class TriageComponent implements OnInit {
   priority: string | undefined;
   patientId: number = 0;
   patientName: string | undefined;
+  doctors: DoctorsAssign[] | undefined;
+  selectedDoctor: number | undefined;
 
   priorityOptions = [
     {label: 'RED', value: 'RED'},
@@ -58,7 +60,14 @@ export class TriageComponent implements OnInit {
       this.priority = data.priorityLevel;
       this.triageNotes = data.triageNotes
     }
-  }
+    this.receptionService.getDoctors().subscribe(d => {
+      console.log('Doctors:', d);
+      this.doctors = d.map(doctor => ({
+        ...doctor,
+        label: `${doctor.id} - ${doctor.name} - ${doctor.department}`
+      }));
+      console.log('Doctors:', this.doctors);
+    });  }
 
   onSubmit() {
     this.receptionService.updateTriage(this.buildTriage()).subscribe({
@@ -73,11 +82,13 @@ export class TriageComponent implements OnInit {
   }
 
   private buildTriage(): triageEdit {
+    console.log("X",this.selectedDoctor);
     return {
       triageNotes: this.triageNotes,
       priorityLevel: this.priority,
       status: this.status,
-      patientId: this.patientId
+      patientId: this.patientId,
+      doctorId: this.selectedDoctor
     }
   }
 
