@@ -7,6 +7,7 @@ import { PanelModule } from 'primeng/panel';
 import { LoggedUser } from "../../../shared/interfaces/user/user";
 import { MedicalProcedure } from "../../../shared/interfaces/doctor/doctor";
 import { PaginatedList } from "../../../shared/interfaces/interface";
+import { VitalSigns } from "../../../shared/interfaces/interface";
 
 import { PatientDashboardService } from "./patient-dashboard.service";
 import { AuthUserService } from "../../../shared/services/user/auth-user.service";
@@ -26,7 +27,7 @@ import { DynamicNavbarComponent } from "../../shared/dynamic-navbar/dynamic-navb
 export class PatientDashboardComponent implements OnInit {
   protected logged_user!: LoggedUser | null;
   protected procedures!: MedicalProcedure[];
-  vitals!: string[];
+  protected vitals!: VitalSigns[];
   public loading = true;
 
   constructor(
@@ -45,7 +46,12 @@ export class PatientDashboardComponent implements OnInit {
                         .subscribe({
                            next: (response: PaginatedList<MedicalProcedure>) => {
                               this.procedures = response.content;
-                              console.log(this.procedures);
+                            }
+                        });
+                      this.doctorService.getPatientVitals(this.logged_user.patientInfo.id)
+                        .subscribe({
+                           next: (response: PaginatedList<VitalSigns>) => {
+                              this.vitals = response.content;
                             }
                         });
                     }

@@ -76,6 +76,15 @@ export class DoctorService {
       );
   }
 
+ getPatientVitals(patientID: number): Observable<any> {
+    let url = `${this.PATIENT_VITALS_PATH}/patient/${patientID}`;
+    return this.apiService
+      .get<any>(url)
+      .pipe(
+        map((data) => data)
+      );
+  }
+
 
   addPatientVital(patientVitalDto: any): Observable<any> {
     let url = `${this.PATIENT_VITALS_PATH}`;
