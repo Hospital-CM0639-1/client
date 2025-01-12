@@ -115,7 +115,7 @@ export class SecretaryDetailComponent implements OnInit {
 
   onSubmit(): void {
     if (this.patientForm.valid) {
-      const patient = this.patientForm.getRawValue();
+      const patient = this.config.data.patient;
       if (this.detail) {
         this.userDetailService.onGetUserPatientId(patient.patientId).subscribe({
           next: (id: { id: string }) => {
@@ -137,14 +137,6 @@ export class SecretaryDetailComponent implements OnInit {
 
   onRegistration(): void {
     if (this.patientForm.valid) {
-      const formValue = this.patientForm.getRawValue();
-      const patient = {
-        ...formValue,
-      };
-      console.log(patient)
-      delete patient.patientId;
-      delete patient.createdAt;
-
       this.userCreateEditService.onCreateUser(this.patientForm.value).subscribe({
         next: (response) => {
           console.log('Patient created successfully', response);
