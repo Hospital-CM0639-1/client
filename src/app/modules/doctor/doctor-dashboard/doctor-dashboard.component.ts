@@ -34,7 +34,8 @@ import {TransformedData} from "../../../shared/interfaces/doctor/doctor";
     PrimeTemplate,
     RouterOutlet,
     TableModule,
-    LogoutComponent
+    LogoutComponent,
+    DynamicNavbarComponent
   ],
   templateUrl: './doctor-dashboard.component.html',
   styleUrl: './doctor-dashboard.component.scss'
@@ -54,6 +55,7 @@ export class DoctorDashboardComponent implements OnInit{
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
   ) {}
+  navItems = [];
 
   ngOnInit(): void {
     this.cols = [
