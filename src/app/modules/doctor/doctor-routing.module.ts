@@ -5,7 +5,7 @@ import { DoctorDashboardComponent } from './doctor-dashboard/doctor-dashboard.co
 
 const routes: Routes = [
   {
-    path: 'dashboard',
+    path: 'dashboard/:id',
     component: DoctorDashboardComponent,
   },
   {

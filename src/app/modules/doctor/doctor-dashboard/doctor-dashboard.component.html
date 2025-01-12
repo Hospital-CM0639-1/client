@@ -1,1 +1,53 @@
-<p>doctor-dashboard works!</p>
+<app-dynamic-navbar [navItems]="navItems"/>
+<app-logout />
+<router-outlet />
+<p-card header="Assigned patients">
+  <div class="card">
+    <p-table
+      styleClass='p-datatable-sm p-datatable-striped'
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [columns]="cols"
+      [value]="patients"
+      [rows]="rows"
+      [(first)]="first"
+      [totalRecords]="totalRecords"
+      [paginator]="true"
+      [showCurrentPageReport]="true"
+      [lazy]="true"
+      [lazyLoadOnInit]="false"
+      (onLazyLoad)="lazyLoad($event)"
+      [tableStyle]="{ 'min-width': '40rem' }"
+    >
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{ col.header }}
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns">
+            <ng-container *ngIf="col.field === 'name'; else otherFields">
+              {{ rowData['firstName'] }} {{ rowData['lastName'] }}
+            </ng-container>
+            <ng-template #otherFields>
+              {{ rowData[col.field] }}
+            </ng-template>
+          </td>
+          <td>
+          <td>
+            <p-button
+              label="Medical history"
+              icon="pi pi-user-edit"
+              severity="help"
+              class="pl-3"
+              (click)="medicalHistory(rowData)"
+            />
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-card>
