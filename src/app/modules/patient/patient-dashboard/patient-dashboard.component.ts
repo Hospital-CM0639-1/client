@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { SplitterModule } from 'primeng/splitter';
@@ -17,7 +18,7 @@ import { DynamicNavbarComponent } from "../../shared/dynamic-navbar/dynamic-navb
 @Component({
   selector: 'app-patient-dashboard',
   standalone: true,
-  imports: [CardModule, TableModule, SplitterModule, PanelModule, DynamicNavbarComponent],
+  imports: [CommonModule, CardModule, TableModule, SplitterModule, PanelModule, DynamicNavbarComponent],
   templateUrl: './patient-dashboard.component.html',
   styleUrl: './patient-dashboard.component.scss'
 })

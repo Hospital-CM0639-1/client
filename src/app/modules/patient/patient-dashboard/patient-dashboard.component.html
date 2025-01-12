@@ -2,13 +2,13 @@
 <p-card header="Personal Information">
   <div> {{ logged_user?.lastName || "Unknown" }} {{ logged_user?.firstName || "Unknown" }}</div>
   <div> Email: {{ logged_user?.email || "No email available" }}</div>
-  <div> Date of birth: {{ logged_user?.patientInfo?.dateOfBirth || "Not available" }} </div>
+  <div> Date of birth: {{ logged_user?.patientInfo?.dateOfBirth | date:'longDate' || "Not available" }} </div>
   <div> Gender: {{ logged_user?.patientInfo?.gender || "Not available" }} </div>
-  <div> Contact number: {{ logged_user?.patientInfo?.contactNumber || "Not available" }}</div>
-  <div> Emergency contact: {{ logged_user?.patientInfo?.emergencyContactNumber || "Not available" }} {{ logged_user?.patientInfo?.emergencyContactName || "" }}</div>
   <div> Address: {{ logged_user?.patientInfo?.address || "Not available" }}</div>
+  <div> Contact number: {{ logged_user?.patientInfo?.contactNumber || "Not available" }}</div>
   <div> Insurance provider: {{ logged_user?.patientInfo?.insuranceProvider || "Not available" }}</div>
   <div> Insurance number: {{ logged_user?.patientInfo?.insurancePolicyNumber || "Not available" }}</div>
+  <div> Emergency contact: {{ logged_user?.patientInfo?.emergencyContactNumber || "Not available" }} {{ logged_user?.patientInfo?.emergencyContactName || "" }}</div>
 </p-card>
 
 <p-card header="Medical procedures">
@@ -32,7 +32,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-procedure>
       <tr>
-        <td>{{ procedure.procedureTimestamp }}</td>
+        <td>{{ procedure.procedureTimestamp | date:'longDate'}}</td>
         <td>{{ procedure.procedureName }}</td>
         <td>{{ procedure.description}}</td>
         <td>{{ procedure.procedureCost }}</td>
@@ -45,7 +45,10 @@
   <p-table
     styleClass='p-datatable-sm p-datatable-striped'
     [value]="vitals"
+    [rows]="10"
     [tableStyle]="{ 'min-width': '50rem' }"
+    [paginator]="true"
+    [rowsPerPageOptions]="[10, 20, 50]"
     [scrollable]="true"
   >
 
@@ -61,7 +64,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-vital>
       <tr>
-        <td>{{ vital.recordedAt }}</td>
+        <td>{{ vital.recordedAt | date:'longDate'}}</td>
         <td>{{ vital.heartRate }}</td>
         <td>{{ vital.bloodPressureSystolic }} / {{ vital.bloodPressureDiastolic }}</td>
         <td>{{ vital.oxygenSaturation }}</td>
