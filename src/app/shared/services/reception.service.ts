@@ -10,8 +10,8 @@ export class ReceptionService {
   constructor(public apiService: ApiService) {
   }
 
-  private BASE_PATH_HOSPITAL_PATIENT = 'api/v1/reception-service/patient';
-  private BASE_PATH_HOSPITAL_TRIAGE = 'api/v1/reception-service/triage';
+  private BASE_PATH_HOSPITAL_PATIENT = 'api/v1/service-reception/patient';
+  private BASE_PATH_HOSPITAL_TRIAGE = 'api/v1/service-reception/triage';
 
 
   getPatientInfo(patientId: number): Observable<Patient> {

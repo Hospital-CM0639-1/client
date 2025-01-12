@@ -17,3 +17,31 @@ export interface MedicalProcedureStaff {
   id: number;
   }
 
+
+export interface Patient {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+
+export interface EmergencyVisit {
+  id: number;
+  triageNotes: string;
+  priorityLevel: string;
+  patient: Patient;
+}
+
+export interface StaffAssignment {
+  staffRole: string;
+  visitId: number;
+  staffId: number;
+  assignedAt: string;
+  emergencyVisit: EmergencyVisit;
+}
+
+export interface TransformedData {
+  PatientId: number;
+  Name: string;
+  Priority: string;
+  TriageNotes: string;
+}
