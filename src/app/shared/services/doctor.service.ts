@@ -59,7 +59,7 @@ export class DoctorService {
   }
 
   getMedicalProcedureDetails(patientID: number): Observable<any> {
-    let url = `${this.MEDICAL_PROCEDURE_PATH}/patient/${patientID}`;
+    let url = `${this.MEDICAL_PROCEDURE_PATH}/patient/${patientID}?sort=procedureTimestamp,DESC`;
     return this.apiService
       .get<any>(url)
       .pipe(
