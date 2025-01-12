@@ -38,6 +38,7 @@ export interface StaffInfo {
 }
 
 export interface PatientInfo {
+    id: number;
     dateOfBirth: string;
     gender: string; // Male | Female
     contactNumber: string;

@@ -1,45 +1,24 @@
 <app-dynamic-navbar></app-dynamic-navbar>
 <p-card header="Personal Information">
-  <p-splitter [style]="{ height: '200px' }" styleClass="mb-8">
-    <ng-template pTemplate>
-      <div class="flex items-center justify-center h-full">
-        {{ logged_user?.lastName || "Unknown" }} {{ logged_user?.firstName || "Unknown" }}
-      </div>
-      <div class="flex items-left justify-center h-full">
-        <p>  {{ logged_user?.email || "No email available" }} </p>
-      </div>
-    </ng-template>
-    <ng-template pTemplate>
-      <div class="flex items-center justify-center h-full">
-        Date of birth: {{ logged_user?.patientInfo?.dateOfBirth || "Not available" }}
-      </div>
-      <div class="flex items-center justify-center h-full">
-        Gender: {{ logged_user?.patientInfo?.gender || "Not available" }}
-      </div>
-      <div class="flex items-center justify-center h-full">
-        Contact number: {{ logged_user?.patientInfo?.contactNumber || "Not available" }}
-      </div>
-      <div class="flex items-center justify-center h-full">
-        Emergency contact: {{ logged_user?.patientInfo?.emergencyContactNumber || "Not available" }} {{ logged_user?.patientInfo?.emergencyContactName || "" }}
-      </div>
-      <div class="flex items-center justify-center h-full">
-        Address: {{ logged_user?.patientInfo?.address || "Not available" }}
-      </div>
-      <div class="flex items-center justify-center h-full">
-        Insurance provider: {{ logged_user?.patientInfo?.insuranceProvider || "Not available" }}
-      </div>
-      <div class="flex items-center justify-center h-full">
-        Insurance number: {{ logged_user?.patientInfo?.insurancePolicyNumber || "Not available" }}
-      </div>
-      </ng-template>
-  </p-splitter>
+  <div> {{ logged_user?.lastName || "Unknown" }} {{ logged_user?.firstName || "Unknown" }}</div>
+  <div> Email: {{ logged_user?.email || "No email available" }}</div>
+  <div> Date of birth: {{ logged_user?.patientInfo?.dateOfBirth || "Not available" }} </div>
+  <div> Gender: {{ logged_user?.patientInfo?.gender || "Not available" }} </div>
+  <div> Contact number: {{ logged_user?.patientInfo?.contactNumber || "Not available" }}</div>
+  <div> Emergency contact: {{ logged_user?.patientInfo?.emergencyContactNumber || "Not available" }} {{ logged_user?.patientInfo?.emergencyContactName || "" }}</div>
+  <div> Address: {{ logged_user?.patientInfo?.address || "Not available" }}</div>
+  <div> Insurance provider: {{ logged_user?.patientInfo?.insuranceProvider || "Not available" }}</div>
+  <div> Insurance number: {{ logged_user?.patientInfo?.insurancePolicyNumber || "Not available" }}</div>
 </p-card>
 
 <p-card header="Medical procedures">
   <p-table
     styleClass='p-datatable-sm p-datatable-striped'
     [value]="procedures"
+    [rows]="10"
     [tableStyle]="{ 'min-width': '50rem' }"
+    [paginator]="true"
+    [rowsPerPageOptions]="[10, 20, 50]"
     [scrollable]="true"
   >
 
@@ -53,23 +32,10 @@
     </ng-template>
     <ng-template pTemplate="body" let-procedure>
       <tr>
-        <td>{{ procedure.procedureTimeStamp }}</td>
+        <td>{{ procedure.procedureTimestamp }}</td>
         <td>{{ procedure.procedureName }}</td>
         <td>{{ procedure.description}}</td>
         <td>{{ procedure.procedureCost }}</td>
-
-        <!--        <td>
-          @if (user.id !== this.authUserService.getLoggedUser()?.id) {
-          <app-toggle-button
-            [active]="user.active"
-            [activeLabel]="'Active'"
-            [notActiveLabel]="'Not active'"
-            (onChangeEvent)="onEnableDisableUser(user.id, $event)"
-          ></app-toggle-button>
-          <button routerLink="/admin/edit-user/{{user.id}}/admin">Edit user</button>
-          <button routerLink="/admin/change-user-password/{{user.id}}">Change password</button>
-          }
-        </td>-->
       </tr>
     </ng-template>
   </p-table>

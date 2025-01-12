@@ -16,10 +16,12 @@ export class DoctorService {
 
   constructor(public apiService: ApiService) {}
 
-  getMedicalProceduresByPatient(patientID: number): Observable<MedicalProcedure[]>{
+  getMedicalProceduresByPatient(
+    patientID: number
+  ): Observable<any>{
     let url = `${this.MEDICAL_PROCEDURE_PATH}/patient/${patientID}`;
     return this.apiService
-      .get<MedicalProcedure[]>(url)
+      .get<any>(url)
       .pipe(
         map( (data) => { return data; } )
       );
@@ -73,6 +75,7 @@ export class DoctorService {
         map((data) => data)
       );
   }
+
 
   addPatientVital(patientVitalDto: any): Observable<any> {
     let url = `${this.PATIENT_VITALS_PATH}`;

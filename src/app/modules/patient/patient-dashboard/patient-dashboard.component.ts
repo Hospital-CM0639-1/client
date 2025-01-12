@@ -6,6 +6,7 @@ import { PanelModule } from 'primeng/panel';
 
 import { LoggedUser } from "../../../shared/interfaces/user/user";
 import { MedicalProcedure } from "../../../shared/interfaces/doctor/doctor";
+import { PaginatedList } from "../../../shared/interfaces/interface";
 
 import { PatientDashboardService } from "./patient-dashboard.service";
 import { AuthUserService } from "../../../shared/services/user/auth-user.service";
@@ -39,12 +40,15 @@ export class PatientDashboardComponent implements OnInit {
     this.authUserService.onLogged().subscribe({
                   next: (response: LoggedUser) => {
                     this.logged_user = response;
-                    this.doctorService.getMedicalProceduresByPatient(this.logged_user.id)
-                      .subscribe({
-                          next: (response: MedicalProcedure[]) => {
-                              this.procedures = response;
+                    if(this.logged_user.patientInfo != null){
+                      this.doctorService.getMedicalProceduresByPatient(this.logged_user.patientInfo.id)
+                        .subscribe({
+                           next: (response: PaginatedList<MedicalProcedure>) => {
+                              this.procedures = response.content;
+                              console.log(this.procedures);
                             }
-                        })
+                        });
+                    }
                   }
                 });
 

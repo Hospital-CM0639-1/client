@@ -15,6 +15,8 @@ export interface MedicalProcedureEmergencyVisit{
 
 export interface MedicalProcedureStaff {
   id: number;
+  firstName: string;
+  lastName: string;
   }
 
 
