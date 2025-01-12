@@ -1,0 +1,38 @@
+<form [formGroup]="procedureForm" (ngSubmit)="saveProcedure()">
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-12 p-md-6">
+      <label for="procedureName">Procedure Name</label>
+      <input pInputText id="procedureName" formControlName="procedureName" />
+    </div>
+
+    <div class="p-field p-col-12">
+      <label for="description">Description</label>
+      <textarea
+        pInputTextarea
+        id="description"
+        formControlName="description"
+      ></textarea>
+    </div>
+
+    <div class="p-field p-col-12 p-md-6">
+      <label for="procedureCost">Procedure Cost</label>
+      <input pInputText type="number" id="procedureCost" formControlName="procedureCost" />
+    </div>
+
+    <div class="p-d-flex p-jc-end">
+      <button
+        pButton
+        type="submit"
+        label="Save"
+        [disabled]="!procedureForm.valid"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Cancel"
+        class="p-ml-2"
+        (click)="closeDialog()"
+      ></button>
+    </div>
+  </div>
+</form>
