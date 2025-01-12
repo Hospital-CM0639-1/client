@@ -1,0 +1,45 @@
+
+    <form [formGroup]="vitalForm" (ngSubmit)="saveVital()">
+      <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-12 p-md-6">
+          <label for="bodyTemperature">Body Temperature</label>
+          <input pInputText type="number" id="bodyTemperature" formControlName="bodyTemperature" />
+        </div>
+  
+        <div class="p-field p-col-12 p-md-6">
+          <label for="bloodPressureSystolic">Blood Pressure (Systolic)</label>
+          <input pInputText type="number" id="bloodPressureSystolic" formControlName="bloodPressureSystolic" />
+        </div>
+  
+        <div class="p-field p-col-12 p-md-6">
+          <label for="bloodPressureDiastolic">Blood Pressure (Diastolic)</label>
+          <input pInputText type="number" id="bloodPressureDiastolic" formControlName="bloodPressureDiastolic" />
+        </div>
+  
+        <div class="p-field p-col-12 p-md-6">
+          <label for="heartRate">Heart Rate</label>
+          <input pInputText type="number" id="heartRate" formControlName="heartRate" />
+        </div>
+  
+        <div class="p-field p-col-12 p-md-6">
+          <label for="respiratoryRate">Respiratory Rate</label>
+          <input pInputText type="number" id="respiratoryRate" formControlName="respiratoryRate" />
+        </div>
+  
+        <div class="p-field p-col-12 p-md-6">
+          <label for="oxygenSaturation">Oxygen Saturation</label>
+          <input pInputText type="number" id="oxygenSaturation" formControlName="oxygenSaturation" />
+        </div>
+  
+        <div class="p-field p-col-12">
+          <label for="additionalObservations">Additional Observations</label>
+          <textarea pInputText id="additionalObservations" formControlName="additionalObservations"></textarea>
+        </div>
+  
+        <div class="p-d-flex p-jc-end">
+          <button pButton type="submit" label="Save" [disabled]="!vitalForm.valid"></button>
+          <button pButton type="button" label="Cancel" class="p-ml-2" (click)="closeDialog()"></button>
+        </div>
+      </div>
+    </form>
+  
