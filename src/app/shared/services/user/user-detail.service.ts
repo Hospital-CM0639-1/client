@@ -16,4 +16,8 @@ export class UserDetailService {
   onGetUserDetail(userId: string): Observable<User> {
     return this.http.get<User>(apiManagementService + 'user/' + userId);
   }
+
+  onGetUserPatientId(patientId: string): Observable<any> {
+    return this.http.get<User>(apiManagementService + 'user/' + patientId + '/patient-id');
+  }
 }

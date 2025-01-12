@@ -8,10 +8,11 @@ import {InputTextModule} from "primeng/inputtext";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CalendarModule} from "primeng/calendar";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {NgIf} from "@angular/common";
-import {Patient} from "../../../shared/interfaces/interface";
-import {ReceptionService} from "../../../shared/services/reception.service";
-
+import { DatePipe, NgIf } from "@angular/common";
+import { USERNAME_REGEX } from "../../../shared/regexs/user/user-regex";
+import { User } from "../../../shared/interfaces/user/user";
+import { UserDetailService } from "../../../shared/services/user/user-detail.service";
+import { UserCreateEditService } from "../../../shared/services/user/user-create-edit.service";
 
 @Component({
   selector: 'app-secretary-detail',
@@ -42,46 +43,64 @@ export class SecretaryDetailComponent implements OnInit {
   ];
 
   constructor(
-    private fb: FormBuilder,
+    fb: FormBuilder,
     public config: DynamicDialogConfig,
-    private receptionService: ReceptionService,
     private ref: DynamicDialogRef,
+    private userDetailService: UserDetailService,
+    private userCreateEditService: UserCreateEditService
   ) {
-    this.patientForm = this.fb.group({
-      patientId: [{value: '', disabled: true}],
-      createdAt: [{value: '', disabled: true}],
+    this.patientForm = fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      dateOfBirth: ['', Validators.required],
-      gender: ['', Validators.required],
-      contactNumber: ['', Validators.required],
-      emergencyContactName: ['', Validators.required],
-      emergencyContactNumber: ['', Validators.required],
-      address: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      insuranceProvider: [''],
-      insurancePolicyNumber: ['']
+      email: ['', Validators.email],
+      username: ['', Validators.pattern(USERNAME_REGEX)],
+      type: ['patient', Validators.required],
+      patientInfo: fb.group({
+        dateOfBirth: ['', Validators.required],
+        gender: ['', Validators.required],
+        contactNumber: ['', Validators.required],
+        emergencyContactName: ['', Validators.required],
+        emergencyContactNumber: ['', Validators.required],
+        address: ['', Validators.required],
+        insuranceProvider: ['', Validators.required],
+        insurancePolicyNumber: ['', Validators.required],
+      }),
     });
   }
 
   ngOnInit(): void {
     const patient = this.config.data.patient;
     if (patient) {
-      this.patientForm.patchValue({
-        patientId: patient.patientId,
-        createdAt: patient.createdAt,
-        firstName: patient.firstName,
-        lastName: patient.lastName,
-        dateOfBirth: patient.dateOfBirth,
-        gender: patient.gender,
-        contactNumber: patient.contactNumber,
-        emergencyContactName: patient.emergencyContactName,
-        emergencyContactNumber: patient.emergencyContactNumber,
-        address: patient.address,
-        email: patient.email,
-        insuranceProvider: patient.insuranceProvider,
-        insurancePolicyNumber: patient.insurancePolicyNumber
-      });
+      this.userDetailService.onGetUserPatientId(patient.patientId).subscribe({
+        next: (id: { id: string }) => {
+          this.userDetailService.onGetUserDetail(id.id).subscribe({
+            next: (user: User) => {
+              let datePipe = new DatePipe("en-US");
+
+              this.patientForm.patchValue({
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                username: user.username,
+                patientInfo: {
+                  dateOfBirth: datePipe.transform(user.patientInfo?.dateOfBirth, 'yyyy-MM-dd'),
+                  gender: user.patientInfo?.gender,
+                  contactNumber: user.patientInfo?.contactNumber,
+                  emergencyContactName: user.patientInfo?.emergencyContactName,
+                  emergencyContactNumber: user.patientInfo?.emergencyContactNumber,
+                  address: user.patientInfo?.address,
+                  insuranceProvider: user.patientInfo?.insuranceProvider,
+                  insurancePolicyNumber: user.patientInfo?.insurancePolicyNumber,
+                },
+              });
+
+              this.patientForm.controls['username'].disable({ emitEvent: false });
+
+            }
+          })
+        }
+      })
+
     }
     this.detail = this.config.data.detail;
   }
@@ -90,15 +109,19 @@ export class SecretaryDetailComponent implements OnInit {
     if (this.patientForm.valid) {
       const patient = this.patientForm.getRawValue();
       if (this.detail) {
-        this.receptionService.updatePatient(patient).subscribe({
-          next: (response) => {
-            console.log('Patient edited successfully', response);
-            this.ref.close(true);
-          },
-          error: (err) => {
-            console.error('Error updating patient:', err);
+        this.userDetailService.onGetUserPatientId(patient.patientId).subscribe({
+          next: (id: { id: string }) => {
+            this.userCreateEditService.onEditUser(id.id, this.patientForm.value).subscribe({
+              next: (response) => {
+                console.log('Patient edited successfully', response);
+                this.ref.close(true);
+              },
+              error: (err) => {
+                console.error('Error updating patient:', err);
+              }
+            })
           }
-        });
+        })
       }
     }
   }
@@ -114,7 +137,7 @@ export class SecretaryDetailComponent implements OnInit {
       delete patient.patientId;
       delete patient.createdAt;
 
-      this.receptionService.createPatient(patient).subscribe({
+      this.userCreateEditService.onCreateUser(this.patientForm.value).subscribe({
         next: (response) => {
           console.log('Patient created successfully', response);
           this.ref.close(true);
