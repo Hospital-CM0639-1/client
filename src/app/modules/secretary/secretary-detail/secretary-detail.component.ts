@@ -132,7 +132,6 @@ export class SecretaryDetailComponent implements OnInit {
       const formValue = this.patientForm.getRawValue();
       const patient = {
         ...formValue,
-        dateOfBirth: new Date(formValue.dateOfBirth).toISOString().split('T')[0]
       };
       delete patient.patientId;
       delete patient.createdAt;
