@@ -44,6 +44,7 @@
             <th>Surname</th>
             <th>Email</th>
             <th>Username</th>
+            <th>Actions</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-user>
@@ -52,6 +53,13 @@
             <td>{{ user.lastName }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.username }}</td>
+            <td>
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    @if (this.authUserService.getType() === UserTypeEnums.ADMIN) {
+                        <button pButton type="button" routerLink="/admin/change-user-password/{{ user.id }}" class="p-button p-button-warning ml-2">Change Password</button>
+                    }
+                </div>
+            </td>
         </tr>
     </ng-template>
 </p-table>
