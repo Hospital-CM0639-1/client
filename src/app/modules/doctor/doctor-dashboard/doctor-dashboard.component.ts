@@ -9,7 +9,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {LogoutComponent} from "../../../shared/component/logout/logout.component";
 import {NgForOf, NgIf} from "@angular/common";
 import {PrimeTemplate} from "primeng/api";
-import {ActivatedRoute, RouterLink, RouterOutlet} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink, RouterOutlet} from "@angular/router";
 import {TableLazyLoadEvent, TableModule} from "primeng/table";
 import {Column, Patient} from "../../../shared/interfaces/interface";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
@@ -48,12 +48,14 @@ export class DoctorDashboardComponent implements OnInit{
   loading = false; // spinner used for loading data of table
   totalRecords!: number; // total rows
   patients!: TransformedData[] // data of table
+  doctorId!: number;
   // ref: DynamicDialogRef | undefined;
 
   constructor(
     private doctorService: DoctorService,
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
+    private router: Router
   ) {}
   navItems = [];
 
@@ -66,17 +68,9 @@ export class DoctorDashboardComponent implements OnInit{
     ];
     this.route.paramMap.subscribe(params => {
       this.populatePatientTable(+params.get('id')!);
+      this.doctorId = +params.get('id')!
     });
   }
-
-  lazyLoad(event: TableLazyLoadEvent): void {
-    if (event.first != null && event.rows != null) {
-      this.page = event.first / event.rows; // calculate rows
-    }
-
-    this.route.paramMap.subscribe(params => {
-      this.populatePatientTable(+params.get('id')!);
-    });  }
 
   private populatePatientTable(doctorId: number = 0): void {
     this.doctorService.getAssignedPatientsByDoctor(doctorId).subscribe((data) => {
@@ -88,6 +82,7 @@ export class DoctorDashboardComponent implements OnInit{
 
   medicalHistory(data?: TransformedData) {
     console.log(data?.PatientId)
+    this.router.navigate([`/doctor/dashboard`, this.doctorId, 'detail', data?.PatientId]);
     // this.ref = this.dialogService.open(SecretaryDetailComponent, {
     //   header: 'Detail',
     //   data: {patient: data, detail: true}

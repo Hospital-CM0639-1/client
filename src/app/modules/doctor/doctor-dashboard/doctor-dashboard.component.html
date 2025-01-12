@@ -1,5 +1,4 @@
 <app-dynamic-navbar [navItems]="navItems"/>
-<app-logout />
 <router-outlet />
 <p-card header="Assigned patients">
   <div class="card">
@@ -8,14 +7,10 @@
       [tableStyle]="{ 'min-width': '50rem' }"
       [columns]="cols"
       [value]="patients"
-      [rows]="rows"
-      [(first)]="first"
-      [totalRecords]="totalRecords"
-      [paginator]="true"
+      [paginator]="true" 
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10, 20]" 
       [showCurrentPageReport]="true"
-      [lazy]="true"
-      [lazyLoadOnInit]="false"
-      (onLazyLoad)="lazyLoad($event)"
       [tableStyle]="{ 'min-width': '40rem' }"
     >
       <ng-template pTemplate="header" let-columns>
