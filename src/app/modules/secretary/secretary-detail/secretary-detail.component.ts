@@ -124,6 +124,7 @@ export class SecretaryDetailComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.loading=true;
     if (this.patientForm.valid) {
       const patient = this.config.data.patient;
       if (this.detail) {
@@ -131,10 +132,12 @@ export class SecretaryDetailComponent implements OnInit {
           next: (id: { id: string }) => {
             this.userCreateEditService.onEditUser(id.id, this.patientForm.value).subscribe({
               next: (response) => {
+                this.loading=false;
                 console.log('Patient edited successfully', response);
                 this.ref.close(true);
               },
               error: (r) => {
+                this.loading=false;
                 console.log(r);
                 this.messageService.add({ severity: 'error', summary: r.error?.error, detail: '' });
                 this.loading = false; // Hide loader on error
