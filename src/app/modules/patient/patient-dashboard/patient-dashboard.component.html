@@ -1,4 +1,5 @@
 <app-dynamic-navbar></app-dynamic-navbar>
+<app-spinner-loader [visible]="loading"></app-spinner-loader>
 <p-card header="Personal Information">
   <div> {{ logged_user?.lastName || "Unknown" }} {{ logged_user?.firstName || "Unknown" }}</div>
   <div> Email: {{ logged_user?.email || "No email available" }}</div>

@@ -14,11 +14,12 @@ import { PatientDashboardService } from "./patient-dashboard.service";
 import { AuthUserService } from "../../../shared/services/user/auth-user.service";
 import { DoctorService } from "../../../shared/services/doctor.service";
 import { DynamicNavbarComponent } from "../../shared/dynamic-navbar/dynamic-navbar.component";
+import { SpinnerLoaderComponent } from "../../../shared/component/spinner-loader/spinner-loader.component";
 
 @Component({
   selector: 'app-patient-dashboard',
   standalone: true,
-  imports: [CommonModule, CardModule, TableModule, SplitterModule, PanelModule, DynamicNavbarComponent],
+  imports: [CommonModule, CardModule, TableModule, SplitterModule, PanelModule, DynamicNavbarComponent, SpinnerLoaderComponent],
   templateUrl: './patient-dashboard.component.html',
   styleUrl: './patient-dashboard.component.scss'
 })
@@ -47,12 +48,20 @@ export class PatientDashboardComponent implements OnInit {
                         .subscribe({
                            next: (response: PaginatedList<MedicalProcedure>) => {
                               this.procedures = response.content;
+                              this.loading = false;
+                            },
+                            error: () => {
+                              this.loading = false;
                             }
                         });
+                      this.loading = true;
                       this.doctorService.getPatientVitals(this.logged_user.patientInfo.id)
                         .subscribe({
                            next: (response: PaginatedList<VitalSigns>) => {
                               this.vitals = response.content;
+                              this.loading = false;
+                            }, error: () => {
+                              this.loading = false;
                             }
                         });
                     }
