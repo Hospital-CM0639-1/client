@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  angular-app:
+    image: node:18-alpine # Lightweight Node.js
+    container_name: angular-app
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - "4200:4200"
+    networks:
+      - net_storage
+    environment:
+      - TZ=Europe/Rome
+    command: >
+      sh -c "
+        npm install &&
+        npm start -- --host 0.0.0.0"
+
+networks:
+  net_storage:
+    name: net_storage
+    external: true

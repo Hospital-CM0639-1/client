@@ -8,6 +8,8 @@ import { EmergencyVisit, Invoice } from '../../../shared/interfaces/interface';
 import { FormsModule } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SpinnerLoaderComponent } from "../../../shared/component/spinner-loader/spinner-loader.component";
+import { AuthUserService } from '../../../shared/services/user/auth-user.service';
+import { LoggedUser } from '../../../shared/interfaces/user/user';
 
 @Component({
   selector: 'app-add-billing-invoice',
@@ -21,12 +23,14 @@ export class AddBillingInvoiceComponent implements OnInit {
   emergencyVisits!: EmergencyVisit[];
   emergencyVisit!: EmergencyVisit;
   amountInvoice!: number;
+  loggedUser!: LoggedUser;
 
   protected loading: boolean = false;
-  constructor(private emergencyService: EmergencyService, private ref: DynamicDialogRef) {}
+  constructor(private emergencyService: EmergencyService, private ref: DynamicDialogRef, private authUserService: AuthUserService,) {}
 
   ngOnInit(): void {
       this.getDischargedEmergencyVisits();
+      this.loggedUser = this.authUserService.getLoggedUser() as LoggedUser;
   }
 
   getDischargedEmergencyVisits(): void {
@@ -47,14 +51,14 @@ export class AddBillingInvoiceComponent implements OnInit {
     const invoice: Invoice = {
       totalAmount: this.amountInvoice,
       paymentStatus: 'PENDING',
-      invoiceTimestamp: new Date().toISOString(),
+      invoiceTimestamp: new Date(new Date().getTime() + 60 * 60 * 1000).toISOString(),
       paymentReceivedTimestamp: null,
       paymentReceived: false,
       emergencyVisit: {
         id: this.emergencyVisit.id,
       },
       createdByStaff: {
-        id: 5
+        id: this.loggedUser.staffInfo?.id as number
       }
     };
 

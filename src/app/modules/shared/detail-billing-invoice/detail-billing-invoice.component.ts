@@ -39,7 +39,7 @@ export class DetailBillingInvoiceComponent implements OnInit, OnDestroy {
   updatePaymentReceivedAmount() {
     if (this.invoice) {
       this.invoice.paymentStatus = 'COMPLETED'
-      this.invoice.paymentReceivedTimestamp = new Date().toISOString();
+      this.invoice.paymentReceivedTimestamp = new Date(new Date().getTime() + 60 * 60 * 1000).toISOString();
       this.emergencyService.updateInvoice(this.invoice.id as number, this.invoice).subscribe(
         (updatedInvoice) => {
           this.invoice = updatedInvoice;

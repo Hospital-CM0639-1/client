@@ -22,7 +22,7 @@
           label="Create Invoice"
           icon="pi pi-check"
           styleClass="w-full"
-          [disabled]="!amountInvoice"
+          [disabled]="amountInvoice == null"
           (click)="saveInvoice()" />
 
       </div>
