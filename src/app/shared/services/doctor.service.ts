@@ -12,6 +12,7 @@ export class DoctorService {
   private MEDICAL_PROCEDURE_PATH = `${this.BASE_PATH}/medical-procedures`;
   private PATIENT_VITALS_PATH = `${this.BASE_PATH}/patient-vitals`;
   private EMERGENCY_VISIT_STAFF = `${this.BASE_PATH}/emergency-visit-staff`;
+  private PATIENT = `${this.BASE_PATH}/patients`;
 
   constructor(public apiService: ApiService) {}
 
@@ -43,6 +44,60 @@ export class DoctorService {
             TriageNotes: item.emergencyVisit.triageNotes
           }));
         } )
+      );
+  }
+
+  getEmergencyInfoByPatient(patientID: number): Observable<any> {
+    let url = `${this.PATIENT}/${patientID}/emergency-info`;
+    return this.apiService
+      .get<any>(url)
+      .pipe(
+        map((data) => data)
+      );
+  }
+
+  getMedicalProcedureDetails(patientID: number): Observable<any> {
+    let url = `${this.MEDICAL_PROCEDURE_PATH}/patient/${patientID}`;
+    return this.apiService
+      .get<any>(url)
+      .pipe(
+        map((data) => data)
+      );
+  }
+
+  getPatientVitalsByDoctor(doctorID: number): Observable<any> {
+    let url = `${this.PATIENT_VITALS_PATH}/patient/${doctorID}?sort=recordedAt,desc`;
+    return this.apiService
+      .get<any>(url)
+      .pipe(
+        map((data) => data)
+      );
+  }
+
+  addPatientVital(patientVitalDto: any): Observable<any> {
+    let url = `${this.PATIENT_VITALS_PATH}`;
+    return this.apiService
+      .post<any>(url, patientVitalDto)
+      .pipe(
+        map((data) => data)
+      );
+  }
+
+  getEmergencyVisitIdByPatientId(patientID: number): Observable<number> {
+    let url = `${this.PATIENT}/${patientID}/emergency-visit-id`;
+    return this.apiService
+      .get<{ response: number }>(url)
+      .pipe(
+        map((response) => response.response)
+      );
+  }
+
+  saveMedicalProcedure(medicalProcedureDto: any): Observable<any> {
+    let url = `${this.MEDICAL_PROCEDURE_PATH}`;
+    return this.apiService
+      .post<any>(url, medicalProcedureDto)
+      .pipe(
+        map((data) => data)
       );
   }
 }

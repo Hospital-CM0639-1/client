@@ -9,7 +9,7 @@ const routes: Routes = [
     component: DoctorDashboardComponent,
   },
   {
-    path: 'detail',
+    path: 'dashboard/:idD/detail/:idP',
     component: DoctorDetailPatientComponent
   }
 ];

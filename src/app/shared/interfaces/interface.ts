@@ -137,3 +137,47 @@ export interface Patient {
   insuranceProvider: string | null;
   insurancePolicyNumber: string | null;
 }
+
+export interface PatientAdmission {
+  admissionTimestamp: string;
+  firstName: string;
+  lastName: string;
+  patientId: number;
+  patientStatus: string;
+  priorityLevel: string;
+  triageNotes: string;
+}
+
+export interface MedicalProcedure {
+  id: number;
+  procedureName: string;
+  procedureTimestamp: string;
+  description: string;
+  procedureCost: number;
+  emergencyVisit: {
+    id: number;
+  };
+  staff: {
+    id: number;
+    firstName: string;
+    lastName: string;
+  };
+}
+
+export interface VitalSigns {
+  id: number;
+  recordedAt: string;
+  bodyTemperature: number;
+  bloodPressureSystolic: number;
+  bloodPressureDiastolic: number;
+  heartRate: number;
+  respiratoryRate: number;
+  oxygenSaturation: number;
+  additionalObservations: string;
+  staff: {
+    id: number;
+  };
+  emergencyVisit: {
+    id: number;
+  };
+}

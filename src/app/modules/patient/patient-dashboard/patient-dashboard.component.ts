@@ -10,11 +10,12 @@ import { MedicalProcedure } from "../../../shared/interfaces/doctor/doctor";
 import { PatientDashboardService } from "./patient-dashboard.service";
 import { AuthUserService } from "../../../shared/services/user/auth-user.service";
 import { DoctorService } from "../../../shared/services/doctor.service";
+import { DynamicNavbarComponent } from "../../shared/dynamic-navbar/dynamic-navbar.component";
 
 @Component({
   selector: 'app-patient-dashboard',
   standalone: true,
-  imports: [CardModule, TableModule, SplitterModule, PanelModule],
+  imports: [CardModule, TableModule, SplitterModule, PanelModule, DynamicNavbarComponent],
   templateUrl: './patient-dashboard.component.html',
   styleUrl: './patient-dashboard.component.scss'
 })
