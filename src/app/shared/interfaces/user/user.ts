@@ -29,6 +29,7 @@ export interface LoggedUser {
 }
 
 export interface StaffInfo {
+    id: number;
     role: string;
     department: null | string;
     specialization: null | string;

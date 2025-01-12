@@ -79,7 +79,7 @@ export class AuthUserService {
           route = '/admin/dashboard';
         } else if (UserTypeEnums.STAFF === loggedUser.type) {
           if (StaffRoleEnums.DOCTOR === loggedUser.staffInfo?.role) {
-            route = '/doctor/dashboard';
+            route = '/doctor/dashboard/' + loggedUser.staffInfo?.id  ;
           } else if (StaffRoleEnums.NURSE === loggedUser.staffInfo?.role) {
             route = '/nurse/dashboard';
           } else if (StaffRoleEnums.SECRETARY === loggedUser.staffInfo?.role) {
