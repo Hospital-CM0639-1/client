@@ -109,6 +109,8 @@ export class SecretaryDetailComponent implements OnInit {
         }
       })
 
+    } else {
+      this.loading = false;
     }
     this.detail = this.config.data.detail;
   }
