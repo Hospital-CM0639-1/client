@@ -21,6 +21,11 @@
                     optionValue="value"/>
         <label for="currentStatus">Current Status</label>
       </p-floatLabel>
+      <p-floatLabel>
+        <p-dropdown [(ngModel)]="selectedDoctor" [options]="doctors" [showClear]="true" id="doctor"
+                    optionLabel="label" optionValue="id"/>
+        <label for="doctor">Assign Doctor</label>
+      </p-floatLabel>
       <textarea
         [(ngModel)]="triageNotes"
         cols="30"
