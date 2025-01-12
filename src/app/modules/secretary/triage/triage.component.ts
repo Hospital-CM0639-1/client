@@ -7,6 +7,7 @@ import {Button} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {DoctorsAssign, ReceptionService, triageEdit} from "../../../shared/services/reception.service";
+import { SpinnerLoaderComponent } from "../../../shared/component/spinner-loader/spinner-loader.component";
 
 @Component({
   selector: 'app-triage',
@@ -18,7 +19,8 @@ import {DoctorsAssign, ReceptionService, triageEdit} from "../../../shared/servi
     ReactiveFormsModule,
     CardModule,
     Button,
-    InputTextModule
+    InputTextModule,
+    SpinnerLoaderComponent
   ],
   templateUrl: './triage.component.html',
   styleUrl: './triage.component.scss'
@@ -45,6 +47,8 @@ export class TriageComponent implements OnInit {
     {label: 'ADMITTED', value: 'ADMITTED'}
   ];
 
+  protected loading: boolean = false;
+
   constructor(
     public config: DynamicDialogConfig,
     private receptionService: ReceptionService,
@@ -52,6 +56,7 @@ export class TriageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loading = true;
     const data = this.config.data.patient;
     if (data) {
       this.patientId = data.patientId;
@@ -66,16 +71,20 @@ export class TriageComponent implements OnInit {
         ...doctor,
         label: `${doctor.id} - ${doctor.name} - ${doctor.department}`
       }));
+      this.loading = false;
       console.log('Doctors:', this.doctors);
     });  }
 
   onSubmit() {
+    this.loading = true;
     this.receptionService.updateTriage(this.buildTriage()).subscribe({
       next: (response) => {
+        this.loading = false;
         console.log('Patient edited successfully', response);
         this.ref.close(true);
       },
       error: (err) => {
+        this.loading = false;
         console.error('Error updating patient:', err);
       }
     });

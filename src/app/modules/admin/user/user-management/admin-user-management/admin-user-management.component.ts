@@ -10,6 +10,9 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
+import { SpinnerLoaderComponent } from "../../../../../shared/component/spinner-loader/spinner-loader.component";
+import { ToastModule } from "primeng/toast";
+import { MessageService } from "primeng/api";
 
 @Component({
   selector: 'app-admin-user-management',
@@ -19,8 +22,11 @@ import { CommonModule } from '@angular/common';
     CardModule,
     InputTextModule,
     ButtonModule,
-    CommonModule
+    CommonModule,
+    SpinnerLoaderComponent,
+    ToastModule
   ],
+  providers: [MessageService],
   templateUrl: './admin-user-management.component.html',
   styleUrl: './admin-user-management.component.scss'
 })
@@ -29,13 +35,15 @@ export class AdminUserManagementComponent implements OnInit {
   @Input() userId: null | string = null;
 
   protected userForm!: FormGroup;
+  protected loading: boolean = false;
 
   constructor(
               fb: FormBuilder,
       private router: Router,
       private route: ActivatedRoute,
       private userDetailService: UserDetailService,
-      private userCreateEditService: UserCreateEditService
+      private userCreateEditService: UserCreateEditService,
+      private messageService: MessageService,
   ) {
     this.userForm = fb.group({
       firstName: ['', Validators.required],
@@ -51,6 +59,7 @@ export class AdminUserManagementComponent implements OnInit {
       this.userId = params.get('userId');
 
       if (this.userId !== null) {
+        this.loading = true;
         this.userDetailService.onGetUserDetail(this.userId).subscribe({
           next: (user: User) => {
             this.userForm.patchValue({
@@ -58,8 +67,13 @@ export class AdminUserManagementComponent implements OnInit {
               lastName: user.lastName,
               email: user.email,
               username: user.username,
-            })
-          }
+            });
+            this.loading = false;
+          },
+          error: (r) => {
+            this.messageService.add({ severity: 'error', summary: r.message, detail: '' });
+            this.loading = false; // Hide loader on error
+          },
         })
 
         this.userForm.controls['username'].disable({ emitEvent: false });
@@ -68,14 +82,21 @@ export class AdminUserManagementComponent implements OnInit {
   }
 
   onSaveUser() {
+    this.loading = true;
     let obs = this.userId === null
         ? this.userCreateEditService.onCreateUser(this.userForm.value)
         : this.userCreateEditService.onEditUser(this.userId, this.userForm.value);
 
     obs.subscribe({
       next: () => {
+        this.loading = false;
         this.router.navigate(['/admin/dashboard/admin/list']);
-      }
+      },
+      error: (r) => {
+        console.log(r);
+        this.messageService.add({ severity: 'error', summary: r.error?.error, detail: '' });
+        this.loading = false; // Hide loader on error
+      },
     })
   }
 }

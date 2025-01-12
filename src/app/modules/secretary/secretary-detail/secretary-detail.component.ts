@@ -14,6 +14,8 @@ import { User } from "../../../shared/interfaces/user/user";
 import { UserDetailService } from "../../../shared/services/user/user-detail.service";
 import { UserCreateEditService } from "../../../shared/services/user/user-create-edit.service";
 import { SpinnerLoaderComponent } from "../../../shared/component/spinner-loader/spinner-loader.component";
+import { ToastModule } from "primeng/toast";
+import { MessageService } from "primeng/api";
 
 @Component({
   selector: 'app-secretary-detail',
@@ -28,10 +30,12 @@ import { SpinnerLoaderComponent } from "../../../shared/component/spinner-loader
     ReactiveFormsModule,
     CalendarModule,
     NgIf,
-    SpinnerLoaderComponent
-],
+    SpinnerLoaderComponent,
+    ToastModule
+  ],
   templateUrl: './secretary-detail.component.html',
   styleUrl: './secretary-detail.component.scss',
+  providers: [MessageService]
 })
 
 export class SecretaryDetailComponent implements OnInit {
@@ -50,7 +54,8 @@ export class SecretaryDetailComponent implements OnInit {
     public config: DynamicDialogConfig,
     private ref: DynamicDialogRef,
     private userDetailService: UserDetailService,
-    private userCreateEditService: UserCreateEditService
+    private userCreateEditService: UserCreateEditService,
+    private messageService: MessageService,
   ) {
     this.patientForm = fb.group({
       firstName: ['', Validators.required],
@@ -100,9 +105,12 @@ export class SecretaryDetailComponent implements OnInit {
               this.loading = false;
               this.patientForm.controls['username'].disable({ emitEvent: false });
 
-            }, error: () => {
-              this.loading = false;
-            }
+            },
+            error: (r) => {
+              console.log(r);
+              this.messageService.add({ severity: 'error', summary: r.error?.error, detail: '' });
+              this.loading = false; // Hide loader on error
+            },
           })
         }, error: () => {
           this.loading = false;
@@ -126,9 +134,11 @@ export class SecretaryDetailComponent implements OnInit {
                 console.log('Patient edited successfully', response);
                 this.ref.close(true);
               },
-              error: (err) => {
-                console.error('Error updating patient:', err);
-              }
+              error: (r) => {
+                console.log(r);
+                this.messageService.add({ severity: 'error', summary: r.error?.error, detail: '' });
+                this.loading = false; // Hide loader on error
+              },
             })
           }
         })
@@ -144,9 +154,11 @@ export class SecretaryDetailComponent implements OnInit {
           console.log('Patient created successfully', response);
           this.ref.close(true);
         },
-        error: (err) => {
-          console.error('Error creating patient:', err);
-        }
+        error: (r) => {
+          console.log(r);
+          this.messageService.add({ severity: 'error', summary: r.error?.error, detail: '' });
+          this.loading = false; // Hide loader on error
+        },
       });
     }
   }

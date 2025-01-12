@@ -14,6 +14,7 @@ import { EmergencyService } from '../../../shared/services/emergency.service';
 import { DynamicNavbarComponent } from '../dynamic-navbar/dynamic-navbar.component';
 import { AddBillingInvoiceComponent } from '../add-billing-invoice/add-billing-invoice.component';
 import { DetailBillingInvoiceComponent } from '../detail-billing-invoice/detail-billing-invoice.component';
+import { SpinnerLoaderComponent } from "../../../shared/component/spinner-loader/spinner-loader.component";
 
 @Component({
   selector: 'app-billing-invoice',
@@ -26,6 +27,7 @@ import { DetailBillingInvoiceComponent } from '../detail-billing-invoice/detail-
     DynamicDialogModule,
     MenubarModule,
     DynamicNavbarComponent,
+    SpinnerLoaderComponent,
   ],
   providers: [DialogService],
   templateUrl: './billing-invoice.component.html',

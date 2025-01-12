@@ -7,6 +7,8 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ToastModule } from "primeng/toast";
+import { MessageService } from "primeng/api";
 
 @Component({
   selector: 'app-password',
@@ -17,8 +19,10 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
         ButtonModule,
         PasswordModule,
         CardModule,
-        ProgressSpinnerModule
+        ProgressSpinnerModule,
+        ToastModule
     ],
+    providers: [MessageService],
   templateUrl: './password.component.html',
   styleUrl: './password.component.scss'
 })
@@ -33,6 +37,7 @@ export class PasswordComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private passwordService: PasswordService,
+        private messageService: MessageService,
     ) {
 
         this.redirectTo = this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
@@ -71,9 +76,10 @@ export class PasswordComponent implements OnInit {
                 this.loading = false;
                 this.router.navigate(['/']);
             },
-            error: () => {
-                this.loading = false;
-            }
+            error: (r) => {
+                this.messageService.add({ severity: 'error', summary: r.error?.error, detail: '' });
+                this.loading = false; // Hide loader on error
+            },
         });
     }
 
@@ -84,9 +90,10 @@ export class PasswordComponent implements OnInit {
                 this.loading = false;
                 this.router.navigate([this.redirectTo]);
             },
-            error: () => {
-                this.loading = false;
-            }
+            error: (r) => {
+                this.messageService.add({ severity: 'error', summary: r.error?.error, detail: '' });
+                this.loading = false; // Hide loader on error
+            },
         });
     }
 

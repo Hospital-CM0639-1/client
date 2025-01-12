@@ -13,6 +13,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { InputMaskModule } from 'primeng/inputmask';
 import { CardModule } from 'primeng/card';
 import { SpinnerLoaderComponent } from "../../../../../shared/component/spinner-loader/spinner-loader.component";
+import { ToastModule } from "primeng/toast";
+import { MessageService } from "primeng/api";
 
 @Component({
   selector: 'app-staff-user-management',
@@ -26,11 +28,12 @@ import { SpinnerLoaderComponent } from "../../../../../shared/component/spinner-
     CalendarModule,
     InputMaskModule,
     CardModule,
-    SpinnerLoaderComponent
-],
+    SpinnerLoaderComponent,
+    ToastModule
+  ],
   templateUrl: './staff-user-management.component.html',
   styleUrl: './staff-user-management.component.scss',
-  providers: [DatePipe] // Provide DatePipe for use in the component
+  providers: [MessageService, DatePipe] // Provide DatePipe for use in the component
 })
 export class StaffUserManagementComponent implements OnInit {
   @Input() userId: string | null = null;
@@ -75,7 +78,8 @@ export class StaffUserManagementComponent implements OnInit {
     private route: ActivatedRoute,
     private userDetailService: UserDetailService,
     private userCreateEditService: UserCreateEditService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private messageService: MessageService,
   ) {}
 
   ngOnInit(): void {
@@ -164,10 +168,11 @@ export class StaffUserManagementComponent implements OnInit {
         this.router.navigate(['/admin/dashboard/staff/' + this.role.toLowerCase() + '/list']);
         this.loading = false;
       },
-      error: (err) => {
-        console.error('Failed to save user:', err);
-        this.loading = false;
-      }
+      error: (r) => {
+        console.log(r);
+        this.messageService.add({ severity: 'error', summary: r.error?.error, detail: '' });
+        this.loading = false; // Hide loader on error
+      },
     });
   }
 }
