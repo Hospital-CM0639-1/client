@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {DynamicNavbarComponent} from "../../shared/dynamic-navbar/dynamic-navbar.component";
 import {Button} from "primeng/button";
 import {CardModule} from "primeng/card";
-import {NgForOf, NgIf} from "@angular/common";
+import { DatePipe, NgForOf, NgIf } from "@angular/common";
 import {PrimeTemplate} from "primeng/api";
 import {TableLazyLoadEvent, TableModule} from "primeng/table";
 import {Column, Patient} from "../../../shared/interfaces/interface";
@@ -14,9 +14,12 @@ import {InputTextModule} from "primeng/inputtext";
 import {PaginatorModule} from "primeng/paginator";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TriageComponent} from "../triage/triage.component";
-import { RouterLink, RouterOutlet } from "@angular/router";
+import { Router, RouterLink, RouterOutlet } from "@angular/router";
 import { LogoutComponent } from "../../../shared/component/logout/logout.component";
 import { SpinnerLoaderComponent } from "../../../shared/component/spinner-loader/spinner-loader.component";
+import { PasswordComponent } from "../../access/password/password.component";
+import { UserDetailService } from "../../../shared/services/user/user-detail.service";
+import { User } from "../../../shared/interfaces/user/user";
 
 @Component({
   selector: 'app-secretary-dashboard',
@@ -79,6 +82,8 @@ export class SecretaryDashboardComponent implements OnInit {
   constructor(
     private receptionService: ReceptionService,
     private dialogService: DialogService,
+    private userDetailService: UserDetailService,
+    private router: Router,
     private cd: ChangeDetectorRef,
   ) {}
 
@@ -138,6 +143,14 @@ export class SecretaryDashboardComponent implements OnInit {
         this.populatePatientTable();
       }
     });
+  }
+
+  changePassword(data: Patient) {
+    this.userDetailService.onGetUserPatientId('' + data.patientId).subscribe({
+      next: (id: { id: string }) => {
+        this.router.navigate(['secretary/change-password/' + id.id]);
+      }
+    })
   }
 
   onSearchChange(){

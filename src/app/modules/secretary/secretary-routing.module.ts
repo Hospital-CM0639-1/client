@@ -13,6 +13,7 @@ import {
 import {
   StaffUserManagementComponent
 } from "../admin/user/user-management/staff-user-management/staff-user-management.component";
+import { PasswordComponent } from "../access/password/password.component";
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
         component: PatientUserListComponent,
       }
     ],
+  },
+  {
+    path: 'change-password/:userId',
+    component: PasswordComponent,
   },
   {
     path: 'new-user',
