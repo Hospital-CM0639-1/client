@@ -43,11 +43,6 @@ export class BillingInvoiceComponent implements OnInit {
   ref: DynamicDialogRef | undefined;
   navItems = [
     {
-      label: 'Nurse Dashboard',
-      routerLink: '/nurse/dashboard',
-      icon: 'pi pi-home',
-    },
-    {
       label: 'Billing Invoice',
       routerLink: '/nurse/billing-invoice',
       icon: 'pi pi-dollar',

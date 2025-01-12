@@ -9,12 +9,16 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CardModule } from 'primeng/card';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { SpinnerLoaderComponent } from "../../../shared/component/spinner-loader/spinner-loader.component";
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { PasswordModule } from 'primeng/password';
 
 @Component({
   standalone: true,
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
+  providers: [MessageService],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -24,6 +28,8 @@ import { SpinnerLoaderComponent } from "../../../shared/component/spinner-loader
     ProgressSpinnerModule,
     CardModule,
     FloatLabelModule,
+    ToastModule,
+    PasswordModule,
     SpinnerLoaderComponent
 ],
 })
@@ -35,6 +41,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authUserService: AuthUserService,
+    private messageService: MessageService,
   ) {}
 
   ngOnInit(): void {
@@ -56,6 +63,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate([this.authUserService.getFirstRouteAfterAuthentication()]);
       },
       error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Access Denied', detail: '' });
         this.loading = false; // Hide loader on error
       },
       complete: () => {

@@ -13,6 +13,7 @@ import { USERNAME_REGEX } from "../../../shared/regexs/user/user-regex";
 import { User } from "../../../shared/interfaces/user/user";
 import { UserDetailService } from "../../../shared/services/user/user-detail.service";
 import { UserCreateEditService } from "../../../shared/services/user/user-create-edit.service";
+import { SpinnerLoaderComponent } from "../../../shared/component/spinner-loader/spinner-loader.component";
 
 @Component({
   selector: 'app-secretary-detail',
@@ -26,8 +27,9 @@ import { UserCreateEditService } from "../../../shared/services/user/user-create
     FormsModule,
     ReactiveFormsModule,
     CalendarModule,
-    NgIf
-  ],
+    NgIf,
+    SpinnerLoaderComponent
+],
   templateUrl: './secretary-detail.component.html',
   styleUrl: './secretary-detail.component.scss',
 })
@@ -35,6 +37,7 @@ import { UserCreateEditService } from "../../../shared/services/user/user-create
 export class SecretaryDetailComponent implements OnInit {
   patientForm: FormGroup;
   detail: boolean = false;
+  loading = false;
 
   genderOptions = [
     {label: 'Male', value: 'Male'},
@@ -69,6 +72,7 @@ export class SecretaryDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
     const patient = this.config.data.patient;
     if (patient) {
       this.userDetailService.onGetUserPatientId(patient.patientId).subscribe({
@@ -93,11 +97,15 @@ export class SecretaryDetailComponent implements OnInit {
                   insurancePolicyNumber: user.patientInfo?.insurancePolicyNumber,
                 },
               });
-
+              this.loading = false;
               this.patientForm.controls['username'].disable({ emitEvent: false });
 
+            }, error: () => {
+              this.loading = false;
             }
           })
+        }, error: () => {
+          this.loading = false;
         }
       })
 
@@ -133,6 +141,7 @@ export class SecretaryDetailComponent implements OnInit {
       const patient = {
         ...formValue,
       };
+      console.log(patient)
       delete patient.patientId;
       delete patient.createdAt;
 

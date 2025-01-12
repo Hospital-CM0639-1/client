@@ -16,6 +16,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {TriageComponent} from "../triage/triage.component";
 import { RouterLink, RouterOutlet } from "@angular/router";
 import { LogoutComponent } from "../../../shared/component/logout/logout.component";
+import { SpinnerLoaderComponent } from "../../../shared/component/spinner-loader/spinner-loader.component";
 
 @Component({
   selector: 'app-secretary-dashboard',
@@ -34,8 +35,9 @@ import { LogoutComponent } from "../../../shared/component/logout/logout.compone
     ReactiveFormsModule,
     RouterOutlet,
     LogoutComponent,
-    RouterLink
-  ],
+    RouterLink,
+    SpinnerLoaderComponent
+],
   providers: [DialogService],
 
   templateUrl: './secretary-dashboard.component.html',
@@ -99,6 +101,7 @@ export class SecretaryDashboardComponent implements OnInit {
   }
 
   private populatePatientTable(size: number = 10, page: number = 1): void {
+    this.loading = true;
     this.receptionService.getAllPatients(size,page,this.buildFilter()).subscribe((data) => {
         this.patients = data.content;
         this.totalRecords = data.totalElements;

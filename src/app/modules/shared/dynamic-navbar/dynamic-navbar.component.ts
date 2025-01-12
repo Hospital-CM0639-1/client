@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { AuthUserService } from '../../../shared/services/user/auth-user.service';
@@ -9,8 +9,9 @@ import { SpinnerLoaderComponent } from "../../../shared/component/spinner-loader
 
 export interface NavItem {
   label: string; // Display text for the link
-  routerLink: string; // Router link for navigation
+  routerLink?: string; // Router link for navigation
   icon?: string; // Optional icon class (e.g., PrimeIcons)
+  command?: () => void;
 }
 
 @Component({
