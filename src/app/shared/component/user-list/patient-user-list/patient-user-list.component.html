@@ -1,26 +1,35 @@
-<div class="card flex justify-content-center">
-    <label>Filter list</label>
-    <form [formGroup]="filterForm" (ngSubmit)="onGetUserList()">
-        <p-dropdown
-                formControlName="status"
-                optionLabel="label"
-                placeholder="Select Item"
-                name="status"
-                optionValue="value"
-                [options]="activeChoices"
-                [virtualScroll]="true"
-                [virtualScrollItemSize]="38"
-                [style]="{ width: '15rem' }"
-        />
-        <br />
-        <p-button label="Search" icon="pi pi-check" [loading]="loading" (onClick)="onGetUserList()" />
-    </form>
-</div>
-@if (this.authUserService.getType() === UserTypeEnums.ADMIN) {
-    <button routerLink="/{{this.authUserService.getType()}}/new-user/patient">Add user</button>
-} @else {
-    <button routerLink="/{{this.authUserService.getRole()?.toLowerCase()}}/new-user/patient">Add user</button>
-}
+<app-spinner-loader [visible]="visible"></app-spinner-loader>
+<p-card class="p-shadow-4">
+    <p-toolbar>
+        <div class="p-toolbar-group-left">
+            <form [formGroup]="filterForm" (ngSubmit)="onGetUserList()" class="p-fluid">
+                <div class="p-field">
+                    <label for="status">Status</label>
+                    <p-dropdown
+                            id="status"
+                            formControlName="status"
+                            optionLabel="label"
+                            placeholder="Select Item"
+                            name="status"
+                            optionValue="value"
+                            [options]="activeChoices"
+                            [virtualScroll]="true"
+                            [virtualScrollItemSize]="38"
+                            styleClass="w-full"
+                    ></p-dropdown>
+                </div>
+                <button type="submit" class="p-button p-button-danger p-button-lg">Search</button>
+            </form>
+        </div>
+        <div class="p-toolbar-group-right">
+            @if (this.authUserService.getType() === UserTypeEnums.ADMIN) {
+                <button pButton type="button" routerLink="/{{this.authUserService.getType()}}/new-user/patient" class="p-button p-button-success p-button-lg">Add user</button>
+            } @else {
+                <button pButton type="button" routerLink="/{{this.authUserService.getRole()?.toLowerCase()}}/new-user/patient" class="p-button p-button-success p-button-lg">Add user</button>
+            }
+        </div>
+    </p-toolbar>
+
 <p-table
         styleClass='p-datatable-sm p-datatable-striped'
         [value]="users"

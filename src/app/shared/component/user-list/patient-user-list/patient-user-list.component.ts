@@ -10,6 +10,9 @@ import { UserListFilter } from "../../../interfaces/user/user-list-filter";
 import { SimpleUser } from "../../../interfaces/user/user";
 import { AuthUserService } from "../../../services/user/auth-user.service";
 import { UserTypeEnums } from "../../../enums/user/user-type.enums";
+import { CardModule } from "primeng/card";
+import { SpinnerLoaderComponent } from "../../spinner-loader/spinner-loader.component";
+import { ToolbarModule } from "primeng/toolbar";
 
 @Component({
   selector: 'app-patient-user-list',
@@ -21,6 +24,9 @@ import { UserTypeEnums } from "../../../enums/user/user-type.enums";
     DropdownModule,
     Button,
     RouterLink,
+    CardModule,
+    SpinnerLoaderComponent,
+    ToolbarModule,
   ],
   templateUrl: './patient-user-list.component.html',
   styleUrl: './patient-user-list.component.scss'
@@ -32,7 +38,7 @@ export class PatientUserListComponent implements OnInit {
     { label: 'Active', value: 'active' },
     { label: 'Not active', value: 'not_active' },
   ];
-  protected loading: boolean = true;
+  protected visible: boolean = true;
   protected users: SimpleUser[] = [];
   protected filterForm!: FormGroup;
   protected readonly UserTypeEnums = UserTypeEnums;
@@ -59,12 +65,12 @@ export class PatientUserListComponent implements OnInit {
   onGetUserList() {
     this.filter.status = this.filterForm.value.status;
 
-    this.loading = true;
+    this.visible = true;
     this.userListService
         .onGetUserList(this.filter)
         .subscribe({
           next: (data: SimpleUser[]) => {
-            this.loading = false;
+            this.visible = false;
             this.users = data;
           }
         });

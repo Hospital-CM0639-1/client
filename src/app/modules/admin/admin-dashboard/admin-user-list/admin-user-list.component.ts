@@ -12,6 +12,8 @@ import { DropdownModule } from "primeng/dropdown";
 import { Button, ButtonDirective } from "primeng/button";
 import { ToolbarModule } from "primeng/toolbar";
 import { Router, RouterLink } from "@angular/router";
+import { CardModule } from "primeng/card";
+import { SpinnerLoaderComponent } from "../../../../shared/component/spinner-loader/spinner-loader.component";
 
 @Component({
   selector: 'app-admin-user-list',
@@ -26,6 +28,8 @@ import { Router, RouterLink } from "@angular/router";
     ToolbarModule,
     ButtonDirective,
     RouterLink,
+    CardModule,
+    SpinnerLoaderComponent,
   ],
   templateUrl: './admin-user-list.component.html',
   styleUrl: './admin-user-list.component.scss'
@@ -36,7 +40,7 @@ export class AdminUserListComponent implements OnInit {
     { label: 'Active', value: 'active' },
     { label: 'Not active', value: 'not_active' },
   ];
-  protected loading: boolean = true;
+  protected visible: boolean = true;
   protected users: SimpleUser[] = [];
   protected filterForm!: FormGroup;
   private filter: UserListFilter = {
@@ -64,13 +68,13 @@ export class AdminUserListComponent implements OnInit {
   onGetUserList() {
     this.filter.status = this.filterForm.value.status;
 
-    this.loading = true;
+    this.visible = true;
     this.userListService
         .onGetUserList(this.filter)
         .subscribe({
           next: (data: SimpleUser[]) => {
             this.users = data;
-            this.loading = false;
+            this.visible = false;
           }
         });
   }

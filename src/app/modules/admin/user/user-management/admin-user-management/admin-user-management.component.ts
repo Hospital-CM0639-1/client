@@ -74,7 +74,7 @@ export class AdminUserManagementComponent implements OnInit {
 
     obs.subscribe({
       next: () => {
-        this.router.navigate(['/admin/dashboard']);
+        this.router.navigate(['/admin/dashboard/admin/list']);
       }
     })
   }

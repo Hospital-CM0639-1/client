@@ -1,27 +1,30 @@
-<div class="card flex justify-content-center">
-    <label>Filter list</label>
-    <form [formGroup]="filterForm" (ngSubmit)="onGetUserList()">
-        <p-dropdown
-                formControlName="status"
-                optionLabel="label"
-                placeholder="Select Item"
-                name="status"
-                optionValue="value"
-                [options]="activeChoices"
-                [virtualScroll]="true"
-                [virtualScrollItemSize]="38"
-                [style]="{ width: '15rem' }"
-        />
-        <br />
-        <p-button label="Search" icon="pi pi-check" [loading]="loading" (onClick)="onGetUserList()" />
-    </form>
-</div>
-<button routerLink="/admin/new-user/admin">Add user</button>
-<p-toolbar styleClass="mb-6">
-    <ng-template>
-        <p-button label="Search" icon="pi pi-check" [loading]="loading" (onClick)="onGetUserList()" />
-    </ng-template>
-</p-toolbar>
+<app-spinner-loader [visible]="visible"></app-spinner-loader>
+<p-card class="p-shadow-4">
+    <p-toolbar>
+        <div class="p-toolbar-group-left">
+            <form [formGroup]="filterForm" (ngSubmit)="onGetUserList()" class="p-fluid">
+                <div class="p-field">
+                    <label for="status">Status</label>
+                    <p-dropdown
+                            id="status"
+                            formControlName="status"
+                            optionLabel="label"
+                            placeholder="Select Item"
+                            name="status"
+                            optionValue="value"
+                            [options]="activeChoices"
+                            [virtualScroll]="true"
+                            [virtualScrollItemSize]="38"
+                            styleClass="w-full"
+                    ></p-dropdown>
+                </div>
+                <button type="submit" class="p-button p-button-danger p-button-lg">Search</button>
+            </form>
+        </div>
+        <div class="p-toolbar-group-right">
+            <button pButton type="button" routerLink="/admin/new-user/admin" class="p-button p-button-success p-button-lg">Add User</button>
+        </div>
+    </p-toolbar>
 <p-table
         styleClass='p-datatable-sm p-datatable-striped'
         [value]="users"
@@ -54,8 +57,7 @@
                             [notActiveLabel]="'Not active'"
                             (onChangeEvent)="onEnableDisableUser(user.id, $event)"
                     ></app-toggle-button>
-                    <button routerLink="/admin/edit-user/{{user.id}}/admin">Edit user</button>
-                    <button routerLink="/admin/change-user-password/{{user.id}}">Change password</button>
+                    <button pButton type="button" routerLink="/admin/edit-user/{{ user.id }}/admin" class="p-button p-button-info">Edit</button>
                 }
             </td>
         </tr>

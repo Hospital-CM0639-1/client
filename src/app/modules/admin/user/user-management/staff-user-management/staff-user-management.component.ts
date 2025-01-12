@@ -161,7 +161,7 @@ export class StaffUserManagementComponent implements OnInit {
   
     obs.subscribe({
       next: () => {
-        this.router.navigate(['/admin/dashboard']);
+        this.router.navigate(['/admin/dashboard/staff/' + this.role.toLowerCase() + '/list']);
         this.loading = false;
       },
       error: (err) => {
